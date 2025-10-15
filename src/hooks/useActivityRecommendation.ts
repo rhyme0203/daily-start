@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { UserProfile, ActivityRecommendation } from '../types/user'
+import { UserProfile } from '../types/user'
 import { WeatherData } from './useWeatherData'
 
 interface ActivityRecommendationHook {

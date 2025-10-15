@@ -38,10 +38,10 @@ export const UserProfileProvider: React.FC<UserProfileProviderProps> = ({ childr
     }
   }
 
-  const isProfileComplete = userProfile !== null && 
+  const isProfileComplete = Boolean(userProfile !== null && 
     userProfile.birthDate && 
     userProfile.occupation && 
-    userProfile.gender
+    userProfile.gender)
 
   return (
     <UserProfileContext.Provider 

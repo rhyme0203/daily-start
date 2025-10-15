@@ -1,33 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useWeatherData } from '../hooks/useWeatherData'
 import { useActivityRecommendation } from '../hooks/useActivityRecommendation'
 import { useUserProfile } from '../contexts/UserProfileContext'
 import './Card.css'
 
-interface WeatherData {
-  temperature: number
-  condition: string
-  feelsLike: number
-  humidity: number
-  windSpeed: number
-  location: string
-  icon: string
-}
-
 const WeatherCard: React.FC = () => {
-  const { weatherData, loading, error } = useWeatherData()
+  const { weatherData, loading } = useWeatherData()
   const { userProfile } = useUserProfile()
   const { recommendation, loading: recommendationLoading } = useActivityRecommendation(userProfile, weatherData)
-
-  const getWeatherMessage = (condition: string) => {
-    if (condition.includes('맑음') || condition.includes('Clear')) {
-      return '우산은 필요 없어요 ☀️'
-    } else if (condition.includes('비') || condition.includes('Rain')) {
-      return '우산을 챙기세요 ☔'
-    } else {
-      return '적당한 옷차림을 하세요 👕'
-    }
-  }
 
   return (
     <div className="card">

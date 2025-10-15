@@ -96,7 +96,7 @@ function App() {
             className="track"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {slides.map((slideType, index) => (
+            {slides.map((slideType) => (
               <div key={slideType} className="slide">
                 {renderSlide(slideType)}
               </div>
