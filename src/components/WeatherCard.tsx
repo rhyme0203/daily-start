@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useWeatherData } from '../hooks/useWeatherData'
 import { useActivityRecommendation } from '../hooks/useActivityRecommendation'
 import { useUserProfile } from '../contexts/UserProfileContext'
+import ProfileModal from './ProfileModal'
 import './Card.css'
 
 const WeatherCard: React.FC = () => {
   const { weatherData, loading } = useWeatherData()
   const { userProfile } = useUserProfile()
   const { recommendation, loading: recommendationLoading } = useActivityRecommendation(userProfile, weatherData)
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
 
   return (
     <div className="card">
@@ -147,14 +149,18 @@ const WeatherCard: React.FC = () => {
       </div>
 
       {/* AI 기반 개인화된 활동 추천 */}
-      {userProfile && (
-        <div className="ai-recommendation">
-          <div className="ai-header">
-            <span className="ai-icon">🤖</span>
-            <span className="ai-title">AI가 추천하는 오늘의 활동</span>
-          </div>
-          <div className="ai-content">
-            {recommendationLoading ? (
+      <div 
+        className="ai-recommendation" 
+        onClick={() => !userProfile && setIsProfileModalOpen(true)}
+        style={{ cursor: !userProfile ? 'pointer' : 'default' }}
+      >
+        <div className="ai-header">
+          <span className="ai-icon">🤖</span>
+          <span className="ai-title">AI가 추천하는 오늘의 활동</span>
+        </div>
+        <div className="ai-content">
+          {userProfile ? (
+            recommendationLoading ? (
               <div className="ai-loading">
                 <span className="loading-dots">AI가 당신만의 활동을 추천하고 있어요...</span>
               </div>
@@ -168,17 +174,28 @@ const WeatherCard: React.FC = () => {
               </div>
             ) : (
               <div className="ai-placeholder">
-                프로필을 완성하면 더 정확한 추천을 받을 수 있어요!
+                AI가 분석 중이에요...
               </div>
-            )}
-          </div>
-          <div className="ai-footer">
-            <span className="ai-tag">✨ 개인 맞춤형</span>
-            <span className="ai-tag">🌤️ 날씨 연동</span>
-            <span className="ai-tag">⏰ 시간 고려</span>
-          </div>
+            )
+          ) : (
+            <div className="ai-placeholder">
+              프로필을 완성하면 더 정확한 추천을 받을 수 있어요!
+              <br />
+              <span style={{ fontSize: '12px', opacity: 0.7 }}>👆 탭하여 프로필 설정하기</span>
+            </div>
+          )}
         </div>
-      )}
+        <div className="ai-footer">
+          <span className="ai-tag">✨ 개인 맞춤형</span>
+          <span className="ai-tag">🌤️ 날씨 연동</span>
+          <span className="ai-tag">⏰ 시간 고려</span>
+        </div>
+      </div>
+      
+      <ProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
     </div>
   )
 }
