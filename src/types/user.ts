@@ -13,3 +13,4 @@ export interface ActivityRecommendation {
   priority: 'high' | 'medium' | 'low'
   weatherSuitability: string[]
 }
+

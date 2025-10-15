@@ -51,7 +51,8 @@
   gap: 12px;
 }
 
-.test-profile-btn {
+.profile-btn {
+  position: relative;
   background: #f0f9ff;
   border: 1px solid #e0f2fe;
   border-radius: 8px;
@@ -66,9 +67,40 @@
   height: 32px;
 }
 
-.test-profile-btn:hover {
+.profile-btn:hover {
   background: #e0f2fe;
   transform: scale(1.05);
+}
+
+.profile-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .ico {

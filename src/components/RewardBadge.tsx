@@ -44,3 +44,4 @@ const RewardBadge: React.FC<RewardBadgeProps> = ({ points, onPointsUpdate }) => 
 }
 
 export default RewardBadge
+

@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import OnlLogo from './OnlLogo'
 import RewardBadge from './RewardBadge'
+import ProfileModal from './ProfileModal'
 import { useUserProfile } from '../contexts/UserProfileContext'
-import { UserProfile } from '../types/user'
 import './Header.css'
 
 const Header: React.FC = () => {
   const [rewardPoints, setRewardPoints] = useState(150) // 초기 포인트
-  const { userProfile, setUserProfile } = useUserProfile()
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
+  const { userProfile } = useUserProfile()
   
   const currentDate = new Date().toLocaleDateString('ko-KR', {
     weekday: 'long',
@@ -15,17 +16,6 @@ const Header: React.FC = () => {
     day: 'numeric'
   })
 
-  // 테스트용 프로필 설정 함수
-  const setTestProfile = () => {
-    const testProfile: UserProfile = {
-      birthDate: '1995-06-15',
-      birthTime: '14:30',
-      occupation: '프론트엔드 개발자',
-      gender: 'male',
-      name: '테스트 사용자'
-    }
-    setUserProfile(testProfile)
-  }
 
   return (
     <header className="header">
@@ -41,15 +31,14 @@ const Header: React.FC = () => {
               points={rewardPoints} 
               onPointsUpdate={setRewardPoints}
             />
-            {!userProfile && (
-              <button 
-                onClick={setTestProfile}
-                className="test-profile-btn"
-                title="테스트 프로필 설정"
-              >
-                👤
-              </button>
-            )}
+            <button 
+              onClick={() => setIsProfileModalOpen(true)}
+              className="profile-btn"
+              title={userProfile ? "프로필 수정" : "개인화 설정"}
+            >
+              {userProfile ? "👤" : "👤"}
+              {userProfile && <span className="profile-indicator">●</span>}
+            </button>
             <div className="ico" aria-label="알림">
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path>
@@ -57,6 +46,10 @@ const Header: React.FC = () => {
               </svg>
             </div>
           </div>
+      <ProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
     </header>
   )
 }

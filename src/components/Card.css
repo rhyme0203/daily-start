@@ -275,6 +275,53 @@
   80%, 100% { opacity: 0.4; }
 }
 
+/* 운세 관련 스타일 */
+.fortune-details {
+  margin-top: 12px;
+}
+
+.fortune-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.fortune-item:last-child {
+  border-bottom: none;
+}
+
+.fortune-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.fortune-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.retry-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
 /* Reduce motion preference */
 @media (prefers-reduced-motion: reduce) {
   .card {
@@ -291,5 +338,9 @@
   
   .loading-dots {
     animation: none;
+  }
+  
+  .retry-btn:hover {
+    transform: none;
   }
 }
