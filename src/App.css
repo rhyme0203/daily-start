@@ -1,0 +1,262 @@
+:root {
+  --primary: #4F8EF7;      /* Jeomsin-ish point */
+  --bg: #F6F7FB;
+  --text: #16202A;
+  --muted: #6B7683;
+  --card: #ffffff;
+  --radius: 18px;
+  --shadow: 0 10px 30px rgba(22,32,42,0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Apple SD Gothic Neo, Noto Sans KR, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #ffffff, var(--bg));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Phone viewport */
+.app {
+  width: 100%;
+  max-width: 420px;
+  height: 100dvh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: transparent;
+}
+
+/* Sticky header */
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: saturate(150%) blur(6px);
+  border-bottom: 1px solid #eef1f5;
+  z-index: 5;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  background: radial-gradient(120% 120% at 20% 20%, #8AB8FF 0%, #4F8EF7 50%, #2C5BD6 100%);
+  box-shadow: inset 0 2px 6px rgba(255,255,255,.6), 0 2px 8px rgba(79,142,247,.35);
+}
+
+.date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Slides area = viewport */
+.viewport {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.track {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  transition: transform .45s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.slide {
+  flex: 0 0 100%;
+  height: 100%;
+  padding: 18px 16px 88px; /* leave room for footer controls */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: rise .45s ease both;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(8px);
+    opacity: .0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.pill {
+  font-size: 11px;
+  color: #2f5bd6;
+  background: #ecf3ff;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.row {
+  background: #F4F6FA;
+  border: 1px solid #E6ECF5;
+  padding: 12px 12px;
+  border-radius: 12px;
+}
+
+.row + .row {
+  margin-top: 8px;
+}
+
+.kpi {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.kpi .num {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.kpi .unit {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Icons (inline SVG style) */
+.ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  background: #eef1ff;
+}
+
+.ico svg {
+  width: 18px;
+  height: 18px;
+  stroke: #2C5BD6;
+}
+
+/* Footer controls */
+.footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  background: linear-gradient(180deg, rgba(246,247,251,0), rgba(246,247,251,.95) 45%, rgba(246,247,251,1) 100%);
+  z-index: 4;
+}
+
+.dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #c9d3e3;
+  transition: all .3s;
+  cursor: pointer;
+}
+
+.dot.active {
+  width: 22px;
+  background: var(--primary);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #e9eef8;
+  color: #1b2a3c;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,.03);
+}
+
+.btn.primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(79,142,247,.35);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+  .card {
+    animation: none;
+  }
+}
