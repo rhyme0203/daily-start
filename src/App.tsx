@@ -4,6 +4,7 @@ import FortuneCard from './components/FortuneCard'
 import NewsCard from './components/NewsCard'
 import CommunityCard from './components/CommunityCard'
 import Header from './components/Header'
+import Footer from './components/Footer'
 import { UserProfileProvider } from './contexts/UserProfileContext'
 import './App.css'
 
@@ -16,6 +17,9 @@ function App() {
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
 
+  const updateSlide = useCallback((index: number) => {
+    setCurrentIndex(index)
+  }, [])
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length)
@@ -98,6 +102,14 @@ function App() {
               </div>
             ))}
           </div>
+
+          <Footer 
+            currentIndex={currentIndex}
+            totalSlides={slides.length}
+            onNext={nextSlide}
+            onPrev={prevSlide}
+            onDotClick={updateSlide}
+          />
         </section>
       </main>
     </UserProfileProvider>
