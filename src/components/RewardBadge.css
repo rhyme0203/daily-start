@@ -1,0 +1,119 @@
+.reward-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.reward-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+}
+
+.reward-badge.earned {
+  animation: rewardEarned 0.6s ease-out;
+}
+
+.reward-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reward-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: #8B4513;
+  fill: #FFD700;
+}
+
+.reward-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.reward-points {
+  font-size: 14px;
+  font-weight: 800;
+  color: #8B4513;
+  line-height: 1;
+}
+
+.reward-label {
+  font-size: 10px;
+  color: #8B4513;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.earned-animation {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #FF6B6B;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  animation: floatUp 2s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes rewardEarned {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+/* 작은 크기 버전 */
+.reward-badge.small {
+  padding: 6px 10px;
+  gap: 6px;
+}
+
+.reward-badge.small .reward-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.reward-badge.small .reward-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.reward-badge.small .reward-points {
+  font-size: 12px;
+}
+
+.reward-badge.small .reward-label {
+  font-size: 9px;
+}

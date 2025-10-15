@@ -1,0 +1,41 @@
+.app {
+  width: 100%;
+  max-width: 420px;
+  height: 100dvh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: transparent;
+}
+
+.viewport {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.track {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  transition: transform .45s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.slide {
+  flex: 0 0 100%;
+  height: 100%;
+  padding: 18px 16px 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition: none;
+  }
+}
