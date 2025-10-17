@@ -7,6 +7,28 @@ import './Card.css'
 const FortuneCard: React.FC = () => {
   const { userProfile } = useUserProfile()
   const { fortune, loading, error, generateFortune, isNewDay } = useFortuneRecommendation(userProfile)
+  const [timeUntilMidnight, setTimeUntilMidnight] = React.useState<string>('')
+
+  // 자정까지 남은 시간 계산 및 업데이트
+  React.useEffect(() => {
+    const updateTimeUntilMidnight = () => {
+      const now = new Date()
+      const midnight = new Date()
+      midnight.setHours(24, 0, 0, 0) // 다음날 자정
+      const diff = midnight.getTime() - now.getTime()
+      
+      const hours = Math.floor(diff / (1000 * 60 * 60))
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+      
+      setTimeUntilMidnight(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`)
+    }
+
+    updateTimeUntilMidnight()
+    const interval = setInterval(updateTimeUntilMidnight, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   // 디버깅을 위한 콘솔 로그
   console.log('🔍 FortuneCard Debug:', {
@@ -15,6 +37,7 @@ const FortuneCard: React.FC = () => {
     loading,
     error,
     isNewDay,
+    timeUntilMidnight,
     localStorage: localStorage.getItem('userProfile')
   })
 
@@ -105,7 +128,15 @@ const FortuneCard: React.FC = () => {
           오늘의 운세
           {isNewDay && <span className="new-day-badge">NEW</span>}
         </div>
-        {fortune && <span className="pill">{fortune.zodiacSign}</span>}
+        {fortune && (
+          <div className="fortune-header-info">
+            <span className="pill">{fortune.zodiacSign}</span>
+            <div className="midnight-countdown">
+              <span className="countdown-label">다음 운세까지</span>
+              <span className="countdown-time">{timeUntilMidnight}</span>
+            </div>
+          </div>
+        )}
         {!fortune && !loading && (
           <button 
             onClick={generateFortune} 

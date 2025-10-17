@@ -365,9 +365,22 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
 
   // 오늘 운세가 이미 생성되었는지 확인
   const isNewDay = () => {
-    const today = new Date().toDateString();
+    const now = new Date();
+    const today = now.toDateString();
     const lastDate = localStorage.getItem('lastFortuneDate');
-    return lastDate !== today;
+    
+    // 자정이 지났는지 확인 (현재 시간이 00:00:00 이후인지)
+    const isAfterMidnight = now.getHours() >= 0 && now.getMinutes() >= 0;
+    
+    return lastDate !== today || isAfterMidnight;
+  };
+
+  // 자정까지 남은 시간 계산
+  const getTimeUntilMidnight = () => {
+    const now = new Date();
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0); // 다음날 자정
+    return midnight.getTime() - now.getTime();
   };
 
   // 사용자 프로필이 변경되거나 새로운 날이 되면 자동으로 운세 생성
@@ -396,6 +409,43 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
       });
     }
   }, [userProfile, fortune]);
+
+  // 자정에 운세 자동 업데이트를 위한 타이머 설정
+  useEffect(() => {
+    if (!userProfile || !userProfile.occupation || !userProfile.birthDate || !userProfile.gender) {
+      return;
+    }
+
+    const timeUntilMidnight = getTimeUntilMidnight();
+    console.log('🔍 Setting midnight timer:', {
+      timeUntilMidnight,
+      hoursUntilMidnight: Math.floor(timeUntilMidnight / (1000 * 60 * 60)),
+      minutesUntilMidnight: Math.floor((timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60))
+    });
+
+    // 자정까지 남은 시간 후에 운세 업데이트
+    const midnightTimer = setTimeout(() => {
+      console.log('🕛 Midnight reached! Updating fortune...');
+      // 운세 생성 날짜를 클리어하여 새 운세 생성 유도
+      localStorage.removeItem('lastFortuneDate');
+      generateFortune();
+      
+      // 다음 자정을 위한 타이머 재설정
+      const nextMidnightTimer = setInterval(() => {
+        console.log('🕛 Daily midnight update!');
+        localStorage.removeItem('lastFortuneDate');
+        generateFortune();
+      }, 24 * 60 * 60 * 1000); // 24시간마다
+
+      // 컴포넌트 언마운트 시 타이머 정리
+      return () => clearInterval(nextMidnightTimer);
+    }, timeUntilMidnight);
+
+    // 컴포넌트 언마운트 시 타이머 정리
+    return () => {
+      clearTimeout(midnightTimer);
+    };
+  }, [userProfile]);
 
   return {
     fortune,
