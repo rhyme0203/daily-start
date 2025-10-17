@@ -47,8 +47,8 @@ const HotDealBanner: React.FC = () => {
             "id": 933114,
             "template": "carousel",
             "trackingCode": "AF4548739",
-            "width": "280",
-            "height": "200",
+            "width": "260",
+            "height": "180",
             "tsource": ""
           });
         }

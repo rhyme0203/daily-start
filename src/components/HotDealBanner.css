@@ -1,7 +1,7 @@
 .hotdeal-banner {
   background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
   border-radius: 16px;
-  padding: 16px;
+  padding: 12px;
   margin-top: 16px;
   color: white;
   position: relative;
@@ -48,11 +48,11 @@
 .banner-content {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 12px;
+  padding: 10px;
   margin-bottom: 12px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  min-height: 200px;
+  min-height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,8 +60,8 @@
 
 .coupang-widget {
   width: 100%;
-  max-width: 280px;
-  height: 200px;
+  max-width: 260px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@
 .coupang-widget iframe {
   border-radius: 8px;
   width: 100% !important;
-  height: 200px !important;
+  height: 180px !important;
   border: none;
 }
 
