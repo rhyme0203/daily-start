@@ -95,12 +95,31 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     // 별자리 계산
     const zodiacSign = getZodiacSign(birthMonth, birthDay);
     
-    // 각 운세 항목별 점수 (날짜 기반으로 일관성 있게 생성)
-    const workScore = 60 + (dateSeed * 7 % 40);
-    const healthScore = 55 + (dateSeed * 11 % 45);
-    const relationshipScore = 65 + (dateSeed * 13 % 35);
-    const luckScore = 50 + (dateSeed * 17 % 50);
-    const overallScore = Math.round((workScore + healthScore + relationshipScore + luckScore) / 4);
+    // 사주 기반 개인 시드 생성 (생년월일, 시간, 직업, 성별 조합)
+    const birthYear = new Date(birthDate).getFullYear();
+    const personalSeed = 
+      birthYear * 1000000 + 
+      birthMonth * 10000 + 
+      birthDay * 100 + 
+      (profile.birthTime ? parseInt(profile.birthTime.split(':')[0]) : 12) * 10 +
+      occupation.length +
+      (profile.gender === 'male' ? 1 : profile.gender === 'female' ? 2 : 3);
+    
+    // 각 운세 항목별 점수 (개인 사주 + 날짜 기반으로 계산)
+    const workScore = 50 + (dateSeed * 7 + personalSeed * 3) % 50;
+    const healthScore = 45 + (dateSeed * 11 + personalSeed * 5) % 55;
+    const relationshipScore = 55 + (dateSeed * 13 + personalSeed * 7) % 45;
+    const luckScore = 40 + (dateSeed * 17 + personalSeed * 11) % 60;
+    
+    // 별자리별 운세 보정
+    const zodiacModifier = getZodiacModifier(zodiacSign, currentDate);
+    
+    const finalWorkScore = Math.min(100, Math.max(30, workScore + zodiacModifier.work));
+    const finalHealthScore = Math.min(100, Math.max(30, healthScore + zodiacModifier.health));
+    const finalRelationshipScore = Math.min(100, Math.max(30, relationshipScore + zodiacModifier.relationship));
+    const finalLuckScore = Math.min(100, Math.max(30, luckScore + zodiacModifier.luck));
+    
+    const overallScore = Math.round((finalWorkScore + finalHealthScore + finalRelationshipScore + finalLuckScore) / 4);
     
     // 직업별 운세 템플릿 (더 풍부한 내용)
     const occupationTemplates = {
@@ -168,10 +187,10 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     return {
       ...selectedFortune,
       overallScore,
-      workScore,
-      healthScore,
-      relationshipScore,
-      luckScore,
+      workScore: finalWorkScore,
+      healthScore: finalHealthScore,
+      relationshipScore: finalRelationshipScore,
+      luckScore: finalLuckScore,
       zodiacSign,
       dailyHoroscope: generateDailyHoroscope(zodiacSign, dateSeed),
       detailedAnalysis: generateDetailedAnalysis(profile, dateSeed),
@@ -215,6 +234,39 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
       }
     }
     return '물병자리';
+  };
+
+  // 별자리별 운세 보정 함수
+  const getZodiacModifier = (zodiacSign: string, currentDate: Date): {work: number, health: number, relationship: number, luck: number} => {
+    const dayOfYear = Math.floor((currentDate.getTime() - new Date(currentDate.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+    
+    // 별자리별 기본 특성과 날짜에 따른 변화
+    const zodiacTraits = {
+      '물병자리': { work: 5, health: 3, relationship: 8, luck: 4 },
+      '물고기자리': { work: 2, health: 6, relationship: 7, luck: 5 },
+      '양자리': { work: 8, health: 7, relationship: 4, luck: 6 },
+      '황소자리': { work: 6, health: 8, relationship: 5, luck: 3 },
+      '쌍둥이자리': { work: 7, health: 4, relationship: 9, luck: 5 },
+      '게자리': { work: 3, health: 5, relationship: 8, luck: 4 },
+      '사자자리': { work: 9, health: 6, relationship: 7, luck: 8 },
+      '처녀자리': { work: 8, health: 9, relationship: 3, luck: 4 },
+      '천칭자리': { work: 5, health: 4, relationship: 9, luck: 6 },
+      '전갈자리': { work: 7, health: 6, relationship: 6, luck: 7 },
+      '궁수자리': { work: 6, health: 7, relationship: 5, luck: 9 },
+      '염소자리': { work: 9, health: 7, relationship: 4, luck: 5 }
+    };
+
+    const baseTraits = zodiacTraits[zodiacSign as keyof typeof zodiacTraits] || zodiacTraits['물병자리'];
+    
+    // 날짜에 따른 미세한 변화 (-2 ~ +2)
+    const dayVariation = (dayOfYear % 7) - 3;
+    
+    return {
+      work: baseTraits.work + dayVariation,
+      health: baseTraits.health + ((dayOfYear + 1) % 5) - 2,
+      relationship: baseTraits.relationship + ((dayOfYear + 2) % 3) - 1,
+      luck: baseTraits.luck + ((dayOfYear + 3) % 4) - 1
+    };
   };
 
   // 추가 운세 정보 생성 함수들

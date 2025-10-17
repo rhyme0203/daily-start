@@ -10,12 +10,26 @@ interface ProfileModalProps {
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const { userProfile, setUserProfile } = useUserProfile();
   const [formData, setFormData] = useState({
-    name: userProfile?.name || '',
-    birthDate: userProfile?.birthDate || '',
-    birthTime: userProfile?.birthTime || '',
-    occupation: userProfile?.occupation || '',
-    gender: userProfile?.gender || 'other' as 'male' | 'female' | 'other'
+    name: '',
+    birthDate: '',
+    birthTime: '',
+    occupation: '',
+    gender: 'other' as 'male' | 'female' | 'other'
   });
+
+  // 프로필이 로드되면 폼 데이터 업데이트
+  React.useEffect(() => {
+    if (userProfile) {
+      console.log('🔍 ProfileModal - Updating form data with loaded profile:', userProfile);
+      setFormData({
+        name: userProfile.name || '',
+        birthDate: userProfile.birthDate || '',
+        birthTime: userProfile.birthTime || '',
+        occupation: userProfile.occupation || '',
+        gender: userProfile.gender || 'other'
+      });
+    }
+  }, [userProfile]);
 
   const occupations = [
     '학생', '직장인', '프리랜서', '사업자', '공무원', '교사', '의료진',
