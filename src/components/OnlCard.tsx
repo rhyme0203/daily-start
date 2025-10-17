@@ -10,6 +10,16 @@ import './Card.css'
 declare global {
   interface Window {
     gapi: any
+    PartnersCoupang: {
+      G: (config: {
+        id: number
+        template: string
+        trackingCode: string
+        width: string
+        height: string
+        tsource: string
+      }) => void
+    }
   }
 }
 
@@ -69,6 +79,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
   const [calendarEvents, setCalendarEvents] = React.useState<CalendarEvent[]>([])
   const [calendarLoading, setCalendarLoading] = React.useState(false)
   const [calendarConnected, setCalendarConnected] = React.useState(false)
+  const [hotdealLoaded, setHotdealLoaded] = React.useState(false)
 
   // Google Calendar API 연동 함수
   const connectToGoogleCalendar = async () => {
@@ -144,6 +155,87 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
       console.error('이벤트 로드 실패:', error)
     }
   }
+
+  // 쿠팡 핫딜 위젯 로드
+  const loadHotdealWidget = React.useCallback(() => {
+    if (hotdealLoaded) return
+
+    try {
+      // 먼저 스크립트가 로드되었는지 확인
+      if (window.PartnersCoupang && window.PartnersCoupang.G) {
+        window.PartnersCoupang.G({
+          "id": 933114,
+          "template": "carousel",
+          "trackingCode": "AF4548739",
+          "width": "300",
+          "height": "250",
+          "tsource": ""
+        })
+        setHotdealLoaded(true)
+      } else {
+        // 스크립트가 없으면 iframe으로 대체
+        const widgetContainer = document.getElementById('coupang-hotdeal-widget')
+        if (widgetContainer) {
+          widgetContainer.innerHTML = `
+            <iframe 
+              src="https://ads-partners.coupang.com/widgets.html?id=933114&template=carousel&trackingCode=AF4548739&subId=&width=300&height=250&tsource=" 
+              width="300" 
+              height="250" 
+              frameborder="0" 
+              scrolling="no" 
+              referrerpolicy="unsafe-url" 
+              browsingtopics>
+            </iframe>
+          `
+          setHotdealLoaded(true)
+        }
+      }
+    } catch (error) {
+      console.error('핫딜 위젯 로드 실패:', error)
+      // 실패 시 iframe으로 대체
+      const widgetContainer = document.getElementById('coupang-hotdeal-widget')
+      if (widgetContainer) {
+        widgetContainer.innerHTML = `
+          <iframe 
+            src="https://ads-partners.coupang.com/widgets.html?id=933114&template=carousel&trackingCode=AF4548739&subId=&width=300&height=250&tsource=" 
+            width="300" 
+            height="250" 
+            frameborder="0" 
+            scrolling="no" 
+            referrerpolicy="unsafe-url" 
+            browsingtopics>
+          </iframe>
+        `
+        setHotdealLoaded(true)
+      }
+    }
+  }, [hotdealLoaded])
+
+  // 쿠팡 스크립트 로드
+  React.useEffect(() => {
+    const loadCoupangScript = () => {
+      if (window.PartnersCoupang) return
+
+      const script = document.createElement('script')
+      script.src = 'https://ads-partners.coupang.com/g.js'
+      script.async = true
+      script.onload = () => {
+        console.log('쿠팡 스크립트 로드 완료')
+        setTimeout(() => {
+          loadHotdealWidget()
+        }, 500)
+      }
+      script.onerror = () => {
+        console.log('쿠팡 스크립트 로드 실패, iframe으로 대체')
+        setTimeout(() => {
+          loadHotdealWidget()
+        }, 500)
+      }
+      document.head.appendChild(script)
+    }
+
+    loadCoupangScript()
+  }, [loadHotdealWidget])
 
   // 기본 일정 데이터 (캘린더 연동 실패 시 사용)
   const defaultSchedule = [
@@ -286,6 +378,17 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
             <div className="onl-english-pronunciation">[{selectedEnglish.pronunciation}]</div>
           </div>
           <div className="onl-english-flag">🇺🇸</div>
+        </div>
+      </div>
+
+      {/* 오늘의 핫딜 */}
+      <div className="onl-hotdeal-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">🔥</div>
+          <div className="onl-section-title">오늘의 핫딜</div>
+        </div>
+        <div className="onl-hotdeal-card">
+          <div id="coupang-hotdeal-widget"></div>
         </div>
       </div>
 

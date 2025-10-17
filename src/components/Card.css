@@ -1184,6 +1184,10 @@
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .onl-summary-card:hover {
@@ -1237,6 +1241,25 @@
 .fortune-indicator { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
 .news-indicator { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
 .community-indicator { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+
+/* 핫딜 섹션 스타일 */
+.onl-hotdeal-section {
+  margin: 16px 0;
+}
+
+.onl-hotdeal-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.onl-hotdeal-card iframe {
+  max-width: 100%;
+  border-radius: 8px;
+}
 
 .summary-header {
   font-size: 14px;
@@ -1819,6 +1842,15 @@
     font-size: 20px;
     top: 10px;
     right: 10px;
+  }
+  
+  .onl-hotdeal-card {
+    padding: 14px;
+  }
+  
+  .onl-hotdeal-card iframe {
+    width: 280px;
+    height: 200px;
   }
   
   .schedule-section {
