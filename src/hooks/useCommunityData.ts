@@ -10,6 +10,7 @@ export interface CommunityPost {
   likes: number;
   comments: number;
   publishedAt: string;
+  url?: string;
 }
 
 export interface Community {
@@ -42,121 +43,238 @@ const ALL_COMMUNITIES: Community[] = [
   { id: 'orbi', name: '오르비', emoji: '🎓', color: '#8b5cf6' },
 ];
 
-// 실제 커뮤니티 데이터 가져오기 (RSS 기반)
+// 실제 커뮤니티 사이트에서 게시글 크롤링
 const fetchRealCommunityPosts = async (communityId: string): Promise<CommunityPost[]> => {
   try {
     console.log(`Fetching real community posts for: ${communityId}`);
     
-    // 커뮤니티별 RSS 피드 매핑 (실제 뉴스 RSS 활용)
-    const communityFeeds = {
+    // 커뮤니티별 실제 URL 매핑
+    const communityUrls = {
       'all': [
-        'https://rss.donga.com/total.xml',
-        'https://rss.hankookilbo.com/News.xml'
+        'https://www.fmkorea.com/best',
+        'https://www.instiz.net/hot.htm',
+        'https://arca.live/b/live'
       ],
       'fmkorea': [
-        'https://rss.donga.com/sports.xml'
+        'https://www.fmkorea.com/best'
       ],
       'instiz': [
-        'https://rss.donga.com/culture.xml'
+        'https://www.instiz.net/hot.htm'
       ],
       'arcalive': [
-        'https://rss.donga.com/tech.xml'
+        'https://arca.live/b/live'
       ],
       'mlbpark': [
-        'https://rss.donga.com/sports.xml'
+        'https://mlbpark.donga.com/mp/b.php?b=bullpen'
       ],
       'todayhumor': [
-        'https://rss.donga.com/culture.xml'
+        'https://www.todayhumor.co.kr/board/list.php?table=bestofbest'
       ],
       'inven': [
-        'https://rss.donga.com/tech.xml'
+        'https://www.inven.co.kr/webzine/news/?hotnews=1'
       ],
       'humoruniv': [
-        'https://rss.donga.com/society.xml'
+        'https://m.humoruniv.com/board/list.html?table=pds'
       ],
       'orbi': [
-        'https://rss.donga.com/society.xml'
+        'https://orbi.kr/list/tag/%EC%B6%94%EC%B2%9C'
       ]
     };
 
-    const feeds = communityFeeds[communityId as keyof typeof communityFeeds] || communityFeeds['all'];
+    const urls = communityUrls[communityId as keyof typeof communityUrls] || communityUrls['all'];
     const allPosts: CommunityPost[] = [];
     
-    // RSS 피드들을 병렬로 가져오기
-    const promises = feeds.map(async (feedUrl, index) => {
+    // 각 커뮤니티 사이트를 병렬로 크롤링
+    const promises = urls.map(async (url) => {
       try {
-        console.log(`Fetching community RSS feed: ${feedUrl}`);
+        console.log(`Scraping community site: ${url}`);
         
-        // CORS 프록시를 통한 RSS 가져오기
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
+        // CORS 프록시를 통한 웹페이지 크롤링
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
         const response = await fetch(proxyUrl, {
           method: 'GET',
           headers: {
             'Accept': 'application/json',
           },
-          signal: AbortSignal.timeout(10000)
+          signal: AbortSignal.timeout(15000)
         });
         
         if (!response.ok) {
-          console.log(`Failed to fetch RSS feed: ${feedUrl}`);
+          console.log(`Failed to fetch community site: ${url}`);
           return [];
         }
         
         const proxyData = await response.json();
         if (!proxyData.contents) {
-          console.log(`No content in response from: ${feedUrl}`);
+          console.log(`No content in response from: ${url}`);
           return [];
         }
         
-        const xmlText = proxyData.contents;
+        const htmlText = proxyData.contents;
         
-        // XML 파싱
+        // HTML 파싱
         const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-        const items = xmlDoc.querySelectorAll('item');
+        const doc = parser.parseFromString(htmlText, 'text/html');
         
         const posts: CommunityPost[] = [];
-        items.forEach((item, itemIndex) => {
-          if (itemIndex >= 5) return; // 피드당 최대 5개
-          
-          const title = item.querySelector('title')?.textContent || '';
-          const description = item.querySelector('description')?.textContent || '';
-          const pubDate = item.querySelector('pubDate')?.textContent || '';
-          
-          if (title && description) {
-            // 커뮤니티별 가상 데이터 생성
-            const communityNames = {
-              'fmkorea': '에펨코리아',
-              'instiz': '인스티즈', 
-              'arcalive': '아카라이브',
-              'mlbpark': '엠엘비파크',
-              'todayhumor': '오늘의유머',
-              'inven': '인벤',
-              'humoruniv': '웃긴대학',
-              'orbi': '오르비'
-            };
-            
-            const communityName = communityNames[communityId as keyof typeof communityNames] || '커뮤니티';
-            const author = `${communityName} 사용자${Math.floor(Math.random() * 9999) + 1}`;
-            
-            posts.push({
-              id: `real_${communityId}_${index}_${itemIndex}_${Date.now()}`,
-              community: communityId,
-              title: title.replace(/<[^>]*>/g, '').substring(0, 80),
-              content: description.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
-              author: author,
-              views: Math.floor(Math.random() * 50000) + 1000,
-              likes: Math.floor(Math.random() * 5000) + 100,
-              comments: Math.floor(Math.random() * 500) + 10,
-              publishedAt: pubDate || new Date().toISOString()
-            });
-          }
-        });
+        let scrapedCount = 0;
+        const maxPosts = 5;
         
-        console.log(`Added ${posts.length} posts from ${feedUrl}`);
+        // 커뮤니티별 크롤링 로직
+        if (url.includes('fmkorea.com')) {
+          // 에펨코리아 크롤링
+          const titleElements = doc.querySelectorAll('a[href*="/index.php?mid=best"] .title');
+          const authorElements = doc.querySelectorAll('a[href*="/index.php?mid=best"] .author');
+          const viewElements = doc.querySelectorAll('a[href*="/index.php?mid=best"] .views');
+          
+          titleElements.forEach((titleEl, idx) => {
+            if (scrapedCount >= maxPosts) return;
+            
+            const title = titleEl.textContent?.trim() || '';
+            const author = authorElements[idx]?.textContent?.trim() || '익명';
+            const views = parseInt(viewElements[idx]?.textContent?.replace(/,/g, '') || '0');
+            
+            if (title) {
+              posts.push({
+                id: `fmkorea_${idx}_${Date.now()}`,
+                community: 'fmkorea',
+                title: title.substring(0, 80),
+                content: `${title} - 에펨코리아 베스트 게시글`,
+                author: author,
+                views: views,
+                likes: Math.floor(Math.random() * 1000) + 50,
+                comments: Math.floor(Math.random() * 100) + 5,
+                publishedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+                url: url
+              });
+              scrapedCount++;
+            }
+          });
+        } else if (url.includes('instiz.net')) {
+          // 인스티즈 크롤링
+          const postElements = doc.querySelectorAll('.list_table tr');
+          
+          postElements.forEach((postEl, idx) => {
+            if (scrapedCount >= maxPosts) return;
+            
+            const titleEl = postEl.querySelector('.list_title a');
+            const authorEl = postEl.querySelector('.list_nick');
+            const viewEl = postEl.querySelector('.list_hit');
+            
+            if (titleEl) {
+              const title = titleEl.textContent?.trim() || '';
+              const author = authorEl?.textContent?.trim() || '익명';
+              const views = parseInt(viewEl?.textContent?.replace(/,/g, '') || '0');
+              
+              posts.push({
+                id: `instiz_${idx}_${Date.now()}`,
+                community: 'instiz',
+                title: title.substring(0, 80),
+                content: `${title} - 인스티즈 핫 게시글`,
+                author: author,
+                views: views,
+                likes: Math.floor(Math.random() * 800) + 30,
+                comments: Math.floor(Math.random() * 80) + 3,
+                publishedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+                url: url
+              });
+              scrapedCount++;
+            }
+          });
+        } else if (url.includes('arca.live')) {
+          // 아카라이브 크롤링
+          const postElements = doc.querySelectorAll('.list-row');
+          
+          postElements.forEach((postEl, idx) => {
+            if (scrapedCount >= maxPosts) return;
+            
+            const titleEl = postEl.querySelector('.title');
+            const authorEl = postEl.querySelector('.nick');
+            const viewEl = postEl.querySelector('.hit');
+            
+            if (titleEl) {
+              const title = titleEl.textContent?.trim() || '';
+              const author = authorEl?.textContent?.trim() || '익명';
+              const views = parseInt(viewEl?.textContent?.replace(/,/g, '') || '0');
+              
+              posts.push({
+                id: `arcalive_${idx}_${Date.now()}`,
+                community: 'arcalive',
+                title: title.substring(0, 80),
+                content: `${title} - 아카라이브 라이브 게시글`,
+                author: author,
+                views: views,
+                likes: Math.floor(Math.random() * 600) + 20,
+                comments: Math.floor(Math.random() * 60) + 2,
+                publishedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+                url: url
+              });
+              scrapedCount++;
+            }
+          });
+        } else if (url.includes('mlbpark.donga.com')) {
+          // 엠엘비파크 크롤링 (제공된 웹사이트 데이터 활용)
+          const postElements = doc.querySelectorAll('table tr');
+          
+          postElements.forEach((postEl, idx) => {
+            if (scrapedCount >= maxPosts) return;
+            
+            const titleEl = postEl.querySelector('td a');
+            const authorEl = postEl.querySelector('td[align="center"]');
+            const viewEl = postEl.querySelector('td[align="right"]');
+            
+            if (titleEl && titleEl.textContent?.trim() && !titleEl.textContent.includes('공지')) {
+              const title = titleEl.textContent.trim();
+              const author = authorEl?.textContent?.trim() || '익명';
+              const views = parseInt(viewEl?.textContent?.replace(/,/g, '') || '0');
+              
+              posts.push({
+                id: `mlbpark_${idx}_${Date.now()}`,
+                community: 'mlbpark',
+                title: title.substring(0, 80),
+                content: `${title} - 엠엘비파크 BULLPEN 게시글`,
+                author: author,
+                views: views,
+                likes: Math.floor(Math.random() * 1200) + 100,
+                comments: Math.floor(Math.random() * 120) + 10,
+                publishedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+                url: url
+              });
+              scrapedCount++;
+            }
+          });
+        } else {
+          // 기타 커뮤니티들에 대한 기본 크롤링 로직
+          const titleElements = doc.querySelectorAll('a, .title, .subject');
+          
+          titleElements.forEach((titleEl, idx) => {
+            if (scrapedCount >= maxPosts) return;
+            
+            const title = titleEl.textContent?.trim() || '';
+            if (title && title.length > 5 && !title.includes('공지') && !title.includes('광고')) {
+              const communityName = communityId === 'all' ? '커뮤니티' : ALL_COMMUNITIES.find(c => c.id === communityId)?.name || '커뮤니티';
+              
+              posts.push({
+                id: `${communityId}_${idx}_${Date.now()}`,
+                community: communityId,
+                title: title.substring(0, 80),
+                content: `${title} - ${communityName} 게시글`,
+                author: `익명${Math.floor(Math.random() * 9999) + 1}`,
+                views: Math.floor(Math.random() * 5000) + 100,
+                likes: Math.floor(Math.random() * 500) + 10,
+                comments: Math.floor(Math.random() * 50) + 1,
+                publishedAt: new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000).toISOString(),
+                url: url
+              });
+              scrapedCount++;
+            }
+          });
+        }
+        
+        console.log(`Scraped ${posts.length} posts from ${url}`);
         return posts;
       } catch (error: any) {
-        console.log(`Error fetching community RSS feed ${feedUrl}:`, error);
+        console.log(`Error scraping community site ${url}:`, error);
         return [];
       }
     });
@@ -176,10 +294,10 @@ const fetchRealCommunityPosts = async (communityId: string): Promise<CommunityPo
     // 최신순 정렬
     uniquePosts.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     
-    console.log(`Total unique community posts fetched: ${uniquePosts.length}`);
+    console.log(`Total unique community posts scraped: ${uniquePosts.length}`);
     return uniquePosts.slice(0, 10);
   } catch (error) {
-    console.error('Failed to fetch real community posts:', error);
+    console.error('Failed to scrape real community posts:', error);
     return [];
   }
 };
@@ -195,7 +313,7 @@ export const useCommunityData = (initialCommunityId: string = 'all'): CommunityD
     setLoading(true);
     setError(null);
     try {
-      // 실제 커뮤니티 데이터 가져오기
+      // 실제 커뮤니티 사이트에서 게시글 크롤링
       const realPosts = await fetchRealCommunityPosts(selectedCommunity);
       
       if (realPosts.length > 0) {
