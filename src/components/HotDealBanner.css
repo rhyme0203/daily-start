@@ -1,0 +1,101 @@
+.hotdeal-banner {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 16px;
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.hotdeal-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.banner-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+}
+
+.banner-icon {
+  font-size: 20px;
+}
+
+.banner-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.banner-subtitle {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.banner-content {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupang-widget {
+  width: 100%;
+  max-width: 300px;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 쿠팡 위젯 내부 스타일링 */
+.coupang-widget iframe {
+  border-radius: 8px;
+  width: 100% !important;
+  height: 250px !important;
+  border: none;
+}
+
+.banner-footer {
+  text-align: center;
+}
+
+.banner-note {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+}
+
+/* 로딩 상태 */
+.coupang-widget::before {
+  content: '쿠팡 핫딜을 불러오는 중...';
+  position: absolute;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.coupang-widget:has(iframe)::before {
+  display: none;
+}

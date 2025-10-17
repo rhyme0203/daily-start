@@ -2,6 +2,7 @@ import React from 'react'
 import { useWeatherData } from '../hooks/useWeatherData'
 import { useActivityRecommendation } from '../hooks/useActivityRecommendation'
 import { useUserProfile } from '../contexts/UserProfileContext'
+import HotDealBanner from './HotDealBanner'
 import './Card.css'
 
 interface WeatherCardProps {
@@ -264,6 +265,9 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ onProfileClick }) => {
           </div>
         </div>
       )}
+
+      {/* 쿠팡 파트너스 핫딜 배너 */}
+      <HotDealBanner />
     </div>
   )
 }

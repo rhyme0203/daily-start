@@ -628,9 +628,11 @@
 .weather-details {
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   border-radius: 16px;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 16px;
+  margin-top: 16px;
   color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .details-header {
@@ -683,9 +685,11 @@
 .weather-forecast {
   background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
   border-radius: 16px;
-  padding: 20px;
-  margin-top: 20px;
+  padding: 16px;
+  margin-top: 16px;
   color: white;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .forecast-header {
