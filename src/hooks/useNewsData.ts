@@ -44,51 +44,41 @@ const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
   try {
     console.log(`Fetching real Korean news for category: ${category}`);
     
-    // 안정적인 한국 뉴스 RSS 피드들
+    // 안정적인 한국 뉴스 RSS 피드들 (문제 있는 피드 제거)
     const rssFeeds = {
       'all': [
         'https://rss.donga.com/total.xml',
-        'https://rss.hankookilbo.com/News.xml',
-        'https://rss.chosun.com/rss/news.xml',
-        'https://rss.mk.co.kr/rss/30000001.xml'
+        'https://rss.hankookilbo.com/News.xml'
       ],
       'politics': [
         'https://rss.donga.com/politics.xml',
-        'https://rss.hankookilbo.com/Politics.xml',
-        'https://rss.chosun.com/rss/politics.xml'
+        'https://rss.hankookilbo.com/Politics.xml'
       ],
       'economy': [
         'https://rss.donga.com/economy.xml',
-        'https://rss.hankookilbo.com/Economy.xml',
-        'https://rss.chosun.com/rss/economy.xml'
+        'https://rss.hankookilbo.com/Economy.xml'
       ],
       'sports': [
         'https://rss.donga.com/sports.xml',
-        'https://rss.hankookilbo.com/Sports.xml',
-        'https://rss.chosun.com/rss/sports.xml'
+        'https://rss.hankookilbo.com/Sports.xml'
       ],
       'technology': [
-        'https://rss.donga.com/tech.xml',
-        'https://rss.mk.co.kr/rss/30000004.xml'
+        'https://rss.donga.com/tech.xml'
       ],
       'society': [
         'https://rss.donga.com/society.xml',
-        'https://rss.hankookilbo.com/Society.xml',
-        'https://rss.chosun.com/rss/society.xml'
+        'https://rss.hankookilbo.com/Society.xml'
       ],
       'international': [
         'https://rss.donga.com/international.xml',
-        'https://rss.hankookilbo.com/World.xml',
-        'https://rss.chosun.com/rss/international.xml'
+        'https://rss.hankookilbo.com/World.xml'
       ],
       'entertainment': [
         'https://rss.donga.com/culture.xml',
-        'https://rss.hankookilbo.com/Culture.xml',
-        'https://rss.chosun.com/rss/entertainment.xml'
+        'https://rss.hankookilbo.com/Culture.xml'
       ],
       'health': [
-        'https://rss.donga.com/life.xml',
-        'https://rss.mk.co.kr/rss/30000005.xml'
+        'https://rss.donga.com/life.xml'
       ]
     };
 
@@ -100,11 +90,9 @@ const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
       try {
         console.log(`Fetching RSS feed: ${feedUrl}`);
         
-        // CORS 프록시를 통한 RSS 가져오기 (여러 프록시 시도)
+        // CORS 프록시를 통한 RSS 가져오기 (안정적인 프록시만 사용)
         const proxies = [
-          `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`,
-          `https://cors-anywhere.herokuapp.com/${feedUrl}`,
-          `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`
+          `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`
         ];
         
         let xmlText = '';
@@ -113,27 +101,40 @@ const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
         for (const proxyUrl of proxies) {
           try {
             console.log(`Trying proxy: ${proxyUrl}`);
-            const response = await fetch(proxyUrl);
+            const response = await fetch(proxyUrl, {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+              },
+              // 타임아웃 설정
+              signal: AbortSignal.timeout(10000)
+            });
             
             if (response.ok) {
-              if (proxyUrl.includes('allorigins.win')) {
-                const proxyData = await response.json();
+              const proxyData = await response.json();
+              if (proxyData.contents) {
                 xmlText = proxyData.contents;
+                success = true;
+                console.log(`Success with proxy: ${proxyUrl}`);
+                break;
               } else {
-                xmlText = await response.text();
+                console.log(`No content in response from: ${proxyUrl}`);
               }
-              success = true;
-              console.log(`Success with proxy: ${proxyUrl}`);
-              break;
+            } else {
+              console.log(`HTTP error ${response.status} from: ${proxyUrl}`);
             }
-          } catch (error) {
-            console.log(`Proxy failed: ${proxyUrl}`, error);
+          } catch (error: any) {
+            if (error?.name === 'TimeoutError') {
+              console.log(`Timeout error for: ${proxyUrl}`);
+            } else {
+              console.log(`Network error for: ${proxyUrl}`, error);
+            }
             continue;
           }
         }
         
         if (!success) {
-          console.error(`All proxies failed for RSS feed: ${feedUrl}`);
+          console.log(`All proxies failed for RSS feed: ${feedUrl} - skipping`);
           return [];
         }
         
