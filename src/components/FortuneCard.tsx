@@ -8,6 +8,16 @@ const FortuneCard: React.FC = () => {
   const { userProfile } = useUserProfile()
   const { fortune, loading, error, generateFortune, isNewDay } = useFortuneRecommendation(userProfile)
 
+  // 디버깅을 위한 콘솔 로그
+  console.log('🔍 FortuneCard Debug:', {
+    userProfile,
+    fortune,
+    loading,
+    error,
+    isNewDay,
+    localStorage: localStorage.getItem('userProfile')
+  })
+
   if (loading) {
     return (
       <div className="card">

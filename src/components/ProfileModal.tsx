@@ -25,7 +25,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🔍 ProfileModal - Submitting form data:', formData);
     setUserProfile(formData);
+    console.log('🔍 ProfileModal - Profile set, closing modal');
     onClose();
   };
 

@@ -48,6 +48,16 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
   const [error, setError] = useState<string | null>(null);
   const [, setLastGeneratedDate] = useState<string | null>(null);
 
+  // 디버깅을 위한 콘솔 로그
+  console.log('🔍 useFortuneRecommendation Debug:', {
+    userProfile,
+    hasProfile: !!userProfile,
+    profileOccupation: userProfile?.occupation,
+    fortune,
+    loading,
+    error
+  });
+
   const generateFortune = async () => {
     if (!userProfile) return;
 

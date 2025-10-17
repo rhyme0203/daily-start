@@ -19,9 +19,12 @@ export const UserProfileProvider: React.FC<UserProfileProviderProps> = ({ childr
   // 로컬 스토리지에서 프로필 불러오기
   useEffect(() => {
     const savedProfile = localStorage.getItem('userProfile')
+    console.log('🔍 UserProfileContext - Loading from localStorage:', savedProfile)
     if (savedProfile) {
       try {
-        setUserProfile(JSON.parse(savedProfile))
+        const parsedProfile = JSON.parse(savedProfile)
+        console.log('🔍 UserProfileContext - Parsed profile:', parsedProfile)
+        setUserProfile(parsedProfile)
       } catch (error) {
         console.error('Failed to parse saved user profile:', error)
       }
@@ -30,11 +33,14 @@ export const UserProfileProvider: React.FC<UserProfileProviderProps> = ({ childr
 
   // 프로필 저장
   const handleSetUserProfile = (profile: UserProfile | null) => {
+    console.log('🔍 UserProfileContext - Saving profile:', profile)
     setUserProfile(profile)
     if (profile) {
       localStorage.setItem('userProfile', JSON.stringify(profile))
+      console.log('🔍 UserProfileContext - Profile saved to localStorage')
     } else {
       localStorage.removeItem('userProfile')
+      console.log('🔍 UserProfileContext - Profile removed from localStorage')
     }
   }
 
