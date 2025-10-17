@@ -39,77 +39,125 @@ const ALL_CATEGORIES: NewsCategory[] = [
   { id: 'health', name: '건강', emoji: '❤️' },
 ];
 
-// 서버리스 함수를 통한 네이버 뉴스 API 호출
+// RSS를 통한 실제 뉴스 가져오기 (GitHub Pages용)
 const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
   try {
-    console.log(`Fetching Naver news for category: ${category}`);
+    console.log(`Fetching real Korean news for category: ${category}`);
     
-    // 카테고리별 검색어 매핑
-    const searchKeywords = {
-      'all': ['뉴스', '정치', '경제'],
-      'politics': ['정치', '국정감사'],
-      'economy': ['경제', '주식'],
-      'sports': ['스포츠', '야구'],
-      'technology': ['기술', 'IT'],
-      'society': ['사회', '사건'],
-      'international': ['국제', '미국'],
-      'entertainment': ['연예', '드라마'],
-      'health': ['건강', '의료']
+    // 한국 주요 뉴스 RSS 피드들
+    const rssFeeds = {
+      'all': [
+        'https://rss.cnn.com/rss/edition.rss',
+        'https://feeds.bbci.co.uk/news/rss.xml',
+        'https://rss.donga.com/total.xml',
+        'https://rss.joins.com/joins_news_list.xml'
+      ],
+      'politics': [
+        'https://rss.donga.com/politics.xml',
+        'https://rss.joins.com/joins_politics_list.xml'
+      ],
+      'economy': [
+        'https://rss.donga.com/economy.xml',
+        'https://rss.joins.com/joins_economy_list.xml'
+      ],
+      'sports': [
+        'https://rss.donga.com/sports.xml',
+        'https://rss.joins.com/joins_sports_list.xml'
+      ],
+      'technology': [
+        'https://rss.donga.com/tech.xml'
+      ],
+      'society': [
+        'https://rss.donga.com/society.xml',
+        'https://rss.joins.com/joins_society_list.xml'
+      ],
+      'international': [
+        'https://rss.cnn.com/rss/edition_world.rss',
+        'https://feeds.bbci.co.uk/news/world/rss.xml'
+      ],
+      'entertainment': [
+        'https://rss.donga.com/culture.xml',
+        'https://rss.joins.com/joins_culture_list.xml'
+      ],
+      'health': [
+        'https://rss.donga.com/life.xml'
+      ]
     };
 
-    const keywords = searchKeywords[category as keyof typeof searchKeywords] || searchKeywords['all'];
+    const feeds = rssFeeds[category as keyof typeof rssFeeds] || rssFeeds['all'];
     const allNews: NewsItem[] = [];
     
-    // 첫 번째 키워드로 네이버 API 호출
-    const keyword = keywords[0];
-    try {
-      console.log(`Searching Naver news for: ${keyword}`);
-      
-      // 서버리스 함수 호출 (개발환경에서는 로컬, 프로덕션에서는 Netlify)
-      const functionUrl = import.meta.env.DEV 
-        ? 'http://localhost:8888/.netlify/functions/naver-news'
-        : '/.netlify/functions/naver-news';
-      
-      const response = await fetch(`${functionUrl}?keyword=${encodeURIComponent(keyword)}&display=10`);
-
-      if (!response.ok) {
-        console.error(`Serverless function error! status: ${response.status}`);
+    // RSS 피드들을 병렬로 가져오기
+    const promises = feeds.map(async (feedUrl, index) => {
+      try {
+        console.log(`Fetching RSS feed: ${feedUrl}`);
+        
+        // CORS 프록시를 통한 RSS 가져오기
+        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
+        const response = await fetch(proxyUrl);
+        
+        if (!response.ok) {
+          console.error(`Failed to fetch RSS feed: ${feedUrl}`);
+          return [];
+        }
+        
+        const proxyData = await response.json();
+        const xmlText = proxyData.contents;
+        
+        // XML 파싱
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+        const items = xmlDoc.querySelectorAll('item');
+        
+        const newsItems: NewsItem[] = [];
+        items.forEach((item, itemIndex) => {
+          if (itemIndex >= 3) return; // 피드당 최대 3개
+          
+          const title = item.querySelector('title')?.textContent || '';
+          const description = item.querySelector('description')?.textContent || '';
+          const link = item.querySelector('link')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          
+          if (title && description) {
+            newsItems.push({
+              id: `rss_${category}_${index}_${itemIndex}_${Date.now()}`,
+              category: category,
+              title: title.replace(/<[^>]*>/g, ''),
+              summary: description.replace(/<[^>]*>/g, '').substring(0, 150) + '...',
+              source: new URL(link).hostname || 'RSS 뉴스',
+              publishedAt: pubDate || new Date().toISOString(),
+              url: link
+            });
+          }
+        });
+        
+        console.log(`Added ${newsItems.length} news items from ${feedUrl}`);
+        return newsItems;
+      } catch (error) {
+        console.error(`Error fetching RSS feed ${feedUrl}:`, error);
         return [];
       }
-
-      const data = await response.json();
-      console.log('Naver news data received:', data);
-
-      if (data.items && data.items.length > 0) {
-        const newsItems = data.items.map((item: any, index: number) => ({
-          id: `naver_${category}_${keyword}_${index}_${Date.now()}`,
-          category: category,
-          title: item.title ? item.title.replace(/<[^>]*>/g, '') : '제목 없음',
-          summary: item.description ? item.description.replace(/<[^>]*>/g, '').substring(0, 150) + '...' : '내용 없음',
-          source: item.originallink ? new URL(item.originallink).hostname : '네이버 뉴스',
-          publishedAt: item.pubDate || new Date().toISOString(),
-          url: item.originallink || item.link
-        }));
-        
-        allNews.push(...newsItems);
-        console.log(`Added ${newsItems.length} news items for keyword: ${keyword}`);
-      } else {
-        console.log(`No items found for keyword: ${keyword}`);
+    });
+    
+    const results = await Promise.allSettled(promises);
+    results.forEach((result) => {
+      if (result.status === 'fulfilled') {
+        allNews.push(...result.value);
       }
-    } catch (error) {
-      console.error(`Failed to fetch Naver news for keyword ${keyword}:`, error);
-      return [];
-    }
-
-    // 중복 제거 (제목 기준)
+    });
+    
+    // 중복 제거 및 정렬
     const uniqueNews = allNews.filter((item, index, self) => 
       index === self.findIndex(t => t.title === item.title)
     );
-
+    
+    // 최신순 정렬
+    uniqueNews.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    
     console.log(`Total unique news items fetched: ${uniqueNews.length}`);
     return uniqueNews.slice(0, 10);
   } catch (error) {
-    console.error('Failed to fetch Naver news:', error);
+    console.error('Failed to fetch Korean news:', error);
     return [];
   }
 };

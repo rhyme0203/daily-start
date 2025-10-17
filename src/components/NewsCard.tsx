@@ -119,13 +119,13 @@ const NewsCard: React.FC = () => {
               
               <div className="news-content">
                 <h3 className="news-title">
-                  {item.id.startsWith('naver_') && <span className="live-indicator">🔴 LIVE</span>}
+                  {item.id.startsWith('rss_') && <span className="live-indicator">🔴 LIVE</span>}
                   {item.title}
                 </h3>
                 <p className="news-summary">{item.summary}</p>
                 <div className="news-source">
                   {item.source}
-                  {item.id.startsWith('naver_') && <span className="real-news-badge">실시간</span>}
+                  {item.id.startsWith('rss_') && <span className="real-news-badge">실시간</span>}
                 </div>
               </div>
               
