@@ -3,6 +3,7 @@ import { UserProfile } from '../types/user';
 
 interface FortuneRecommendation {
   overall: string;
+  overallScore: number;
   work: string;
   health: string;
   relationship: string;
@@ -49,6 +50,10 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     const currentDate = new Date();
     const birthYear = new Date(birthDate).getFullYear();
     const age = currentDate.getFullYear() - birthYear;
+    
+    // 그날의 운세에 따른 점수 생성 (날짜 기반으로 일관성 유지)
+    const dateSeed = currentDate.getFullYear() * 10000 + (currentDate.getMonth() + 1) * 100 + currentDate.getDate();
+    const baseScore = 70 + (dateSeed % 30); // 70-99점 범위
     
     // 직업별 운세 템플릿
     const occupationTemplates = {
@@ -170,6 +175,7 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
 
     return {
       ...selectedFortune,
+      overallScore: baseScore, // 그날의 운세에 따른 동적 점수
       // 개인화된 요소 추가
       advice: `${selectedFortune.advice} 특히 ${age}세 ${gender === 'male' ? '남성' : gender === 'female' ? '여성' : ''}으로서의 경험을 살려보세요.`
     };
@@ -189,3 +195,4 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     generateFortune
   };
 };
+

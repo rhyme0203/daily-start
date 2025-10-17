@@ -119,7 +119,7 @@ const FortuneCard: React.FC = () => {
   }
 
   return (
-    <div className="card">
+    <div className="card fortune-card">
       <div className="card-head">
         <div className="title">
           <span className="ico" aria-hidden="true">
@@ -130,15 +130,51 @@ const FortuneCard: React.FC = () => {
           </span>
           오늘의 운세
         </div>
-        <span className="pill">{getZodiacSign()}</span>
+        {userProfile?.birthDate && <span className="pill">{getZodiacSign()}</span>}
       </div>
       
       {fortune ? (
         <>
-          <div className="row">총운: {fortune.overall}</div>
-          <div className="row">업무운: {fortune.work}</div>
-          <div className="row">건강운: {fortune.health}</div>
-          <div className="row">인간관계: {fortune.relationship}</div>
+          {/* 총운 점수 - 온도 UI 스타일 */}
+          <div className="row kpi">
+            <div className="num">{fortune.overallScore}</div>
+            <div className="unit">점 · 총운</div>
+            <div className="weather-icon">🍀</div>
+          </div>
+          
+          {/* 나에게 미치는 영향 섹션 */}
+          <div className="weather-impact">
+            <div className="impact-header">오늘 운세가 나에게 미치는 영향</div>
+            <div className="impact-recommendations">
+              <div className="recommendation-chip">
+                <div className="chip-dot"></div>
+                <span className="chip-emoji">💼</span>
+                업무에 집중
+              </div>
+              <div className="recommendation-chip">
+                <div className="chip-dot"></div>
+                <span className="chip-emoji">🤝</span>
+                인간관계 발전
+              </div>
+              <div className="recommendation-chip">
+                <div className="chip-dot"></div>
+                <span className="chip-emoji">💪</span>
+                건강 관리
+              </div>
+              <div className="recommendation-chip">
+                <div className="chip-dot"></div>
+                <span className="chip-emoji">🎯</span>
+                목표 달성
+              </div>
+            </div>
+            <div className="impact-disclaimer">
+              * {userProfile.occupation} 직업을 고려한 AI 맞춤 추천이에요.
+            </div>
+          </div>
+          
+          <div className="row">💼 업무운: {fortune.work}</div>
+          <div className="row">💪 건강운: {fortune.health}</div>
+          <div className="row">🤝 인간관계: {fortune.relationship}</div>
           
           {/* 개인화된 운세 상세 정보 */}
           <div className="ai-recommendation">
@@ -175,38 +211,6 @@ const FortuneCard: React.FC = () => {
         </>
       ) : (
         <div className="row">운세를 불러오는 중...</div>
-      )}
-      
-      {/* 개인화된 운세 영향 섹션 */}
-      {fortune && (
-        <div className="weather-impact">
-          <div className="impact-header">오늘 운세가 나에게 미치는 영향</div>
-          <div className="impact-recommendations">
-            <div className="recommendation-chip">
-              <div className="chip-dot"></div>
-              <span className="chip-emoji">💼</span>
-              업무에 집중
-            </div>
-            <div className="recommendation-chip">
-              <div className="chip-dot"></div>
-              <span className="chip-emoji">🤝</span>
-              인간관계 발전
-            </div>
-            <div className="recommendation-chip">
-              <div className="chip-dot"></div>
-              <span className="chip-emoji">💪</span>
-              건강 관리
-            </div>
-            <div className="recommendation-chip">
-              <div className="chip-dot"></div>
-              <span className="chip-emoji">🎯</span>
-              목표 달성
-            </div>
-          </div>
-          <div className="impact-disclaimer">
-            * {userProfile.occupation} 직업을 고려한 AI 맞춤 추천이에요.
-          </div>
-        </div>
       )}
     </div>
   )

@@ -14,3 +14,4 @@ export interface ActivityRecommendation {
   weatherSuitability: string[]
 }
 
+

@@ -1,13 +1,13 @@
 .reward-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 5px;
+  padding: 5px 8px;
   background: linear-gradient(135deg, #FFD700, #FFA500);
-  border-radius: 20px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -22,16 +22,16 @@
 }
 
 .reward-icon {
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .reward-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   stroke: #8B4513;
   fill: #FFD700;
 }
@@ -44,14 +44,14 @@
 }
 
 .reward-points {
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 800;
   color: #8B4513;
   line-height: 1;
 }
 
 .reward-label {
-  font-size: 10px;
+  font-size: 8px;
   color: #8B4513;
   font-weight: 600;
   line-height: 1;

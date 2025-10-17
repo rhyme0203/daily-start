@@ -1,15 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useWeatherData } from '../hooks/useWeatherData'
 import { useActivityRecommendation } from '../hooks/useActivityRecommendation'
 import { useUserProfile } from '../contexts/UserProfileContext'
-import ProfileModal from './ProfileModal'
 import './Card.css'
 
-const WeatherCard: React.FC = () => {
+interface WeatherCardProps {
+  onProfileClick: () => void
+}
+
+const WeatherCard: React.FC<WeatherCardProps> = ({ onProfileClick }) => {
   const { weatherData, loading } = useWeatherData()
   const { userProfile } = useUserProfile()
   const { recommendation, loading: recommendationLoading } = useActivityRecommendation(userProfile, weatherData)
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
 
   return (
     <div className="card">
@@ -184,7 +186,7 @@ const WeatherCard: React.FC = () => {
         /* 프로필이 없을 때 안내 메시지 */
         <div 
           className="ai-recommendation ai-placeholder-card" 
-          onClick={() => setIsProfileModalOpen(true)}
+          onClick={onProfileClick}
         >
           <div className="ai-header">
             <span className="ai-icon">🎯</span>
@@ -204,11 +206,6 @@ const WeatherCard: React.FC = () => {
           </div>
         </div>
       )}
-      
-      <ProfileModal 
-        isOpen={isProfileModalOpen}
-        onClose={() => setIsProfileModalOpen(false)}
-      />
     </div>
   )
 }

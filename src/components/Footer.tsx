@@ -57,6 +57,11 @@ const Footer: React.FC<FooterProps> = ({
           </svg>
         </button>
       </div>
+      
+      {/* 버전 정보 */}
+      <div className="version-info">
+        <span className="version-text">ver0.29</span>
+      </div>
     </footer>
   )
 }

@@ -5,6 +5,7 @@ import NewsCard from './components/NewsCard'
 import CommunityCard from './components/CommunityCard'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ProfileModal from './components/ProfileModal'
 import { UserProfileProvider } from './contexts/UserProfileContext'
 import './App.css'
 
@@ -16,17 +17,60 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
+
+  // 1초 후 최상단으로 스크롤하는 함수
+  const scrollToTop = useCallback(() => {
+    setTimeout(() => {
+      const viewport = document.querySelector('.viewport')
+      if (viewport) {
+        viewport.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        })
+      }
+    }, 1000)
+  }, [])
 
   const updateSlide = useCallback((index: number) => {
     setCurrentIndex(index)
-  }, [])
+    scrollToTop()
+  }, [scrollToTop])
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length)
-  }, [])
+    scrollToTop()
+  }, [scrollToTop])
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
+    scrollToTop()
+  }, [scrollToTop])
+
+  const handleProfileClick = useCallback(() => {
+    setIsProfileModalOpen(true)
+  }, [])
+
+  // 모바일 최적화
+  useEffect(() => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+    
+    if (isMobile) {
+      // 뷰포트 높이 설정
+      const setViewportHeight = () => {
+        const vh = window.innerHeight * 0.01
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+      }
+
+      setViewportHeight()
+      window.addEventListener('resize', setViewportHeight)
+      window.addEventListener('orientationchange', setViewportHeight)
+      
+      return () => {
+        window.removeEventListener('resize', setViewportHeight)
+        window.removeEventListener('orientationchange', setViewportHeight)
+      }
+    }
   }, [])
 
   // 터치 스와이프 처리
@@ -69,7 +113,7 @@ function App() {
   const renderSlide = (slideType: SlideType) => {
     switch (slideType) {
       case 'weather':
-        return <WeatherCard />
+        return <WeatherCard onProfileClick={handleProfileClick} />
       case 'fortune':
         return <FortuneCard />
       case 'news':
@@ -77,14 +121,14 @@ function App() {
       case 'community':
         return <CommunityCard />
       default:
-        return <WeatherCard />
+        return <WeatherCard onProfileClick={handleProfileClick} />
     }
   }
 
   return (
     <UserProfileProvider>
       <main className="app">
-        <Header />
+        <Header onProfileClick={handleProfileClick} />
         
         <section 
           className="viewport" 
@@ -112,6 +156,11 @@ function App() {
           />
         </section>
       </main>
+      
+      <ProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+      />
     </UserProfileProvider>
   )
 }
