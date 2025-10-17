@@ -118,9 +118,15 @@ const NewsCard: React.FC = () => {
               </div>
               
               <div className="news-content">
-                <h3 className="news-title">{item.title}</h3>
+                <h3 className="news-title">
+                  {item.id.startsWith('naver_') && <span className="live-indicator">🔴 LIVE</span>}
+                  {item.title}
+                </h3>
                 <p className="news-summary">{item.summary}</p>
-                <div className="news-source">{item.source}</div>
+                <div className="news-source">
+                  {item.source}
+                  {item.id.startsWith('naver_') && <span className="real-news-badge">실시간</span>}
+                </div>
               </div>
               
               {index < news.length - 1 && <div className="news-divider"></div>}
