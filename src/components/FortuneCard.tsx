@@ -11,30 +11,30 @@ const FortuneCard: React.FC = () => {
   const [drawnCards, setDrawnCards] = React.useState<number[]>([])
   const [isDrawing, setIsDrawing] = React.useState(false)
 
-  // 타로카드 데이터
+  // 타로카드 데이터 (유니버셜 덱 이미지 포함)
   const tarotCards = [
-    { id: 0, name: "바보", meaning: "새로운 시작, 순수함, 모험", description: "새로운 여정이 시작됩니다. 두려워하지 말고 도전해보세요." },
-    { id: 1, name: "마법사", meaning: "의지력, 창조력, 능력", description: "당신의 능력을 믿고 목표를 향해 나아가세요. 성공할 수 있습니다." },
-    { id: 2, name: "여교황", meaning: "직감, 지혜, 신비로운 지식", description: "내면의 목소리에 귀 기울이세요. 직감이 당신을 인도할 것입니다." },
-    { id: 3, name: "여황제", meaning: "풍요, 자연, 창조", description: "풍요로운 시기가 찾아옵니다. 자연과 조화를 이루며 성장하세요." },
-    { id: 4, name: "황제", meaning: "권위, 질서, 리더십", description: "강한 의지와 리더십이 필요한 시기입니다. 체계적으로 접근하세요." },
-    { id: 5, name: "교황", meaning: "전통, 교육, 영성", description: "전통적인 방법과 지혜가 도움이 될 것입니다. 배움에 열린 마음을 가지세요." },
-    { id: 6, name: "연인들", meaning: "사랑, 선택, 조화", description: "중요한 선택의 기로에 서 있습니다. 마음의 소리를 따라 결정하세요." },
-    { id: 7, name: "전차", meaning: "의지력, 승리, 통제", description: "강한 의지로 목표를 달성할 수 있습니다. 포기하지 마세요." },
-    { id: 8, name: "힘", meaning: "내적 힘, 용기, 인내", description: "내면의 힘을 믿으세요. 부드러운 힘이 강함보다 효과적입니다." },
-    { id: 9, name: "은둔자", meaning: "성찰, 지혜, 내적 탐구", description: "혼자만의 시간이 필요합니다. 내면을 탐구하며 지혜를 얻으세요." },
-    { id: 10, name: "운명의 바퀴", meaning: "운명, 변화, 순환", description: "인생의 전환점이 찾아옵니다. 변화를 받아들이고 적응하세요." },
-    { id: 11, name: "정의", meaning: "균형, 공정함, 진실", description: "공정한 판단이 필요합니다. 진실을 추구하고 균형을 유지하세요." },
-    { id: 12, name: "매달린 사람", meaning: "희생, 기다림, 새로운 관점", description: "인내가 필요한 시기입니다. 새로운 관점에서 상황을 바라보세요." },
-    { id: 13, name: "죽음", meaning: "끝과 시작, 변화, 재생", description: "끝은 새로운 시작입니다. 과거를 놓고 새로운 길을 걷으세요." },
-    { id: 14, name: "절제", meaning: "균형, 조화, 인내", description: "균형과 조화가 중요합니다. 서두르지 말고 차근차근 진행하세요." },
-    { id: 15, name: "악마", meaning: "유혹, 속박, 물질주의", description: "물질적 욕망에 주의하세요. 진정한 자유를 찾아야 합니다." },
-    { id: 16, name: "탑", meaning: "파괴, 깨달음, 급작스러운 변화", description: "급작스러운 변화가 올 것입니다. 기존의 틀을 깨고 새로 시작하세요." },
-    { id: 17, name: "별", meaning: "희망, 영감, 치유", description: "희망의 빛이 비춥니다. 어려움이 지나가고 새로운 기회가 찾아옵니다." },
-    { id: 18, name: "달", meaning: "환상, 불안, 직감", description: "현실과 환상 사이에서 헤매고 있습니다. 직감을 믿고 조심스럽게 나아가세요." },
-    { id: 19, name: "태양", meaning: "성공, 기쁨, 활력", description: "성공과 기쁨의 시기가 찾아옵니다. 자신감을 가지고 목표를 향해 나아가세요." },
-    { id: 20, name: "심판", meaning: "재생, 용서, 새로운 시작", description: "과거를 정리하고 새로운 시작을 준비하세요. 용서와 치유가 필요합니다." },
-    { id: 21, name: "세계", meaning: "완성, 성취, 만족", description: "목표를 달성하고 완성의 기쁨을 누릴 시기입니다. 성과를 축하하세요." }
+    { id: 0, name: "바보", meaning: "새로운 시작, 순수함, 모험", description: "새로운 여정이 시작됩니다. 두려워하지 말고 도전해보세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/RWS_Tarot_00_Fool.jpg/200px-RWS_Tarot_00_Fool.jpg" },
+    { id: 1, name: "마법사", meaning: "의지력, 창조력, 능력", description: "당신의 능력을 믿고 목표를 향해 나아가세요. 성공할 수 있습니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/RWS_Tarot_01_Magician.jpg/200px-RWS_Tarot_01_Magician.jpg" },
+    { id: 2, name: "여교황", meaning: "직감, 지혜, 신비로운 지식", description: "내면의 목소리에 귀 기울이세요. 직감이 당신을 인도할 것입니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/200px-RWS_Tarot_02_High_Priestess.jpg" },
+    { id: 3, name: "여황제", meaning: "풍요, 자연, 창조", description: "풍요로운 시기가 찾아옵니다. 자연과 조화를 이루며 성장하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/RWS_Tarot_03_Empress.jpg/200px-RWS_Tarot_03_Empress.jpg" },
+    { id: 4, name: "황제", meaning: "권위, 질서, 리더십", description: "강한 의지와 리더십이 필요한 시기입니다. 체계적으로 접근하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/RWS_Tarot_04_Emperor.jpg/200px-RWS_Tarot_04_Emperor.jpg" },
+    { id: 5, name: "교황", meaning: "전통, 교육, 영성", description: "전통적인 방법과 지혜가 도움이 될 것입니다. 배움에 열린 마음을 가지세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/RWS_Tarot_05_Hierophant.jpg/200px-RWS_Tarot_05_Hierophant.jpg" },
+    { id: 6, name: "연인들", meaning: "사랑, 선택, 조화", description: "중요한 선택의 기로에 서 있습니다. 마음의 소리를 따라 결정하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/RWS_Tarot_06_Lovers.jpg/200px-RWS_Tarot_06_Lovers.jpg" },
+    { id: 7, name: "전차", meaning: "의지력, 승리, 통제", description: "강한 의지로 목표를 달성할 수 있습니다. 포기하지 마세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/RWS_Tarot_07_Chariot.jpg/200px-RWS_Tarot_07_Chariot.jpg" },
+    { id: 8, name: "힘", meaning: "내적 힘, 용기, 인내", description: "내면의 힘을 믿으세요. 부드러운 힘이 강함보다 효과적입니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/RWS_Tarot_08_Strength.jpg/200px-RWS_Tarot_08_Strength.jpg" },
+    { id: 9, name: "은둔자", meaning: "성찰, 지혜, 내적 탐구", description: "혼자만의 시간이 필요합니다. 내면을 탐구하며 지혜를 얻으세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/RWS_Tarot_09_Hermit.jpg/200px-RWS_Tarot_09_Hermit.jpg" },
+    { id: 10, name: "운명의 바퀴", meaning: "운명, 변화, 순환", description: "인생의 전환점이 찾아옵니다. 변화를 받아들이고 적응하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/RWS_Tarot_10_Wheel_of_Fortune.jpg/200px-RWS_Tarot_10_Wheel_of_Fortune.jpg" },
+    { id: 11, name: "정의", meaning: "균형, 공정함, 진실", description: "공정한 판단이 필요합니다. 진실을 추구하고 균형을 유지하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/RWS_Tarot_11_Justice.jpg/200px-RWS_Tarot_11_Justice.jpg" },
+    { id: 12, name: "매달린 사람", meaning: "희생, 기다림, 새로운 관점", description: "인내가 필요한 시기입니다. 새로운 관점에서 상황을 바라보세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/RWS_Tarot_12_Hanged_Man.jpg/200px-RWS_Tarot_12_Hanged_Man.jpg" },
+    { id: 13, name: "죽음", meaning: "끝과 시작, 변화, 재생", description: "끝은 새로운 시작입니다. 과거를 놓고 새로운 길을 걷으세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/RWS_Tarot_13_Death.jpg/200px-RWS_Tarot_13_Death.jpg" },
+    { id: 14, name: "절제", meaning: "균형, 조화, 인내", description: "균형과 조화가 중요합니다. 서두르지 말고 차근차근 진행하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/RWS_Tarot_14_Temperance.jpg/200px-RWS_Tarot_14_Temperance.jpg" },
+    { id: 15, name: "악마", meaning: "유혹, 속박, 물질주의", description: "물질적 욕망에 주의하세요. 진정한 자유를 찾아야 합니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/RWS_Tarot_15_Devil.jpg/200px-RWS_Tarot_15_Devil.jpg" },
+    { id: 16, name: "탑", meaning: "파괴, 깨달음, 급작스러운 변화", description: "급작스러운 변화가 올 것입니다. 기존의 틀을 깨고 새로 시작하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/RWS_Tarot_16_Tower.jpg/200px-RWS_Tarot_16_Tower.jpg" },
+    { id: 17, name: "별", meaning: "희망, 영감, 치유", description: "희망의 빛이 비춥니다. 어려움이 지나가고 새로운 기회가 찾아옵니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/RWS_Tarot_17_Star.jpg/200px-RWS_Tarot_17_Star.jpg" },
+    { id: 18, name: "달", meaning: "환상, 불안, 직감", description: "현실과 환상 사이에서 헤매고 있습니다. 직감을 믿고 조심스럽게 나아가세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/RWS_Tarot_18_Moon.jpg/200px-RWS_Tarot_18_Moon.jpg" },
+    { id: 19, name: "태양", meaning: "성공, 기쁨, 활력", description: "성공과 기쁨의 시기가 찾아옵니다. 자신감을 가지고 목표를 향해 나아가세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/RWS_Tarot_19_Sun.jpg/200px-RWS_Tarot_19_Sun.jpg" },
+    { id: 20, name: "심판", meaning: "재생, 용서, 새로운 시작", description: "과거를 정리하고 새로운 시작을 준비하세요. 용서와 치유가 필요합니다.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/RWS_Tarot_20_Judgement.jpg/200px-RWS_Tarot_20_Judgement.jpg" },
+    { id: 21, name: "세계", meaning: "완성, 성취, 만족", description: "목표를 달성하고 완성의 기쁨을 누릴 시기입니다. 성과를 축하하세요.", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/RWS_Tarot_21_World.jpg/200px-RWS_Tarot_21_World.jpg" }
   ]
 
   // 자정까지 남은 시간 계산 및 업데이트
@@ -391,13 +391,46 @@ const FortuneCard: React.FC = () => {
               <div className="tarot-draw-area">
                 <div className="tarot-deck">
                   <div className="tarot-deck-card">
-                    <div className="tarot-deck-back">🃏</div>
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                      alt="타로카드 뒷면"
+                      className="tarot-deck-back-img"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        const fallback = target.nextElementSibling as HTMLElement
+                        if (fallback) fallback.style.display = 'flex'
+                      }}
+                    />
+                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
                   </div>
                   <div className="tarot-deck-card">
-                    <div className="tarot-deck-back">🃏</div>
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                      alt="타로카드 뒷면"
+                      className="tarot-deck-back-img"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        const fallback = target.nextElementSibling as HTMLElement
+                        if (fallback) fallback.style.display = 'flex'
+                      }}
+                    />
+                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
                   </div>
                   <div className="tarot-deck-card">
-                    <div className="tarot-deck-back">🃏</div>
+                    <img 
+                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                      alt="타로카드 뒷면"
+                      className="tarot-deck-back-img"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement
+                        target.style.display = 'none'
+                        const fallback = target.nextElementSibling as HTMLElement
+                        if (fallback) fallback.style.display = 'flex'
+                      }}
+                    />
+                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
                   </div>
                 </div>
                 <button 
@@ -427,6 +460,17 @@ const FortuneCard: React.FC = () => {
                     return (
                       <div key={cardId} className={`tarot-card ${isDrawing ? 'drawing' : 'drawn'}`}>
                         <div className="tarot-card-inner">
+                          <div className="tarot-card-image">
+                            <img 
+                              src={card.image} 
+                              alt={card.name}
+                              className="tarot-card-img"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement
+                                target.style.display = 'none'
+                              }}
+                            />
+                          </div>
                           <div className="tarot-card-position">{position}</div>
                           <div className="tarot-card-name">{card.name}</div>
                           <div className="tarot-card-meaning">{card.meaning}</div>
