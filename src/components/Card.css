@@ -31,9 +31,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--text);
+  text-align: left;
 }
 
 .pill {
@@ -226,7 +227,7 @@
 
 .ai-title {
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
 }
 
@@ -254,14 +255,14 @@
 }
 
 .ai-section-title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   margin-bottom: 6px;
   color: #ffd700;
 }
 
 .ai-description {
-  font-size: 12px;
+  font-size: 13px;
   margin-bottom: 5px;
   opacity: 0.95;
   line-height: 1.5;
@@ -1163,10 +1164,11 @@
 }
 
 .onl-section-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #1e293b;
   flex: 1;
+  text-align: left;
 }
 
 .onl-summary-grid {
@@ -1185,9 +1187,10 @@
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  text-align: center;
+  text-align: left;
+  gap: 10px;
 }
 
 .onl-summary-card:hover {
@@ -1198,7 +1201,6 @@
 
 .onl-card-icon {
   font-size: 20px;
-  margin-bottom: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1206,23 +1208,26 @@
   height: 32px;
   border-radius: 8px;
   background: #f8fafc;
+  flex-shrink: 0;
 }
 
 .onl-card-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .onl-card-label {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: #64748b;
-  margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .onl-card-value {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: #1e293b;
   line-height: 1.3;
@@ -1639,6 +1644,25 @@
 .no-events-text {
   font-size: 12px;
   font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.add-schedule-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.add-schedule-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
 /* 반응형 디자인 */
@@ -1772,7 +1796,7 @@
   }
   
   .onl-section-title {
-    font-size: 13px;
+    font-size: 15px;
   }
   
   .onl-summary-grid {
@@ -1936,6 +1960,11 @@
   }
   
   .no-events-text {
+    font-size: 11px;
+  }
+  
+  .add-schedule-btn {
+    padding: 6px 12px;
     font-size: 11px;
   }
 }

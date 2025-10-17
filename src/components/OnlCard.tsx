@@ -237,17 +237,8 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
     loadCoupangScript()
   }, [loadHotdealWidget])
 
-  // 기본 일정 데이터 (캘린더 연동 실패 시 사용)
-  const defaultSchedule = [
-    { time: "09:00", task: "아침 운동", completed: true },
-    { time: "10:00", task: "업무 미팅", completed: false },
-    { time: "14:00", task: "점심 약속", completed: false },
-    { time: "16:00", task: "프로젝트 검토", completed: false },
-    { time: "19:00", task: "저녁 식사", completed: false }
-  ]
-
-  // 실제 표시할 일정 결정
-  const todaySchedule = calendarConnected && calendarEvents.length > 0 
+  // 실제 표시할 일정 결정 (캘린더 연동된 경우만)
+  const todaySchedule = calendarConnected 
     ? calendarEvents.map(event => {
         const startTime = event.start.dateTime || event.start.date
         return {
@@ -260,7 +251,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
           source: 'calendar' as const
         }
       })
-    : defaultSchedule.map(item => ({ ...item, source: 'default' as const }))
+    : []
 
   // 날짜 기반으로 명언과 영어 한마디 선택
   const today = new Date()
@@ -437,25 +428,40 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
           </div>
         )}
         
-        <div className="schedule-list">
-          {todaySchedule.map((item, index) => (
-            <div key={index} className={`schedule-item ${item.completed ? 'completed' : ''} ${item.source === 'calendar' ? 'calendar-event' : ''}`}>
-              <div className="schedule-time">{item.time}</div>
-              <div className="schedule-task">
-                {item.completed && <span className="completed-icon">✓</span>}
-                {item.source === 'calendar' && <span className="calendar-icon">📅</span>}
-                {item.task}
+        {calendarConnected ? (
+          <div className="schedule-list">
+            {todaySchedule.length > 0 ? (
+              todaySchedule.map((item, index) => (
+                <div key={index} className={`schedule-item ${item.completed ? 'completed' : ''} ${item.source === 'calendar' ? 'calendar-event' : ''}`}>
+                  <div className="schedule-time">{item.time}</div>
+                  <div className="schedule-task">
+                    {item.completed && <span className="completed-icon">✓</span>}
+                    {item.source === 'calendar' && <span className="calendar-icon">📅</span>}
+                    {item.task}
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-events-message">
+                <div className="no-events-icon">📅</div>
+                <div className="no-events-text">오늘 등록된 일정이 없습니다</div>
+                <button 
+                  className="add-schedule-btn"
+                  onClick={() => window.open('https://calendar.google.com', '_blank')}
+                >
+                  일정 등록하기
+                </button>
               </div>
-            </div>
-          ))}
-          
-          {calendarConnected && calendarEvents.length === 0 && (
+            )}
+          </div>
+        ) : (
+          <div className="schedule-list">
             <div className="no-events-message">
-              <div className="no-events-icon">📅</div>
-              <div className="no-events-text">오늘 등록된 일정이 없습니다</div>
+              <div className="no-events-icon">📱</div>
+              <div className="no-events-text">캘린더 연동 후 일정을 확인할 수 있습니다</div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   )
