@@ -3,15 +3,16 @@ import WeatherCard from './components/WeatherCard'
 import FortuneCard from './components/FortuneCard'
 import NewsCard from './components/NewsCard'
 import CommunityCard from './components/CommunityCard'
+import OnlCard from './components/OnlCard'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ProfileModal from './components/ProfileModal'
 import { UserProfileProvider } from './contexts/UserProfileContext'
 import './App.css'
 
-type SlideType = 'weather' | 'fortune' | 'news' | 'community'
+type SlideType = 'onl' | 'weather' | 'fortune' | 'news' | 'community'
 
-const slides: SlideType[] = ['weather', 'fortune', 'news', 'community']
+const slides: SlideType[] = ['onl', 'weather', 'fortune', 'news', 'community']
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -112,6 +113,8 @@ function App() {
 
   const renderSlide = (slideType: SlideType) => {
     switch (slideType) {
+      case 'onl':
+        return <OnlCard onProfileClick={handleProfileClick} />
       case 'weather':
         return <WeatherCard onProfileClick={handleProfileClick} />
       case 'fortune':
@@ -121,7 +124,7 @@ function App() {
       case 'community':
         return <CommunityCard />
       default:
-        return <WeatherCard onProfileClick={handleProfileClick} />
+        return <OnlCard onProfileClick={handleProfileClick} />
     }
   }
 

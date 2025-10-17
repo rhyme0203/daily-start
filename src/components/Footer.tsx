@@ -16,6 +16,18 @@ const Footer: React.FC<FooterProps> = ({
   const tabs = [
     { 
       id: 0,
+      label: 'Onl', 
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M12 7v5l4 2"/>
+        </svg>
+      ),
+      badge: null
+    },
+    { 
+      id: 1,
       label: '날씨', 
       icon: (
         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -25,7 +37,7 @@ const Footer: React.FC<FooterProps> = ({
       badge: null
     },
     { 
-      id: 1,
+      id: 2,
       label: '운세', 
       icon: (
         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -36,7 +48,7 @@ const Footer: React.FC<FooterProps> = ({
       badge: null
     },
     { 
-      id: 2,
+      id: 3,
       label: '뉴스', 
       icon: (
         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -49,7 +61,7 @@ const Footer: React.FC<FooterProps> = ({
       badge: 'LIVE'
     },
     { 
-      id: 3,
+      id: 4,
       label: '커뮤니티', 
       icon: (
         <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -82,7 +94,7 @@ const Footer: React.FC<FooterProps> = ({
       
       {/* 버전 정보 */}
       <div className="version-info">
-        <span className="version-text">ver0.65</span>
+        <span className="version-text">ver0.66</span>
       </div>
     </footer>
   )

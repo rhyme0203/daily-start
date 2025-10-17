@@ -1138,6 +1138,218 @@
   transition: all 0.2s ease;
 }
 
+/* Onl 대시보드 스타일 */
+.summary-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.summary-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.summary-item {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.summary-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.summary-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.summary-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.summary-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.quote-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 18px;
+  margin: 16px 0;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="quote-grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23quote-grain)"/></svg>');
+  pointer-events: none;
+}
+
+.quote-header {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+
+.quote-content {
+  position: relative;
+  z-index: 1;
+}
+
+.quote-text {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.quote-author {
+  font-size: 11px;
+  opacity: 0.8;
+  text-align: right;
+}
+
+.english-section {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.english-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 12px;
+}
+
+.english-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.english-korean {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.english-english {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.english-pronunciation {
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+}
+
+.schedule-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.schedule-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.schedule-item.completed {
+  background: #f0fdf4;
+  border-color: #10b981;
+}
+
+.schedule-item.completed .schedule-task {
+  color: #059669;
+}
+
+.schedule-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 40px;
+}
+
+.schedule-task {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.completed-icon {
+  color: #10b981;
+  font-weight: 700;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 480px) {
   .fortune-details-grid,
@@ -1254,5 +1466,102 @@
   .no-profile-instruction {
     font-size: 11px;
     padding: 8px 14px;
+  }
+  
+  /* Onl 대시보드 모바일 스타일 */
+  .summary-section {
+    padding: 14px;
+    margin: 14px 0;
+  }
+  
+  .summary-header {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+  
+  .summary-grid {
+    gap: 6px;
+  }
+  
+  .summary-item {
+    padding: 10px;
+    gap: 6px;
+  }
+  
+  .summary-icon {
+    font-size: 18px;
+  }
+  
+  .summary-label {
+    font-size: 9px;
+  }
+  
+  .summary-value {
+    font-size: 10px;
+  }
+  
+  .quote-section {
+    padding: 16px;
+    margin: 14px 0;
+  }
+  
+  .quote-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .quote-text {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .quote-author {
+    font-size: 10px;
+  }
+  
+  .english-section {
+    padding: 14px;
+    margin: 14px 0;
+  }
+  
+  .english-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .english-korean {
+    font-size: 11px;
+  }
+  
+  .english-english {
+    font-size: 13px;
+  }
+  
+  .english-pronunciation {
+    font-size: 10px;
+  }
+  
+  .schedule-section {
+    padding: 14px;
+    margin: 14px 0;
+  }
+  
+  .schedule-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .schedule-item {
+    padding: 8px;
+    gap: 10px;
+  }
+  
+  .schedule-time {
+    font-size: 10px;
+    min-width: 35px;
+  }
+  
+  .schedule-task {
+    font-size: 11px;
   }
 }
