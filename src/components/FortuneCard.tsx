@@ -101,14 +101,15 @@ const FortuneCard: React.FC = () => {
             오늘의 운세
           </div>
         </div>
-        <div className="ai-placeholder">
-          <div className="ai-icon">🎯</div>
-          <div className="ai-section-title">개인화된 운세를 받아보세요!</div>
-          <div className="ai-description">
-            생년월일, 직업, 성별을 입력하면 AI가 맞춤형 운세를 제공해드려요.
+        <div className="fortune-no-profile">
+          <div className="no-profile-icon">🔮</div>
+          <div className="no-profile-title">프로필 등록 후 이용 가능합니다</div>
+          <div className="no-profile-description">
+            개인화된 운세를 받으려면<br/>
+            생년월일, 직업, 성별 정보가 필요해요.
           </div>
-          <div className="ai-footer">
-            <div className="ai-tag">👤 버튼을 눌러 프로필을 설정하세요</div>
+          <div className="no-profile-instruction">
+            👤 버튼을 눌러 프로필을 설정해주세요
           </div>
         </div>
       </div>

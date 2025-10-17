@@ -59,26 +59,37 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
   });
 
   const generateFortune = async () => {
-    if (!userProfile) return;
+    if (!userProfile) {
+      console.log('🔍 generateFortune: No userProfile, returning');
+      return;
+    }
 
+    console.log('🔍 generateFortune: Starting fortune generation for profile:', userProfile);
     setLoading(true);
     setError(null);
 
     try {
       // 실제로는 OpenAI API를 사용하지만, 여기서는 직업 기반 모의 AI 운세 생성
-      await new Promise(resolve => setTimeout(resolve, 2000)); // 로딩 시뮬레이션
+      console.log('🔍 generateFortune: Waiting for simulation...');
+      await new Promise(resolve => setTimeout(resolve, 1500)); // 로딩 시뮬레이션 단축
 
+      console.log('🔍 generateFortune: Generating occupation-based fortune...');
       const occupationBasedFortune = generateOccupationBasedFortune(userProfile);
+      console.log('🔍 generateFortune: Generated fortune:', occupationBasedFortune);
+      
       setFortune(occupationBasedFortune);
       
       // 오늘 날짜 저장
       const today = new Date().toDateString();
       setLastGeneratedDate(today);
       localStorage.setItem('lastFortuneDate', today);
+      console.log('🔍 generateFortune: Fortune saved, date:', today);
     } catch (err) {
+      console.error('🔍 generateFortune: Error occurred:', err);
       setError('운세를 가져오는 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
+      console.log('🔍 generateFortune: Loading finished');
     }
   };
 
@@ -446,8 +457,13 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     
     if (userProfile && userProfile.occupation && userProfile.birthDate && userProfile.gender) {
       console.log('🔍 Profile is complete, checking if fortune needs generation');
-      if (isNewDay() || !fortune) {
-        console.log('🔍 Generating fortune...');
+      
+      // 오늘 운세가 이미 있는지 확인
+      const today = new Date().toDateString();
+      const lastFortuneDate = localStorage.getItem('lastFortuneDate');
+      
+      if (lastFortuneDate !== today || !fortune) {
+        console.log('🔍 Generating fortune... (new day or no fortune)');
         generateFortune();
       } else {
         console.log('🔍 Fortune already exists for today');
@@ -460,7 +476,7 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
         hasGender: !!userProfile?.gender
       });
     }
-  }, [userProfile, fortune]);
+  }, [userProfile]); // fortune 의존성 제거하여 무한 루프 방지
 
   // 자정에 운세 자동 업데이트를 위한 타이머 설정
   useEffect(() => {

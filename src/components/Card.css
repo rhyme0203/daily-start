@@ -1049,6 +1049,61 @@
   font-style: italic;
 }
 
+/* 프로필 없을 때 운세 스타일 */
+.fortune-no-profile {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  margin: 16px 0;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.no-profile-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+.no-profile-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.no-profile-description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.no-profile-instruction {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  animation: pulse-instruction 3s ease-in-out infinite;
+}
+
+@keyframes pulse-instruction {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
 /* 운세 빈 상태 스타일 */
 .fortune-empty-state {
   text-align: center;
@@ -1111,5 +1166,29 @@
   .empty-icon {
     font-size: 36px;
     margin-bottom: 12px;
+  }
+  
+  .fortune-no-profile {
+    padding: 32px 16px;
+  }
+  
+  .no-profile-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  
+  .no-profile-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  .no-profile-description {
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .no-profile-instruction {
+    font-size: 12px;
+    padding: 10px 16px;
   }
 }
