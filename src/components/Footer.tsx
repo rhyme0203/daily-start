@@ -60,7 +60,7 @@ const Footer: React.FC<FooterProps> = ({
       
       {/* 버전 정보 */}
       <div className="version-info">
-        <span className="version-text">ver0.44</span>
+        <span className="version-text">ver0.45</span>
       </div>
     </footer>
   )

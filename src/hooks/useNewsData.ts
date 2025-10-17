@@ -44,43 +44,51 @@ const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
   try {
     console.log(`Fetching real Korean news for category: ${category}`);
     
-    // 한국 주요 뉴스 RSS 피드들
+    // 안정적인 한국 뉴스 RSS 피드들
     const rssFeeds = {
       'all': [
-        'https://rss.cnn.com/rss/edition.rss',
-        'https://feeds.bbci.co.uk/news/rss.xml',
         'https://rss.donga.com/total.xml',
-        'https://rss.joins.com/joins_news_list.xml'
+        'https://rss.hankookilbo.com/News.xml',
+        'https://rss.chosun.com/rss/news.xml',
+        'https://rss.mk.co.kr/rss/30000001.xml'
       ],
       'politics': [
         'https://rss.donga.com/politics.xml',
-        'https://rss.joins.com/joins_politics_list.xml'
+        'https://rss.hankookilbo.com/Politics.xml',
+        'https://rss.chosun.com/rss/politics.xml'
       ],
       'economy': [
         'https://rss.donga.com/economy.xml',
-        'https://rss.joins.com/joins_economy_list.xml'
+        'https://rss.hankookilbo.com/Economy.xml',
+        'https://rss.chosun.com/rss/economy.xml'
       ],
       'sports': [
         'https://rss.donga.com/sports.xml',
-        'https://rss.joins.com/joins_sports_list.xml'
+        'https://rss.hankookilbo.com/Sports.xml',
+        'https://rss.chosun.com/rss/sports.xml'
       ],
       'technology': [
-        'https://rss.donga.com/tech.xml'
+        'https://rss.donga.com/tech.xml',
+        'https://rss.mk.co.kr/rss/30000004.xml'
       ],
       'society': [
         'https://rss.donga.com/society.xml',
-        'https://rss.joins.com/joins_society_list.xml'
+        'https://rss.hankookilbo.com/Society.xml',
+        'https://rss.chosun.com/rss/society.xml'
       ],
       'international': [
-        'https://rss.cnn.com/rss/edition_world.rss',
-        'https://feeds.bbci.co.uk/news/world/rss.xml'
+        'https://rss.donga.com/international.xml',
+        'https://rss.hankookilbo.com/World.xml',
+        'https://rss.chosun.com/rss/international.xml'
       ],
       'entertainment': [
         'https://rss.donga.com/culture.xml',
-        'https://rss.joins.com/joins_culture_list.xml'
+        'https://rss.hankookilbo.com/Culture.xml',
+        'https://rss.chosun.com/rss/entertainment.xml'
       ],
       'health': [
-        'https://rss.donga.com/life.xml'
+        'https://rss.donga.com/life.xml',
+        'https://rss.mk.co.kr/rss/30000005.xml'
       ]
     };
 
@@ -92,17 +100,42 @@ const fetchKoreanNews = async (category: string): Promise<NewsItem[]> => {
       try {
         console.log(`Fetching RSS feed: ${feedUrl}`);
         
-        // CORS 프록시를 통한 RSS 가져오기
-        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
-        const response = await fetch(proxyUrl);
+        // CORS 프록시를 통한 RSS 가져오기 (여러 프록시 시도)
+        const proxies = [
+          `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`,
+          `https://cors-anywhere.herokuapp.com/${feedUrl}`,
+          `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`
+        ];
         
-        if (!response.ok) {
-          console.error(`Failed to fetch RSS feed: ${feedUrl}`);
-          return [];
+        let xmlText = '';
+        let success = false;
+        
+        for (const proxyUrl of proxies) {
+          try {
+            console.log(`Trying proxy: ${proxyUrl}`);
+            const response = await fetch(proxyUrl);
+            
+            if (response.ok) {
+              if (proxyUrl.includes('allorigins.win')) {
+                const proxyData = await response.json();
+                xmlText = proxyData.contents;
+              } else {
+                xmlText = await response.text();
+              }
+              success = true;
+              console.log(`Success with proxy: ${proxyUrl}`);
+              break;
+            }
+          } catch (error) {
+            console.log(`Proxy failed: ${proxyUrl}`, error);
+            continue;
+          }
         }
         
-        const proxyData = await response.json();
-        const xmlText = proxyData.contents;
+        if (!success) {
+          console.error(`All proxies failed for RSS feed: ${feedUrl}`);
+          return [];
+        }
         
         // XML 파싱
         const parser = new DOMParser();
