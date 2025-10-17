@@ -631,8 +631,6 @@
   padding: 16px;
   margin-top: 16px;
   color: white;
-  width: 85%;
-  box-sizing: border-box;
 }
 
 .details-header {
@@ -688,8 +686,6 @@
   padding: 16px;
   margin-top: 16px;
   color: white;
-  width: 85%;
-  box-sizing: border-box;
 }
 
 .forecast-header {

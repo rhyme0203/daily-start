@@ -4,8 +4,6 @@
   padding: 16px;
   margin-top: 16px;
   color: white;
-  width: 85%;
-  box-sizing: border-box;
   position: relative;
   overflow: hidden;
 }
@@ -54,7 +52,7 @@
   margin-bottom: 12px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  min-height: 250px;
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,18 +60,19 @@
 
 .coupang-widget {
   width: 100%;
-  max-width: 300px;
-  height: 250px;
+  max-width: 280px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 /* 쿠팡 위젯 내부 스타일링 */
 .coupang-widget iframe {
   border-radius: 8px;
   width: 100% !important;
-  height: 250px !important;
+  height: 200px !important;
   border: none;
 }
 
