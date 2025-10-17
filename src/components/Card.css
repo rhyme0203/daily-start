@@ -623,3 +623,122 @@
   align-items: center;
   gap: 2px;
 }
+
+/* 상세 날씨 정보 섹션 */
+.weather-details {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  color: white;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.details-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.details-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.detail-item {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.detail-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+/* 시간대별 날씨 예보 */
+.weather-forecast {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  color: white;
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.forecast-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.forecast-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.forecast-timeline {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  gap: 8px;
+}
+
+.forecast-item {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  min-width: 60px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.forecast-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.forecast-temp {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.forecast-note {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}

@@ -8,6 +8,9 @@ export interface WeatherData {
   windSpeed: number
   location: string
   icon: string
+  pressure?: number
+  visibility?: number
+  uvIndex?: number
 }
 
 export const useWeatherData = () => {
