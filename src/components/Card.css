@@ -1350,6 +1350,126 @@
   font-weight: 700;
 }
 
+/* 캘린더 연동 스타일 */
+.calendar-sync-badge {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 8px;
+  animation: pulse 2s infinite;
+}
+
+.calendar-connect-section {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.calendar-connect-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.connect-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.connect-text {
+  flex: 1;
+  text-align: left;
+}
+
+.connect-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 4px;
+}
+
+.connect-description {
+  font-size: 11px;
+  color: #0284c7;
+  line-height: 1.4;
+}
+
+.calendar-connect-btn {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.calendar-connect-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.calendar-connect-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.connect-icon-btn {
+  font-size: 14px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.calendar-event {
+  border-left: 3px solid #0ea5e9;
+  background: #f8fafc;
+}
+
+.calendar-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  color: #0ea5e9;
+}
+
+.no-events-message {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.no-events-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.no-events-text {
+  font-size: 12px;
+  font-weight: 500;
+}
+
 /* 반응형 디자인 */
 @media (max-width: 480px) {
   .fortune-details-grid,
@@ -1562,6 +1682,61 @@
   }
   
   .schedule-task {
+    font-size: 11px;
+  }
+  
+  /* 캘린더 연동 모바일 스타일 */
+  .calendar-connect-section {
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  
+  .calendar-connect-info {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  
+  .connect-icon {
+    font-size: 28px;
+  }
+  
+  .connect-title {
+    font-size: 12px;
+  }
+  
+  .connect-description {
+    font-size: 10px;
+  }
+  
+  .calendar-connect-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+  
+  .calendar-sync-badge {
+    font-size: 8px;
+    padding: 2px 5px;
+    margin-left: 6px;
+  }
+  
+  .calendar-event {
+    border-left-width: 2px;
+  }
+  
+  .calendar-icon {
+    font-size: 11px;
+  }
+  
+  .no-events-message {
+    padding: 16px;
+  }
+  
+  .no-events-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+  
+  .no-events-text {
     font-size: 11px;
   }
 }

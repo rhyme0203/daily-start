@@ -6,6 +6,26 @@ import { useCommunityData } from '../hooks/useCommunityData'
 import { useUserProfile } from '../contexts/UserProfileContext'
 import './Card.css'
 
+// Google Calendar API 타입 정의
+declare global {
+  interface Window {
+    gapi: any
+  }
+}
+
+interface CalendarEvent {
+  id: string
+  summary: string
+  start: {
+    dateTime?: string
+    date?: string
+  }
+  end: {
+    dateTime?: string
+    date?: string
+  }
+}
+
 interface OnlCardProps {
   onProfileClick: () => void
 }
@@ -45,14 +65,110 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
     { korean: "희망찬 미래", english: "Hopeful future", pronunciation: "호프풀 퓨처" }
   ]
 
-  // 오늘의 일정 데이터 (예시)
-  const todaySchedule = [
+  // 캘린더 연동 상태
+  const [calendarEvents, setCalendarEvents] = React.useState<CalendarEvent[]>([])
+  const [calendarLoading, setCalendarLoading] = React.useState(false)
+  const [calendarConnected, setCalendarConnected] = React.useState(false)
+
+  // Google Calendar API 연동 함수
+  const connectToGoogleCalendar = async () => {
+    try {
+      setCalendarLoading(true)
+      
+      // Google Calendar API 설정
+      const CLIENT_ID = 'your-google-client-id' // 실제 구현 시 환경변수로 관리
+      const API_KEY = 'your-google-api-key'
+      
+      // Google API 로드
+      await new Promise((resolve) => {
+        if (window.gapi) {
+          resolve(true)
+          return
+        }
+        
+        const script = document.createElement('script')
+        script.src = 'https://apis.google.com/js/api.js'
+        script.onload = resolve
+        document.head.appendChild(script)
+      })
+
+      // API 초기화
+      await new Promise((resolve, reject) => {
+        window.gapi.load('client:auth2', () => {
+          window.gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+            scope: 'https://www.googleapis.com/auth/calendar.readonly'
+          }).then(resolve).catch(reject)
+        })
+      })
+
+      // 인증 및 이벤트 가져오기
+      const authInstance = window.gapi.auth2.getAuthInstance()
+      const user = await authInstance.signIn()
+      
+      if (user.isSignedIn()) {
+        setCalendarConnected(true)
+        await loadTodayEvents()
+      }
+      
+    } catch (error) {
+      console.error('Google Calendar 연동 실패:', error)
+      // 연동 실패 시 기본 일정 표시
+      setCalendarConnected(false)
+    } finally {
+      setCalendarLoading(false)
+    }
+  }
+
+  // 오늘의 이벤트 가져오기
+  const loadTodayEvents = async () => {
+    try {
+      const today = new Date()
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
+      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+
+      const response = await window.gapi.client.calendar.events.list({
+        calendarId: 'primary',
+        timeMin: startOfDay.toISOString(),
+        timeMax: endOfDay.toISOString(),
+        singleEvents: true,
+        orderBy: 'startTime'
+      })
+
+      const events = response.result.items || []
+      setCalendarEvents(events)
+      
+    } catch (error) {
+      console.error('이벤트 로드 실패:', error)
+    }
+  }
+
+  // 기본 일정 데이터 (캘린더 연동 실패 시 사용)
+  const defaultSchedule = [
     { time: "09:00", task: "아침 운동", completed: true },
     { time: "10:00", task: "업무 미팅", completed: false },
     { time: "14:00", task: "점심 약속", completed: false },
     { time: "16:00", task: "프로젝트 검토", completed: false },
     { time: "19:00", task: "저녁 식사", completed: false }
   ]
+
+  // 실제 표시할 일정 결정
+  const todaySchedule = calendarConnected && calendarEvents.length > 0 
+    ? calendarEvents.map(event => {
+        const startTime = event.start.dateTime || event.start.date
+        return {
+          time: startTime ? new Date(startTime).toLocaleTimeString('ko-KR', { 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          }) : '00:00',
+          task: event.summary || '일정',
+          completed: startTime ? new Date(startTime) < new Date() : false,
+          source: 'calendar' as const
+        }
+      })
+    : defaultSchedule.map(item => ({ ...item, source: 'default' as const }))
 
   // 날짜 기반으로 명언과 영어 한마디 선택
   const today = new Date()
@@ -156,17 +272,63 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
 
       {/* 오늘의 일정 */}
       <div className="schedule-section">
-        <div className="schedule-header">📅 오늘의 일정</div>
+        <div className="schedule-header">
+          📅 오늘의 일정
+          {calendarConnected && (
+            <span className="calendar-sync-badge">🔄 연동됨</span>
+          )}
+        </div>
+        
+        {!calendarConnected && (
+          <div className="calendar-connect-section">
+            <div className="calendar-connect-info">
+              <div className="connect-icon">📱</div>
+              <div className="connect-text">
+                <div className="connect-title">캘린더 연동하기</div>
+                <div className="connect-description">
+                  Google Calendar와 연동하여<br/>
+                  실제 일정을 불러올 수 있습니다
+                </div>
+              </div>
+            </div>
+            <button 
+              className="calendar-connect-btn"
+              onClick={connectToGoogleCalendar}
+              disabled={calendarLoading}
+            >
+              {calendarLoading ? (
+                <>
+                  <span className="loading-spinner">⟳</span>
+                  연동 중...
+                </>
+              ) : (
+                <>
+                  <span className="connect-icon-btn">🔗</span>
+                  캘린더 연동
+                </>
+              )}
+            </button>
+          </div>
+        )}
+        
         <div className="schedule-list">
           {todaySchedule.map((item, index) => (
-            <div key={index} className={`schedule-item ${item.completed ? 'completed' : ''}`}>
+            <div key={index} className={`schedule-item ${item.completed ? 'completed' : ''} ${item.source === 'calendar' ? 'calendar-event' : ''}`}>
               <div className="schedule-time">{item.time}</div>
               <div className="schedule-task">
                 {item.completed && <span className="completed-icon">✓</span>}
+                {item.source === 'calendar' && <span className="calendar-icon">📅</span>}
                 {item.task}
               </div>
             </div>
           ))}
+          
+          {calendarConnected && calendarEvents.length === 0 && (
+            <div className="no-events-message">
+              <div className="no-events-icon">📅</div>
+              <div className="no-events-text">오늘 등록된 일정이 없습니다</div>
+            </div>
+          )}
         </div>
       </div>
     </div>
