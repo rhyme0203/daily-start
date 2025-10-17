@@ -748,3 +748,17 @@
   text-align: center;
   font-style: italic;
 }
+
+/* 커뮤니티 실시간 배지 */
+.real-community-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+  box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+  animation: pulse 2s infinite;
+}

@@ -130,13 +130,17 @@ const CommunityCard: React.FC = () => {
               </div>
               
               <div className="news-content">
-                <h3 className="news-title">{post.title}</h3>
+                <h3 className="news-title">
+                  {post.id.startsWith('real_') && <span className="live-indicator">🔴 LIVE</span>}
+                  {post.title}
+                </h3>
                 <p className="news-summary">{post.content}</p>
                 <div className="community-stats">
                   <span className="stat-item">👀 {formatNumber(post.views)}</span>
                   <span className="stat-item">👍 {formatNumber(post.likes)}</span>
                   <span className="stat-item">💬 {formatNumber(post.comments)}</span>
                   <span className="stat-item">by {post.author}</span>
+                  {post.id.startsWith('real_') && <span className="real-community-badge">실시간</span>}
                 </div>
               </div>
               
