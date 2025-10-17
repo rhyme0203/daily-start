@@ -106,6 +106,24 @@ const FortuneCard: React.FC = () => {
           {isNewDay && <span className="new-day-badge">NEW</span>}
         </div>
         {fortune && <span className="pill">{fortune.zodiacSign}</span>}
+        {!fortune && !loading && (
+          <button 
+            onClick={generateFortune} 
+            className="generate-fortune-btn"
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              padding: '6px 12px',
+              fontSize: '11px',
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}
+          >
+            🔮 운세 생성
+          </button>
+        )}
       </div>
       
       {fortune ? (
@@ -272,7 +290,31 @@ const FortuneCard: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="row">운세를 불러오는 중...</div>
+        <div className="fortune-empty-state">
+          <div className="empty-icon">🔮</div>
+          <div className="empty-title">운세를 생성해보세요!</div>
+          <div className="empty-description">
+            프로필이 설정되어 있지만 아직 운세가 생성되지 않았습니다.
+          </div>
+          <button 
+            onClick={generateFortune} 
+            className="generate-fortune-btn-main"
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '12px',
+              padding: '12px 24px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              marginTop: '16px',
+              width: '100%'
+            }}
+          >
+            🔮 오늘의 운세 생성하기
+          </button>
+        </div>
       )}
     </div>
   )

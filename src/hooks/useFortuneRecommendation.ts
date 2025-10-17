@@ -372,12 +372,30 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
 
   // 사용자 프로필이 변경되거나 새로운 날이 되면 자동으로 운세 생성
   useEffect(() => {
-    if (userProfile && userProfile.occupation) {
-      if (isNewDay()) {
+    console.log('🔍 useFortuneRecommendation useEffect triggered:', {
+      userProfile,
+      hasOccupation: userProfile?.occupation,
+      isNewDay: isNewDay(),
+      currentFortune: fortune
+    });
+    
+    if (userProfile && userProfile.occupation && userProfile.birthDate && userProfile.gender) {
+      console.log('🔍 Profile is complete, checking if fortune needs generation');
+      if (isNewDay() || !fortune) {
+        console.log('🔍 Generating fortune...');
         generateFortune();
+      } else {
+        console.log('🔍 Fortune already exists for today');
       }
+    } else {
+      console.log('🔍 Profile incomplete or missing:', {
+        hasProfile: !!userProfile,
+        hasOccupation: !!userProfile?.occupation,
+        hasBirthDate: !!userProfile?.birthDate,
+        hasGender: !!userProfile?.gender
+      });
     }
-  }, [userProfile]);
+  }, [userProfile, fortune]);
 
   return {
     fortune,
