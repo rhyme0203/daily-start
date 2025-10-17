@@ -200,3 +200,4 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
 };
 
 export default FortuneChart;
+

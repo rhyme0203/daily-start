@@ -214,68 +214,91 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
       </div>
 
       {/* 다른 탭들 요약 */}
-      <div className="summary-section">
-        <div className="summary-header">📊 오늘의 요약</div>
-        <div className="summary-grid">
-          <div className="summary-item weather-summary">
-            <div className="summary-icon">🌤️</div>
-            <div className="summary-content">
-              <div className="summary-label">날씨</div>
-              <div className="summary-value">{getWeatherSummary()}</div>
+      <div className="onl-summary-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">📊</div>
+          <div className="onl-section-title">오늘의 요약</div>
+        </div>
+        <div className="onl-summary-grid">
+          <div className="onl-summary-card weather-card">
+            <div className="onl-card-icon weather-icon">🌤️</div>
+            <div className="onl-card-content">
+              <div className="onl-card-label">날씨</div>
+              <div className="onl-card-value">{getWeatherSummary()}</div>
             </div>
+            <div className="onl-card-indicator weather-indicator"></div>
           </div>
           
-          <div className="summary-item fortune-summary">
-            <div className="summary-icon">🔮</div>
-            <div className="summary-content">
-              <div className="summary-label">운세</div>
-              <div className="summary-value">{getFortuneSummary()}</div>
+          <div className="onl-summary-card fortune-card">
+            <div className="onl-card-icon fortune-icon">🔮</div>
+            <div className="onl-card-content">
+              <div className="onl-card-label">운세</div>
+              <div className="onl-card-value">{getFortuneSummary()}</div>
             </div>
+            <div className="onl-card-indicator fortune-indicator"></div>
           </div>
           
-          <div className="summary-item news-summary">
-            <div className="summary-icon">📰</div>
-            <div className="summary-content">
-              <div className="summary-label">뉴스</div>
-              <div className="summary-value">{getNewsSummary()}</div>
+          <div className="onl-summary-card news-card">
+            <div className="onl-card-icon news-icon">📰</div>
+            <div className="onl-card-content">
+              <div className="onl-card-label">뉴스</div>
+              <div className="onl-card-value">{getNewsSummary()}</div>
             </div>
+            <div className="onl-card-indicator news-indicator"></div>
           </div>
           
-          <div className="summary-item community-summary">
-            <div className="summary-icon">💬</div>
-            <div className="summary-content">
-              <div className="summary-label">커뮤니티</div>
-              <div className="summary-value">{getCommunitySummary()}</div>
+          <div className="onl-summary-card community-card">
+            <div className="onl-card-icon community-icon">💬</div>
+            <div className="onl-card-content">
+              <div className="onl-card-label">커뮤니티</div>
+              <div className="onl-card-value">{getCommunitySummary()}</div>
             </div>
+            <div className="onl-card-indicator community-indicator"></div>
           </div>
         </div>
       </div>
 
       {/* 오늘의 명언 */}
-      <div className="quote-section">
-        <div className="quote-header">💭 오늘의 명언</div>
-        <div className="quote-content">
-          <div className="quote-text">"{selectedQuote}"</div>
-          <div className="quote-author">- 오늘의 지혜</div>
+      <div className="onl-quote-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">💭</div>
+          <div className="onl-section-title">오늘의 명언</div>
+        </div>
+        <div className="onl-quote-card">
+          <div className="onl-quote-content">
+            <div className="onl-quote-text">"{selectedQuote}"</div>
+            <div className="onl-quote-author">- 오늘의 지혜</div>
+          </div>
+          <div className="onl-quote-decoration"></div>
         </div>
       </div>
 
       {/* 영어 한마디 */}
-      <div className="english-section">
-        <div className="english-header">🌍 영어 한마디</div>
-        <div className="english-content">
-          <div className="english-korean">{selectedEnglish.korean}</div>
-          <div className="english-english">{selectedEnglish.english}</div>
-          <div className="english-pronunciation">[{selectedEnglish.pronunciation}]</div>
+      <div className="onl-english-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">🌍</div>
+          <div className="onl-section-title">영어 한마디</div>
+        </div>
+        <div className="onl-english-card">
+          <div className="onl-english-content">
+            <div className="onl-english-korean">{selectedEnglish.korean}</div>
+            <div className="onl-english-english">{selectedEnglish.english}</div>
+            <div className="onl-english-pronunciation">[{selectedEnglish.pronunciation}]</div>
+          </div>
+          <div className="onl-english-flag">🇺🇸</div>
         </div>
       </div>
 
       {/* 오늘의 일정 */}
-      <div className="schedule-section">
-        <div className="schedule-header">
-          📅 오늘의 일정
+      <div className="onl-schedule-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">📅</div>
+          <div className="onl-section-title">오늘의 일정</div>
           {calendarConnected && (
-            <span className="calendar-sync-badge">🔄 연동됨</span>
+            <div className="onl-sync-badge">
+              <span className="sync-icon">🔄</span>
+              <span className="sync-text">연동됨</span>
+            </div>
           )}
         </div>
         

@@ -1139,12 +1139,104 @@
 }
 
 /* Onl 대시보드 스타일 */
-.summary-section {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border-radius: 16px;
-  padding: 16px;
+.onl-summary-section {
   margin: 16px 0;
 }
+
+.onl-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.onl-section-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+}
+
+.onl-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  flex: 1;
+}
+
+.onl-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.onl-summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.onl-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.onl-card-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.onl-card-content {
+  flex: 1;
+}
+
+.onl-card-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.onl-card-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.onl-card-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 0 12px 12px 0;
+}
+
+.weather-indicator { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+.fortune-indicator { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+.news-indicator { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+.community-indicator { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
 
 .summary-header {
   font-size: 14px;
@@ -1201,17 +1293,20 @@
   word-wrap: break-word;
 }
 
-.quote-section {
+.onl-quote-section {
+  margin: 16px 0;
+}
+
+.onl-quote-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 16px;
   padding: 18px;
-  margin: 16px 0;
-  color: white;
   position: relative;
   overflow: hidden;
+  color: white;
 }
 
-.quote-section::before {
+.onl-quote-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -1222,69 +1317,122 @@
   pointer-events: none;
 }
 
-.quote-header {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 12px;
+.onl-quote-content {
   position: relative;
   z-index: 1;
 }
 
-.quote-content {
-  position: relative;
-  z-index: 1;
-}
-
-.quote-text {
+.onl-quote-text {
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 8px;
   font-style: italic;
+  font-weight: 500;
 }
 
-.quote-author {
+.onl-quote-author {
   font-size: 11px;
   opacity: 0.8;
   text-align: right;
+  font-weight: 500;
 }
 
-.english-section {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 1px solid #f59e0b;
-  border-radius: 16px;
-  padding: 16px;
+.onl-quote-decoration {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.onl-quote-decoration::before {
+  content: '"';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0.3;
+}
+
+.onl-english-section {
   margin: 16px 0;
 }
 
-.english-header {
-  font-size: 13px;
-  font-weight: 700;
-  color: #92400e;
-  margin-bottom: 12px;
+.onl-english-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 16px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
 }
 
-.english-content {
+.onl-english-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
 }
 
-.english-korean {
+.onl-english-korean {
   font-size: 12px;
   font-weight: 600;
   color: #92400e;
 }
 
-.english-english {
-  font-size: 14px;
+.onl-english-english {
+  font-size: 15px;
   font-weight: 700;
   color: #1e293b;
+  line-height: 1.3;
 }
 
-.english-pronunciation {
+.onl-english-pronunciation {
   font-size: 11px;
   color: #64748b;
   font-style: italic;
+  opacity: 0.8;
+}
+
+.onl-english-flag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.onl-schedule-section {
+  margin: 16px 0;
+}
+
+.onl-sync-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-left: auto;
+  animation: pulse 2s infinite;
+}
+
+.sync-icon {
+  font-size: 10px;
+}
+
+.sync-text {
+  font-size: 9px;
 }
 
 .schedule-section {
@@ -1589,76 +1737,88 @@
   }
   
   /* Onl 대시보드 모바일 스타일 */
-  .summary-section {
-    padding: 14px;
-    margin: 14px 0;
-  }
-  
-  .summary-header {
-    font-size: 13px;
+  .onl-section-header {
+    gap: 6px;
     margin-bottom: 10px;
   }
   
-  .summary-grid {
-    gap: 6px;
+  .onl-section-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
   }
   
-  .summary-item {
+  .onl-section-title {
+    font-size: 13px;
+  }
+  
+  .onl-summary-grid {
+    gap: 8px;
+  }
+  
+  .onl-summary-card {
     padding: 10px;
-    gap: 6px;
   }
   
-  .summary-icon {
+  .onl-card-icon {
+    width: 28px;
+    height: 28px;
     font-size: 18px;
+    margin-bottom: 6px;
   }
   
-  .summary-label {
+  .onl-card-label {
     font-size: 9px;
   }
   
-  .summary-value {
+  .onl-card-value {
     font-size: 10px;
   }
   
-  .quote-section {
+  .onl-quote-card {
     padding: 16px;
-    margin: 14px 0;
   }
   
-  .quote-header {
-    font-size: 12px;
-    margin-bottom: 10px;
-  }
-  
-  .quote-text {
+  .onl-quote-text {
     font-size: 13px;
     margin-bottom: 6px;
   }
   
-  .quote-author {
+  .onl-quote-author {
     font-size: 10px;
   }
   
-  .english-section {
-    padding: 14px;
-    margin: 14px 0;
+  .onl-quote-decoration {
+    width: 32px;
+    height: 32px;
+    top: 10px;
+    right: 10px;
   }
   
-  .english-header {
-    font-size: 12px;
-    margin-bottom: 10px;
+  .onl-quote-decoration::before {
+    font-size: 16px;
   }
   
-  .english-korean {
+  .onl-english-card {
+    padding: 16px;
+  }
+  
+  .onl-english-korean {
     font-size: 11px;
   }
   
-  .english-english {
-    font-size: 13px;
+  .onl-english-english {
+    font-size: 14px;
   }
   
-  .english-pronunciation {
+  .onl-english-pronunciation {
     font-size: 10px;
+  }
+  
+  .onl-english-flag {
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
   }
   
   .schedule-section {
@@ -1713,10 +1873,17 @@
     font-size: 12px;
   }
   
-  .calendar-sync-badge {
+  .onl-sync-badge {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  
+  .sync-icon {
+    font-size: 9px;
+  }
+  
+  .sync-text {
     font-size: 8px;
-    padding: 2px 5px;
-    margin-left: 6px;
   }
   
   .calendar-event {
