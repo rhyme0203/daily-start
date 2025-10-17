@@ -1,0 +1,227 @@
+.fortune-chart {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 16px 0;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.chart-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.overall-score {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.score-number {
+  font-size: 24px;
+  font-weight: 800;
+  color: white;
+}
+
+.score-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.score-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.chart-svg {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.fortune-area {
+  filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+  animation: pulse-area 3s ease-in-out infinite;
+}
+
+@keyframes pulse-area {
+  0%, 100% { 
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.score-point {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  animation: pulse-point 2s ease-in-out infinite;
+}
+
+@keyframes pulse-point {
+  0%, 100% { 
+    transform: scale(1);
+  }
+  50% { 
+    transform: scale(1.2);
+  }
+}
+
+.chart-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.work-color { background: #3b82f6; }
+.health-color { background: #10b981; }
+.relationship-color { background: #f59e0b; }
+.luck-color { background: #ef4444; }
+
+.legend-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  flex: 1;
+}
+
+.legend-score {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.score-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.guide-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.guide-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.excellent { background: #4ade80; }
+.good { background: #22c55e; }
+.average { background: #eab308; }
+.poor { background: #f97316; }
+.bad { background: #ef4444; }
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .fortune-chart {
+    padding: 16px;
+    margin: 12px 0;
+  }
+  
+  .chart-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .overall-score {
+    align-self: flex-end;
+  }
+  
+  .chart-legend {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .legend-item {
+    padding: 6px 10px;
+  }
+  
+  .legend-label {
+    font-size: 11px;
+  }
+  
+  .legend-score {
+    font-size: 10px;
+  }
+  
+  .score-guide {
+    padding: 10px;
+  }
+  
+  .guide-item {
+    font-size: 10px;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .fortune-chart {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    box-shadow: 0 8px 32px rgba(30, 41, 59, 0.4);
+  }
+  
+  .legend-item,
+  .score-guide {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}

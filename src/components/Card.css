@@ -762,3 +762,267 @@
   box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
   animation: pulse 2s infinite;
 }
+
+/* 새로운 운세 관련 스타일 */
+.new-day-badge {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 8px;
+  animation: pulse 2s infinite;
+}
+
+.fortune-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+  color: white;
+}
+
+.summary-header {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.summary-content {
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.fortune-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.detail-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.detail-emoji {
+  font-size: 16px;
+}
+
+.detail-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  flex: 1;
+}
+
+.detail-score {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b82f6;
+  background: #dbeafe;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.detail-content {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.fortune-lucky-info {
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.lucky-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #a16207;
+  margin-bottom: 12px;
+}
+
+.lucky-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lucky-item {
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #fde047;
+}
+
+.lucky-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a16207;
+  margin-bottom: 4px;
+}
+
+.lucky-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #365314;
+}
+
+.additional-fortune {
+  margin: 16px 0;
+}
+
+.additional-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.additional-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.additional-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.additional-emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.additional-content {
+  flex: 1;
+}
+
+.additional-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.additional-desc {
+  font-size: 10px;
+  line-height: 1.3;
+  color: #64748b;
+}
+
+.fortune-advice {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.advice-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 12px;
+}
+
+.advice-content {
+  margin-bottom: 12px;
+}
+
+.advice-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.advice-item.positive {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.advice-item.negative {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+}
+
+.advice-emoji {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.advice-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.spiritual-guidance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.guidance-emoji {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.guidance-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a16207;
+  font-style: italic;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .fortune-details-grid,
+  .lucky-grid,
+  .additional-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .detail-card,
+  .lucky-item,
+  .additional-item {
+    padding: 10px;
+  }
+  
+  .fortune-summary,
+  .fortune-lucky-info,
+  .fortune-advice {
+    padding: 12px;
+    margin: 12px 0;
+  }
+}

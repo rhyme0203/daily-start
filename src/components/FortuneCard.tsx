@@ -1,42 +1,12 @@
 import React from 'react'
 import { useUserProfile } from '../contexts/UserProfileContext'
 import { useFortuneRecommendation } from '../hooks/useFortuneRecommendation'
+import FortuneChart from './FortuneChart'
 import './Card.css'
 
 const FortuneCard: React.FC = () => {
   const { userProfile } = useUserProfile()
-  const { fortune, loading, error, generateFortune } = useFortuneRecommendation(userProfile)
-
-  const getZodiacSign = () => {
-    if (!userProfile?.birthDate) return '양자리'
-    
-    const birthDate = new Date(userProfile.birthDate)
-    const month = birthDate.getMonth() + 1
-    const day = birthDate.getDate()
-    
-    const zodiacSigns = [
-      { name: '물병자리', start: [1, 20], end: [2, 18] },
-      { name: '물고기자리', start: [2, 19], end: [3, 20] },
-      { name: '양자리', start: [3, 21], end: [4, 19] },
-      { name: '황소자리', start: [4, 20], end: [5, 20] },
-      { name: '쌍둥이자리', start: [5, 21], end: [6, 21] },
-      { name: '게자리', start: [6, 22], end: [7, 22] },
-      { name: '사자자리', start: [7, 23], end: [8, 22] },
-      { name: '처녀자리', start: [8, 23], end: [9, 22] },
-      { name: '천칭자리', start: [9, 23], end: [10, 23] },
-      { name: '전갈자리', start: [10, 24], end: [11, 22] },
-      { name: '사수자리', start: [11, 23], end: [12, 21] },
-      { name: '염소자리', start: [12, 22], end: [1, 19] }
-    ]
-    
-    for (const sign of zodiacSigns) {
-      if ((month === sign.start[0] && day >= sign.start[1]) || 
-          (month === sign.end[0] && day <= sign.end[1])) {
-        return sign.name
-      }
-    }
-    return '양자리'
-  }
+  const { fortune, loading, error, generateFortune, isNewDay } = useFortuneRecommendation(userProfile)
 
   if (loading) {
     return (
@@ -51,15 +21,11 @@ const FortuneCard: React.FC = () => {
             </span>
             오늘의 운세
           </div>
-          <span className="pill">{getZodiacSign()}</span>
+          <span className="pill">로딩 중...</span>
         </div>
-        <div className="ai-loading">
-          <div className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div className="ai-text">AI가 개인화된 운세를 분석 중이에요...</div>
+        <div className="ai-placeholder">
+          <div className="ai-icon">🔮</div>
+          <div className="ai-text">AI가 당신의 운세를 분석하고 있어요...</div>
         </div>
       </div>
     )
@@ -78,7 +44,6 @@ const FortuneCard: React.FC = () => {
             </span>
             오늘의 운세
           </div>
-          <span className="pill">{getZodiacSign()}</span>
         </div>
         <div className="ai-placeholder">
           <div className="ai-icon">⚠️</div>
@@ -102,7 +67,6 @@ const FortuneCard: React.FC = () => {
             </span>
             오늘의 운세
           </div>
-          <span className="pill">{getZodiacSign()}</span>
         </div>
         <div className="ai-placeholder">
           <div className="ai-icon">🎯</div>
@@ -129,8 +93,9 @@ const FortuneCard: React.FC = () => {
             </svg>
           </span>
           오늘의 운세
+          {isNewDay && <span className="new-day-badge">NEW</span>}
         </div>
-        {userProfile?.birthDate && <span className="pill">{getZodiacSign()}</span>}
+        {fortune && <span className="pill">{fortune.zodiacSign}</span>}
       </div>
       
       {fortune ? (
@@ -142,70 +107,157 @@ const FortuneCard: React.FC = () => {
             <div className="weather-icon">🍀</div>
           </div>
           
-          {/* 나에게 미치는 영향 섹션 */}
-          <div className="weather-impact">
-            <div className="impact-header">오늘 운세가 나에게 미치는 영향</div>
-            <div className="impact-recommendations">
-              <div className="recommendation-chip">
-                <div className="chip-dot"></div>
-                <span className="chip-emoji">💼</span>
-                업무에 집중
+          {/* 5각 그래프 차트 */}
+          <FortuneChart
+            workScore={fortune.workScore}
+            healthScore={fortune.healthScore}
+            relationshipScore={fortune.relationshipScore}
+            luckScore={fortune.luckScore}
+            overallScore={fortune.overallScore}
+          />
+          
+          {/* 오늘의 운세 요약 */}
+          <div className="fortune-summary">
+            <div className="summary-header">📜 오늘의 운세</div>
+            <div className="summary-content">{fortune.overall}</div>
+          </div>
+          
+          {/* 상세 운세 정보 */}
+          <div className="fortune-details-grid">
+            <div className="detail-card work-card">
+              <div className="detail-header">
+                <span className="detail-emoji">💼</span>
+                <span className="detail-title">업무운</span>
+                <span className="detail-score">{fortune.workScore}점</span>
               </div>
-              <div className="recommendation-chip">
-                <div className="chip-dot"></div>
-                <span className="chip-emoji">🤝</span>
-                인간관계 발전
-              </div>
-              <div className="recommendation-chip">
-                <div className="chip-dot"></div>
-                <span className="chip-emoji">💪</span>
-                건강 관리
-              </div>
-              <div className="recommendation-chip">
-                <div className="chip-dot"></div>
-                <span className="chip-emoji">🎯</span>
-                목표 달성
-              </div>
+              <div className="detail-content">{fortune.work}</div>
             </div>
-            <div className="impact-disclaimer">
-              * {userProfile.occupation} 직업을 고려한 AI 맞춤 추천이에요.
+            
+            <div className="detail-card health-card">
+              <div className="detail-header">
+                <span className="detail-emoji">💪</span>
+                <span className="detail-title">건강운</span>
+                <span className="detail-score">{fortune.healthScore}점</span>
+              </div>
+              <div className="detail-content">{fortune.health}</div>
+            </div>
+            
+            <div className="detail-card relationship-card">
+              <div className="detail-header">
+                <span className="detail-emoji">🤝</span>
+                <span className="detail-title">인간관계</span>
+                <span className="detail-score">{fortune.relationshipScore}점</span>
+              </div>
+              <div className="detail-content">{fortune.relationship}</div>
+            </div>
+            
+            <div className="detail-card luck-card">
+              <div className="detail-header">
+                <span className="detail-emoji">🍀</span>
+                <span className="detail-title">행운</span>
+                <span className="detail-score">{fortune.luckScore}점</span>
+              </div>
+              <div className="detail-content">{fortune.luck}</div>
             </div>
           </div>
           
-          <div className="row">💼 업무운: {fortune.work}</div>
-          <div className="row">💪 건강운: {fortune.health}</div>
-          <div className="row">🤝 인간관계: {fortune.relationship}</div>
-          
-          {/* 개인화된 운세 상세 정보 */}
+          {/* AI 맞춤 운세 분석 */}
           <div className="ai-recommendation">
             <div className="ai-header">
-              <div className="ai-icon">🎯</div>
+              <div className="ai-icon">🤖</div>
               <div className="ai-title">AI 맞춤 운세 분석</div>
             </div>
             <div className="ai-content">
               <div className="ai-section-title">💡 오늘의 조언</div>
               <div className="ai-description">{fortune.advice}</div>
               
-              <div className="ai-section-title">🍀 행운 정보</div>
-              <div className="fortune-details">
-                <div className="fortune-item">
-                  <span className="fortune-label">행운의 숫자:</span>
-                  <span className="fortune-value">{fortune.luckyNumbers.join(', ')}</span>
-                </div>
-                <div className="fortune-item">
-                  <span className="fortune-label">행운의 색깔:</span>
-                  <span className="fortune-value" style={{color: getColorHex(fortune.luckyColor)}}>
-                    {fortune.luckyColor}
-                  </span>
-                </div>
-                <div className="fortune-item">
-                  <span className="fortune-label">행운의 시간:</span>
-                  <span className="fortune-value">{fortune.luckyTime}</span>
-                </div>
-              </div>
+              <div className="ai-section-title">🔮 상세 분석</div>
+              <div className="ai-description">{fortune.detailedAnalysis}</div>
+              
+              <div className="ai-section-title">📅 일일 운세</div>
+              <div className="ai-description">{fortune.dailyHoroscope}</div>
             </div>
             <div className="ai-footer">
               <div className="ai-tag">🤖 AI가 {userProfile.occupation} 직업을 고려한 맞춤 운세</div>
+            </div>
+          </div>
+          
+          {/* 행운 정보 */}
+          <div className="fortune-lucky-info">
+            <div className="lucky-header">🍀 오늘의 행운 정보</div>
+            <div className="lucky-grid">
+              <div className="lucky-item">
+                <div className="lucky-label">행운의 숫자</div>
+                <div className="lucky-value">{fortune.luckyNumbers.join(', ')}</div>
+              </div>
+              <div className="lucky-item">
+                <div className="lucky-label">행운의 색깔</div>
+                <div className="lucky-value" style={{color: getColorHex(fortune.luckyColor)}}>
+                  {fortune.luckyColor}
+                </div>
+              </div>
+              <div className="lucky-item">
+                <div className="lucky-label">행운의 시간</div>
+                <div className="lucky-value">{fortune.luckyTime}</div>
+              </div>
+              <div className="lucky-item">
+                <div className="lucky-label">행운의 방향</div>
+                <div className="lucky-value">{fortune.luckyDirection}</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* 추가 운세 정보 */}
+          <div className="additional-fortune">
+            <div className="additional-header">✨ 추가 운세 정보</div>
+            <div className="additional-grid">
+              <div className="additional-item">
+                <span className="additional-emoji">💕</span>
+                <div className="additional-content">
+                  <div className="additional-title">연애운</div>
+                  <div className="additional-desc">{fortune.loveLife}</div>
+                </div>
+              </div>
+              <div className="additional-item">
+                <span className="additional-emoji">💰</span>
+                <div className="additional-content">
+                  <div className="additional-title">재물운</div>
+                  <div className="additional-desc">{fortune.financialOutlook}</div>
+                </div>
+              </div>
+              <div className="additional-item">
+                <span className="additional-emoji">👨‍👩‍👧‍👦</span>
+                <div className="additional-content">
+                  <div className="additional-title">가족운</div>
+                  <div className="additional-desc">{fortune.familyHarmony}</div>
+                </div>
+              </div>
+              <div className="additional-item">
+                <span className="additional-emoji">🌱</span>
+                <div className="additional-content">
+                  <div className="additional-title">성장운</div>
+                  <div className="additional-desc">{fortune.personalGrowth}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* 조언 섹션 */}
+          <div className="fortune-advice">
+            <div className="advice-header">🎯 오늘의 행동 가이드</div>
+            <div className="advice-content">
+              <div className="advice-item positive">
+                <span className="advice-emoji">✅</span>
+                <span className="advice-text">{fortune.bestActivity}</span>
+              </div>
+              <div className="advice-item negative">
+                <span className="advice-emoji">❌</span>
+                <span className="advice-text">{fortune.avoidActivity}</span>
+              </div>
+            </div>
+            <div className="spiritual-guidance">
+              <span className="guidance-emoji">🌟</span>
+              <span className="guidance-text">{fortune.spiritualGuidance}</span>
             </div>
           </div>
         </>
