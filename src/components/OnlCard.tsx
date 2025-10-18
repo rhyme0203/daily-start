@@ -80,40 +80,62 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
   const [calendarLoading, setCalendarLoading] = React.useState(false)
   const [calendarConnected, setCalendarConnected] = React.useState(false)
   const [hotdealLoaded, setHotdealLoaded] = React.useState(false)
+  const [calendarError, setCalendarError] = React.useState<string | null>(null)
 
   // Google Calendar API 연동 함수
   const connectToGoogleCalendar = async () => {
     try {
       setCalendarLoading(true)
+      setCalendarError(null)
       
       // Google Calendar API 설정
-      const CLIENT_ID = 'your-google-client-id' // 실제 구현 시 환경변수로 관리
-      const API_KEY = 'your-google-api-key'
+      const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
+      const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY
+
+      if (!CLIENT_ID || !API_KEY) {
+        setCalendarError('Google API 설정이 없습니다. 환경변수 VITE_GOOGLE_CLIENT_ID / VITE_GOOGLE_API_KEY를 설정하세요.')
+        return
+      }
       
-      // Google API 로드
-      await new Promise((resolve) => {
+      // Google API 로드 (실패도 감지)
+      const gapiLoaded = await new Promise<boolean>((resolve) => {
         if (window.gapi) {
           resolve(true)
           return
         }
-        
+
         const script = document.createElement('script')
         script.src = 'https://apis.google.com/js/api.js'
-        script.onload = resolve
+        script.async = true
+        script.onload = () => resolve(true)
+        script.onerror = () => resolve(false)
         document.head.appendChild(script)
       })
+
+      if (!gapiLoaded || !window.gapi) {
+        setCalendarError('Google API 스크립트 로드에 실패했습니다. 네트워크 상태를 확인하고 다시 시도하세요.')
+        return
+      }
 
       // API 초기화
       await new Promise((resolve, reject) => {
         window.gapi.load('client:auth2', () => {
-          window.gapi.client.init({
-            apiKey: API_KEY,
-            clientId: CLIENT_ID,
-            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-            scope: 'https://www.googleapis.com/auth/calendar.readonly'
-          }).then(resolve).catch(reject)
+          window.gapi.client
+            .init({
+              apiKey: API_KEY,
+              clientId: CLIENT_ID,
+              discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+              scope: 'https://www.googleapis.com/auth/calendar.readonly'
+            })
+            .then(resolve)
+            .catch(reject)
         })
       })
+
+      if (!window.gapi.auth2) {
+        setCalendarError('인증 모듈 초기화에 실패했습니다. 클라이언트 ID 설정을 확인하세요.')
+        return
+      }
 
       // 인증 및 이벤트 가져오기
       const authInstance = window.gapi.auth2.getAuthInstance()
@@ -126,6 +148,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
       
     } catch (error) {
       console.error('Google Calendar 연동 실패:', error)
+      setCalendarError('캘린더 연동에 실패했습니다. 브라우저 팝업 허용과 API 설정을 확인하세요.')
       // 연동 실패 시 기본 일정 표시
       setCalendarConnected(false)
     } finally {
@@ -153,6 +176,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
       
     } catch (error) {
       console.error('이벤트 로드 실패:', error)
+      setCalendarError('일정 데이터를 불러오지 못했습니다. 잠시 후 다시 시도하세요.')
     }
   }
 
@@ -425,6 +449,11 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
                 </>
               )}
             </button>
+            {calendarError && (
+              <div className="calendar-error" role="alert" aria-live="polite">
+                {calendarError}
+              </div>
+            )}
           </div>
         )}
         
