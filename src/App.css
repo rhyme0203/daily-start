@@ -106,32 +106,54 @@ body {
   overflow-x: hidden;
 }
 
-/* 랜드스케이프 모드 방지 */
+/* 랜드스케이프 모드 UI 최적화 */
 @media screen and (orientation: landscape) and (max-height: 500px) {
-  body {
-    transform: rotate(90deg);
-    transform-origin: center;
-    width: 100vh;
-    height: 100vw;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
+  .viewport {
+    /* 랜드스케이프 모드에서 더 작은 높이 사용 */
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
   }
   
-  body::before {
-    content: "세로 모드로 사용해주세요";
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-90deg);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    font-size: 18px;
-    z-index: 9999;
-    text-align: center;
+  .track {
+    /* 랜드스케이프 모드에서 슬라이드 간격 조정 */
+    gap: 10px;
+  }
+  
+  .slide {
+    /* 랜드스케이프 모드에서 슬라이드 패딩 조정 */
+    padding: 15px;
+  }
+  
+  /* 랜드스케이프 모드에서 카드 크기 조정 */
+  .card {
+    margin-bottom: 10px;
+  }
+  
+  /* 랜드스케이프 모드에서 헤더 높이 조정 */
+  .header {
+    padding: 8px 16px;
+  }
+  
+  /* 랜드스케이프 모드에서 푸터 높이 조정 */
+  .footer {
+    padding: 8px 16px;
+  }
+  
+  /* 랜드스케이프 모드에서 타로 카드 크기 조정 */
+  .tarot-card-img {
+    width: 120px;
+    height: 180px;
+  }
+  
+  .tarot-card {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  
+  /* 랜드스케이프 모드에서 5각 그래프 크기 조정 */
+  .chart-svg {
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -143,6 +165,32 @@ body {
 /* iOS Safari 주소 입력창 축소를 위한 추가 설정 */
 @supports (-webkit-touch-callout: none) {
   body {
+    min-height: calc(100vh + 300px);
+  }
+  
+  /* iPhone Chrome에서 주소 입력창 축소를 위한 추가 스크롤 공간 */
+  .viewport {
+    min-height: calc(100vh + 200px);
+  }
+}
+
+/* iPhone Chrome 주소 입력창 축소를 위한 추가 최적화 */
+@media screen and (max-width: 768px) {
+  html {
+    /* iPhone Chrome에서 주소 입력창 축소를 위한 설정 */
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  body {
+    /* iPhone Chrome에서 주소 입력창 축소를 위한 최소 높이 */
+    min-height: calc(100vh + 400px);
+    /* iPhone Chrome에서 주소 입력창 축소를 위한 패딩 */
+    padding-bottom: 100px;
+  }
+  
+  /* iPhone Chrome에서 주소 입력창 축소를 위한 추가 스크롤 공간 */
+  .viewport {
     min-height: calc(100vh + 300px);
   }
 }
