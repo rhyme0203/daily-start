@@ -56,7 +56,7 @@
   overscroll-behavior: contain;
   /* 헤더/푸터 고정에 따른 패딩 조정 */
   padding-top: 80px;
-  padding-bottom: 100px;
+  padding-bottom: 130px;
 }
 
 .track {
@@ -160,7 +160,7 @@ body {
   .viewport {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 100px;
+    padding-bottom: 130px;
   }
   
   .track {
