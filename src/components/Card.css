@@ -2617,17 +2617,17 @@
   .viewport {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 60px;
+    padding-bottom: 20px;
   }
   
   .track {
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 80px);
     gap: 15px;
     padding: 10px 0;
   }
   
   .slide {
-    min-height: calc(100vh - 120px);
+    min-height: calc(100vh - 80px);
     padding: 20px;
   }
   
