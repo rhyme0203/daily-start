@@ -1726,6 +1726,14 @@
   color: white;
   position: relative;
   overflow: hidden;
+  /* 모바일에서 가시성 향상 */
+  min-height: 200px;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  /* 모바일에서 강제 표시 */
+  z-index: 5;
+  transform: none;
 }
 
 .tarot-section::before {
@@ -1778,6 +1786,10 @@
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .tarot-title {
@@ -1785,18 +1797,30 @@
   font-weight: 700;
   margin-bottom: 8px;
   color: #fbbf24;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .tarot-subtitle {
   font-size: 13px;
   opacity: 0.8;
   color: #e5e7eb;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
 }
 
 .tarot-draw-area {
   text-align: center;
   position: relative;
   z-index: 1;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  min-height: 150px;
 }
 
 .tarot-deck {
@@ -1804,6 +1828,9 @@
   justify-content: center;
   gap: 8px;
   margin-bottom: 20px;
+  /* 모바일에서 가시성 향상 */
+  visibility: visible;
+  opacity: 1;
 }
 
 .tarot-deck-card {
@@ -1901,6 +1928,10 @@
   animation: button-pulse 2s ease-in-out infinite;
   margin: 0 auto;
   width: fit-content;
+  /* 모바일에서 가시성 향상 */
+  visibility: visible;
+  opacity: 1;
+  z-index: 10;
 }
 
 .tarot-draw-btn::before {
@@ -2749,6 +2780,60 @@
   
   .loading-text {
     font-size: 14px;
+  }
+}
+
+/* 모바일에서 타로카드 강제 표시 */
+@media (max-width: 768px) {
+  .tarot-section {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 200px !important;
+    margin-top: 16px !important;
+    padding: 20px !important;
+  }
+  
+  .tarot-header {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .tarot-title {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 18px !important;
+    color: #fbbf24 !important;
+  }
+  
+  .tarot-subtitle {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 0.8 !important;
+    font-size: 13px !important;
+    color: #e5e7eb !important;
+  }
+  
+  .tarot-draw-area {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 150px !important;
+  }
+  
+  .tarot-deck {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .tarot-draw-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
   }
 }
 
