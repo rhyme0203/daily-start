@@ -429,7 +429,7 @@ const FortuneCard: React.FC = () => {
             <div className="tarot-deck">
               <div className="tarot-deck-card">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  src="https://i.imgur.com/tarot-back-custom.jpg" 
                   alt="타로카드 뒷면"
                   className="tarot-deck-back-img"
                   onError={(e) => {
@@ -443,7 +443,7 @@ const FortuneCard: React.FC = () => {
               </div>
               <div className="tarot-deck-card">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  src="https://i.imgur.com/tarot-back-custom.jpg" 
                   alt="타로카드 뒷면"
                   className="tarot-deck-back-img"
                   onError={(e) => {
@@ -457,7 +457,7 @@ const FortuneCard: React.FC = () => {
               </div>
               <div className="tarot-deck-card">
                 <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  src="https://i.imgur.com/tarot-back-custom.jpg" 
                   alt="타로카드 뒷면"
                   className="tarot-deck-back-img"
                   onError={(e) => {

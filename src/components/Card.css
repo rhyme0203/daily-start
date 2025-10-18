@@ -1834,8 +1834,8 @@
 }
 
 .tarot-deck-card {
-  width: 80px;
-  height: 120px;
+  width: 120px;
+  height: 180px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
   display: flex;
@@ -2527,8 +2527,8 @@
   }
   
   .tarot-deck-card {
-    width: 70px;
-    height: 105px;
+    width: 100px;
+    height: 150px;
   }
   
   .tarot-deck-back {
@@ -2695,8 +2695,8 @@
   }
   
   .tarot-deck-card {
-    width: 100px;
-    height: 150px;
+    width: 120px;
+    height: 180px;
     margin-bottom: 20px;
   }
   
@@ -2792,14 +2792,16 @@
     min-height: 300px !important;
     margin-top: 16px !important;
     padding: 20px !important;
-    background: var(--card) !important;
-    border-radius: var(--radius) !important;
-    box-shadow: var(--shadow) !important;
     position: relative !important;
     z-index: 5 !important;
     transform: none !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    /* 원래 스타일 유지 */
+    background: linear-gradient(135deg, #2d1b69 0%, #11052c 100%) !important;
+    border-radius: 16px !important;
+    color: white !important;
+    overflow: hidden !important;
   }
   
   .tarot-header {
