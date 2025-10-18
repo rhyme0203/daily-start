@@ -225,23 +225,24 @@ const FortuneCard: React.FC = () => {
         )}
       </div>
       
+      {/* 5각 그래프 차트 - 항상 표시 */}
+      <FortuneChart
+        workScore={fortune?.workScore || 75}
+        healthScore={fortune?.healthScore || 80}
+        relationshipScore={fortune?.relationshipScore || 70}
+        luckScore={fortune?.luckScore || 85}
+        overallScore={fortune?.overallScore || 78}
+      />
+
+      {/* 총운 점수 - 온도 UI 스타일 (항상 표시) */}
+      <div className="row kpi">
+        <div className="num">{fortune?.overallScore || 78}</div>
+        <div className="unit">점 · 총운</div>
+        <div className="weather-icon">🍀</div>
+      </div>
+
       {fortune ? (
         <>
-          {/* 총운 점수 - 온도 UI 스타일 */}
-          <div className="row kpi">
-            <div className="num">{fortune.overallScore}</div>
-            <div className="unit">점 · 총운</div>
-            <div className="weather-icon">🍀</div>
-          </div>
-          
-          {/* 5각 그래프 차트 */}
-          <FortuneChart
-            workScore={fortune.workScore}
-            healthScore={fortune.healthScore}
-            relationshipScore={fortune.relationshipScore}
-            luckScore={fortune.luckScore}
-            overallScore={fortune.overallScore}
-          />
           
           {/* 오늘의 운세 요약 */}
           <div className="fortune-summary">
