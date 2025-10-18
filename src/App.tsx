@@ -21,56 +21,31 @@ function App() {
   const [, setIsScrolled] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
 
-  // 스크롤 이벤트 핸들러 - iPhone Chrome 주소 입력창 축소를 위한 스크롤 감지
+  // 스크롤 이벤트 핸들러 - 스크롤 상태만 감지
   const handleScroll = useCallback(() => {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
     setIsScrolled(scrollTop > 50)
-    
-    // iPhone Chrome에서 주소 입력창 축소를 위한 추가 스크롤 (무한 루프 방지)
-    if (scrollTop > 0 && scrollTop < 1) {
-      // 스크롤이 0과 1 사이일 때만 주소 입력창 축소를 위한 추가 스크롤
-      requestAnimationFrame(() => {
-        window.scrollTo({ top: 1, behavior: 'auto' })
-      })
-    }
+    // 자동 스크롤 제거
   }, [])
 
-  // iPhone Chrome 주소 입력창 축소를 위한 추가 스크롤 함수
-  const forceAddressBarHide = useCallback(() => {
-    // 페이지 로드 후 주소 입력창 축소를 위한 스크롤
-    setTimeout(() => {
-      window.scrollTo({ top: 1, behavior: 'auto' })
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'auto' })
-      }, 100)
-    }, 500)
-  }, [])
+  // iPhone Chrome 주소 입력창 축소 함수 제거
 
-  // 탭 이동과 동시에 최상단으로 스크롤하는 함수
-  const scrollToTop = useCallback(() => {
-    const viewport = document.querySelector('.viewport')
-    if (viewport) {
-      viewport.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
-    }
-  }, [])
+  // 자동 스크롤 함수 제거
 
   const updateSlide = useCallback((index: number) => {
     setCurrentIndex(index)
-    scrollToTop()
-  }, [scrollToTop])
+    // 자동 스크롤 제거
+  }, [])
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % slides.length)
-    scrollToTop()
-  }, [scrollToTop])
+    // 자동 스크롤 제거
+  }, [])
 
   const prevSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
-    scrollToTop()
-  }, [scrollToTop])
+    // 자동 스크롤 제거
+  }, [])
 
   const handleProfileClick = useCallback(() => {
     setIsProfileModalOpen(true)
@@ -92,8 +67,7 @@ function App() {
       window.addEventListener('orientationchange', setViewportHeight)
       window.addEventListener('scroll', handleScroll, { passive: true })
       
-      // iPhone Chrome 주소 입력창 축소를 위한 초기 스크롤
-      forceAddressBarHide()
+      // 자동 스크롤 제거
       
       return () => {
         window.removeEventListener('resize', setViewportHeight)

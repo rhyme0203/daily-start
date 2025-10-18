@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({
   onDotClick 
 }) => {
   // 배포 코드 관리 (0001부터 순차적으로 증가)
-  const DEPLOY_CODE = "0001"
+  const DEPLOY_CODE = "0002"
   const tabs = [
     { 
       id: 0,
