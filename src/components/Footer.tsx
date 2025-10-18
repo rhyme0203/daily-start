@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './Footer.css'
 
 interface FooterProps {
@@ -9,12 +10,33 @@ interface FooterProps {
   onDotClick: (index: number) => void
 }
 
-const Footer: React.FC<FooterProps> = ({ 
-  currentIndex, 
-  onDotClick 
-}) => {
+const Footer: React.FC<FooterProps> = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  
   // 배포 코드 관리 (0001부터 순차적으로 증가)
-  const DEPLOY_CODE = "0002"
+  const DEPLOY_CODE = "0003"
+  
+  // 현재 경로에 따른 활성 탭 인덱스 계산
+  const getCurrentTabIndex = () => {
+    const path = location.pathname
+    switch (path) {
+      case '/': return 0
+      case '/weather': return 1
+      case '/fortune': return 2
+      case '/news': return 3
+      case '/community': return 4
+      default: return 0
+    }
+  }
+  
+  const activeIndex = getCurrentTabIndex()
+  
+  // 탭 클릭 핸들러
+  const handleTabClick = (tabId: number) => {
+    const routes = ['/', '/weather', '/fortune', '/news', '/community']
+    navigate(routes[tabId])
+  }
   const tabs = [
     { 
       id: 0,
@@ -80,8 +102,8 @@ const Footer: React.FC<FooterProps> = ({
         {tabs.map((tab) => (
           <button
             key={tab.id}
-            className={`nav-item ${currentIndex === tab.id ? 'active' : ''}`}
-            onClick={() => onDotClick(tab.id)}
+            className={`nav-item ${activeIndex === tab.id ? 'active' : ''}`}
+            onClick={() => handleTabClick(tab.id)}
           >
             <div className="nav-icon">
               {tab.icon}
