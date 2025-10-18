@@ -23,18 +23,9 @@ declare global {
   }
 }
 
-interface CalendarEvent {
-  id: string
-  summary: string
-  start: {
-    dateTime?: string
-    date?: string
-  }
-  end: {
-    dateTime?: string
-    date?: string
-  }
-}
+// interface CalendarEvent {
+//   // Google Calendar 연동이 비활성화되어 있어서 사용하지 않음
+// }
 
 interface OnlCardProps {
   onProfileClick: () => void
@@ -76,85 +67,35 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
   ]
 
   // 캘린더 연동 상태
-  const [calendarEvents, setCalendarEvents] = React.useState<CalendarEvent[]>([])
   const [calendarLoading, setCalendarLoading] = React.useState(false)
   const [calendarConnected, setCalendarConnected] = React.useState(false)
   const [hotdealLoaded, setHotdealLoaded] = React.useState(false)
 
-  // Google Calendar API 연동 함수
+  // Google Calendar API 연동 함수 (현재 비활성화)
   const connectToGoogleCalendar = async () => {
     try {
       setCalendarLoading(true)
       
-      // Google Calendar API 설정
-      const CLIENT_ID = 'your-google-client-id' // 실제 구현 시 환경변수로 관리
-      const API_KEY = 'your-google-api-key'
+      // 현재 Google Calendar 연동이 설정되지 않아 비활성화
+      console.log('Google Calendar 연동이 현재 비활성화되어 있습니다.')
+      console.log('원인: OAuth 클라이언트에 도메인이 등록되지 않음')
+      console.log('해결방법: Google Cloud Console에서 https://rhyme0203.github.io 도메인 등록 필요')
       
-      // Google API 로드
-      await new Promise((resolve) => {
-        if (window.gapi) {
-          resolve(true)
-          return
-        }
-        
-        const script = document.createElement('script')
-        script.src = 'https://apis.google.com/js/api.js'
-        script.onload = resolve
-        document.head.appendChild(script)
-      })
-
-      // API 초기화
-      await new Promise((resolve, reject) => {
-        window.gapi.load('client:auth2', () => {
-          window.gapi.client.init({
-            apiKey: API_KEY,
-            clientId: CLIENT_ID,
-            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
-            scope: 'https://www.googleapis.com/auth/calendar.readonly'
-          }).then(resolve).catch(reject)
-        })
-      })
-
-      // 인증 및 이벤트 가져오기
-      const authInstance = window.gapi.auth2.getAuthInstance()
-      const user = await authInstance.signIn()
-      
-      if (user.isSignedIn()) {
-        setCalendarConnected(true)
-        await loadTodayEvents()
-      }
+      // 대신 Google Calendar를 새 탭에서 열기
+      window.open('https://calendar.google.com', '_blank')
       
     } catch (error) {
       console.error('Google Calendar 연동 실패:', error)
-      // 연동 실패 시 기본 일정 표시
       setCalendarConnected(false)
     } finally {
       setCalendarLoading(false)
     }
   }
 
-  // 오늘의 이벤트 가져오기
-  const loadTodayEvents = async () => {
-    try {
-      const today = new Date()
-      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate())
-      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
-
-      const response = await window.gapi.client.calendar.events.list({
-        calendarId: 'primary',
-        timeMin: startOfDay.toISOString(),
-        timeMax: endOfDay.toISOString(),
-        singleEvents: true,
-        orderBy: 'startTime'
-      })
-
-      const events = response.result.items || []
-      setCalendarEvents(events)
-      
-    } catch (error) {
-      console.error('이벤트 로드 실패:', error)
-    }
-  }
+  // 오늘의 이벤트 가져오기 (현재 비활성화)
+  // const loadTodayEvents = async () => {
+  //   // Google Calendar 연동이 비활성화되어 있어서 사용하지 않음
+  // }
 
   // 쿠팡 핫딜 위젯 로드
   const loadHotdealWidget = React.useCallback(() => {
@@ -237,21 +178,8 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
     loadCoupangScript()
   }, [loadHotdealWidget])
 
-  // 실제 표시할 일정 결정 (캘린더 연동된 경우만)
-  const todaySchedule = calendarConnected 
-    ? calendarEvents.map(event => {
-        const startTime = event.start.dateTime || event.start.date
-        return {
-          time: startTime ? new Date(startTime).toLocaleTimeString('ko-KR', { 
-            hour: '2-digit', 
-            minute: '2-digit' 
-          }) : '00:00',
-          task: event.summary || '일정',
-          completed: startTime ? new Date(startTime) < new Date() : false,
-          source: 'calendar' as const
-        }
-      })
-    : []
+  // 실제 표시할 일정 결정 (캘린더 연동이 비활성화되어 빈 배열)
+  const todaySchedule: any[] = []
 
   // 날짜 기반으로 명언과 영어 한마디 선택
   const today = new Date()
@@ -401,10 +329,10 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
             <div className="calendar-connect-info">
               <div className="connect-icon">📱</div>
               <div className="connect-text">
-                <div className="connect-title">캘린더 연동하기</div>
+                <div className="connect-title">캘린더 관리하기</div>
                 <div className="connect-description">
-                  Google Calendar와 연동하여<br/>
-                  실제 일정을 불러올 수 있습니다
+                  Google Calendar를 열어서<br/>
+                  일정을 직접 관리할 수 있습니다
                 </div>
               </div>
             </div>
@@ -421,8 +349,8 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
                   </>
                 ) : (
                   <>
-                    <span className="connect-icon-btn">🔗</span>
-                    Google Calendar 연동
+                    <span className="connect-icon-btn">📅</span>
+                    Google Calendar 열기
                   </>
                 )}
               </button>
