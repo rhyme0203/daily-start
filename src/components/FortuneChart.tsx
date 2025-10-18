@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './FortuneChart.css';
 
 interface FortuneChartProps {
@@ -16,6 +16,41 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
   luckScore,
   overallScore
 }) => {
+  const [hoveredPoint, setHoveredPoint] = useState<number | null>(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [selectedPoint, setSelectedPoint] = useState<number | null>(null);
+
+  // 각 점의 정보
+  const pointData = [
+    { label: '업무운', score: workScore, color: '#3b82f6' },
+    { label: '건강운', score: healthScore, color: '#10b981' },
+    { label: '인간관계', score: relationshipScore, color: '#f59e0b' },
+    { label: '행운', score: luckScore, color: '#ef4444' },
+    { label: '총운', score: overallScore, color: '#8b5cf6' }
+  ];
+
+  // 마우스 이벤트 핸들러
+  const handleMouseEnter = (index: number, event: React.MouseEvent<SVGCircleElement>) => {
+    setHoveredPoint(index);
+    const rect = event.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.left + rect.width / 2,
+      y: rect.top - 10
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredPoint(null);
+  };
+
+  const handlePointClick = (index: number) => {
+    setSelectedPoint(selectedPoint === index ? null : index);
+  };
+
+  const closeModal = () => {
+    setSelectedPoint(null);
+  };
+
   // 5각형 차트의 좌표 계산 (100을 기준으로)
   const getPolygonPoints = () => {
     const centerX = 100;
@@ -57,6 +92,72 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
     if (score >= 70) return '보통';
     if (score >= 60) return '주의';
     return '나쁨';
+  };
+
+  const getScoreDescription = (score: number, label: string): string => {
+    const descriptions = {
+      '업무운': {
+        high: '오늘은 업무에서 큰 성과를 낼 수 있는 날입니다. 중요한 결정을 내리거나 새로운 프로젝트를 시작하기에 좋은 시기입니다.',
+        medium: '업무는 안정적으로 진행될 것 같습니다. 꾸준한 노력이 필요한 시기입니다.',
+        low: '업무에서 주의가 필요한 날입니다. 신중하게 접근하고 충분한 검토를 거치는 것이 좋겠습니다.'
+      },
+      '건강운': {
+        high: '몸과 마음이 모두 건강한 상태입니다. 새로운 운동을 시작하거나 건강한 습관을 만들기에 좋은 시기입니다.',
+        medium: '전반적으로 건강한 상태를 유지하고 있습니다. 규칙적인 생활을 계속하세요.',
+        low: '건강 관리에 더욱 신경 써야 할 시기입니다. 충분한 휴식과 규칙적인 생활을 권합니다.'
+      },
+      '인간관계': {
+        high: '사람들과의 관계가 원활하고 새로운 인맥을 만들기에 좋은 날입니다. 소중한 사람들과의 시간을 가져보세요.',
+        medium: '인간관계는 평범하게 유지될 것 같습니다. 기존 관계를 소중히 여기세요.',
+        low: '인간관계에서 주의가 필요한 시기입니다. 말과 행동을 신중하게 하시기 바랍니다.'
+      },
+      '행운': {
+        high: '운이 좋은 날입니다. 새로운 기회가 찾아올 수 있으니 주변을 둘러보세요.',
+        medium: '평범한 운세입니다. 노력한 만큼의 결과를 얻을 수 있을 것입니다.',
+        low: '운이 따라주지 않는 시기입니다. 인내심을 가지고 꾸준히 노력하세요.'
+      },
+      '총운': {
+        high: '전반적으로 매우 좋은 운세입니다. 새로운 도전을 시작하기에 적합한 시기입니다.',
+        medium: '안정적인 운세를 유지하고 있습니다. 현재 상황을 잘 관리하세요.',
+        low: '전반적으로 주의가 필요한 시기입니다. 신중하게 행동하시기 바랍니다.'
+      }
+    };
+
+    const category = score >= 80 ? 'high' : score >= 60 ? 'medium' : 'low';
+    return descriptions[label as keyof typeof descriptions]?.[category] || '운세를 확인해주세요.';
+  };
+
+  const getScoreTips = (score: number, label: string): string => {
+    const tips = {
+      '업무운': {
+        high: '중요한 미팅이나 프레젠테이션을 계획해보세요. 새로운 아이디어를 제안할 좋은 시기입니다.',
+        medium: '기존 프로젝트에 집중하고 완성도를 높여보세요.',
+        low: '급한 결정은 피하고 충분한 검토 후 행동하세요.'
+      },
+      '건강운': {
+        high: '새로운 운동이나 건강한 취미를 시작해보세요.',
+        medium: '규칙적인 운동과 충분한 수면을 유지하세요.',
+        low: '과로를 피하고 충분한 휴식을 취하세요.'
+      },
+      '인간관계': {
+        high: '새로운 사람들과의 만남을 계획해보세요.',
+        medium: '기존 친구들과의 관계를 소중히 여기세요.',
+        low: '말을 신중하게 하고 상대방의 입장을 고려하세요.'
+      },
+      '행운': {
+        high: '새로운 기회를 놓치지 마세요. 적극적으로 도전해보세요.',
+        medium: '꾸준한 노력이 좋은 결과를 가져올 것입니다.',
+        low: '인내심을 가지고 꾸준히 노력하세요.'
+      },
+      '총운': {
+        high: '새로운 도전을 시작하기에 좋은 시기입니다.',
+        medium: '현재 상황을 잘 관리하고 발전시켜나가세요.',
+        low: '신중하게 행동하고 급한 결정은 피하세요.'
+      }
+    };
+
+    const category = score >= 80 ? 'high' : score >= 60 ? 'medium' : 'low';
+    return tips[label as keyof typeof tips]?.[category] || '오늘도 화이팅하세요!';
   };
 
   return (
@@ -120,7 +221,7 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
           />
           
           {/* 각 점 표시 */}
-          {[workScore, healthScore, relationshipScore, luckScore, overallScore].map((score, index) => {
+          {pointData.map((point, index) => {
             const angles = [
               -Math.PI / 2,
               -Math.PI / 2 + (2 * Math.PI / 5),
@@ -128,7 +229,7 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
               -Math.PI / 2 + (6 * Math.PI / 5),
               -Math.PI / 2 + (8 * Math.PI / 5)
             ];
-            const scaledRadius = (score / 100) * 80;
+            const scaledRadius = (point.score / 100) * 80;
             const x = 100 + scaledRadius * Math.cos(angles[index]);
             const y = 100 + scaledRadius * Math.sin(angles[index]);
             
@@ -137,15 +238,39 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
                 key={index}
                 cx={x}
                 cy={y}
-                r="4"
-                fill={getScoreColor(score)}
+                r="6"
+                fill={getScoreColor(point.score)}
                 stroke="#ffffff"
                 strokeWidth="2"
-                className="score-point"
+                className={`score-point ${hoveredPoint === index ? 'hovered' : ''} ${selectedPoint === index ? 'selected' : ''}`}
+                onMouseEnter={(e) => handleMouseEnter(index, e)}
+                onMouseLeave={handleMouseLeave}
+                onClick={() => handlePointClick(index)}
+                style={{ cursor: 'pointer' }}
               />
             );
           })}
         </svg>
+        
+        {/* 툴팁 */}
+        {hoveredPoint !== null && (
+          <div 
+            className="chart-tooltip"
+            style={{
+              position: 'fixed',
+              left: tooltipPosition.x,
+              top: tooltipPosition.y,
+              transform: 'translateX(-50%)',
+              zIndex: 1000
+            }}
+          >
+            <div className="tooltip-content">
+              <div className="tooltip-label">{pointData[hoveredPoint].label}</div>
+              <div className="tooltip-score">{pointData[hoveredPoint].score}점</div>
+              <div className="tooltip-status">{getScoreText(pointData[hoveredPoint].score)}</div>
+            </div>
+          </div>
+        )}
         
         {/* 범례 */}
         <div className="chart-legend">
@@ -195,6 +320,34 @@ const FortuneChart: React.FC<FortuneChartProps> = ({
           <span>60점 미만 - 나쁨</span>
         </div>
       </div>
+      
+      {/* 상세 정보 모달 */}
+      {selectedPoint !== null && (
+        <div className="chart-modal-overlay" onClick={closeModal}>
+          <div className="chart-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>{pointData[selectedPoint].label} 상세 분석</h3>
+              <button className="modal-close" onClick={closeModal}>×</button>
+            </div>
+            <div className="modal-content">
+              <div className="modal-score-display">
+                <div className="modal-score-number">{pointData[selectedPoint].score}</div>
+                <div className="modal-score-unit">점</div>
+                <div className={`modal-score-status ${getScoreColor(pointData[selectedPoint].score).replace('#', '')}`}>
+                  {getScoreText(pointData[selectedPoint].score)}
+                </div>
+              </div>
+              <div className="modal-description">
+                {getScoreDescription(pointData[selectedPoint].score, pointData[selectedPoint].label)}
+              </div>
+              <div className="modal-tips">
+                <h4>💡 오늘의 조언</h4>
+                <p>{getScoreTips(pointData[selectedPoint].score, pointData[selectedPoint].label)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

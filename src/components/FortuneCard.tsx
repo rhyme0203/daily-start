@@ -10,6 +10,7 @@ const FortuneCard: React.FC = () => {
   const [timeUntilMidnight, setTimeUntilMidnight] = React.useState<string>('')
   const [drawnCards, setDrawnCards] = React.useState<number[]>([])
   const [isDrawing, setIsDrawing] = React.useState(false)
+  const [imageLoadingStates, setImageLoadingStates] = React.useState<{[key: number]: boolean}>({})
 
   // 타로카드 데이터 (유니버셜 덱 이미지 포함)
   const tarotCards = [
@@ -87,18 +88,25 @@ const FortuneCard: React.FC = () => {
   // 타로카드 초기화
   const resetTarotCards = () => {
     setDrawnCards([])
+    setImageLoadingStates({})
   }
 
-  // 디버깅을 위한 콘솔 로그
-  console.log('🔍 FortuneCard Debug:', {
-    userProfile,
-    fortune,
-    loading,
-    error,
-    isNewDay,
-    timeUntilMidnight,
-    localStorage: localStorage.getItem('userProfile')
-  })
+  // 이미지 로딩 시작
+  const handleImageLoadStart = (cardId: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [cardId]: true }))
+  }
+
+  // 이미지 로딩 완료
+  const handleImageLoad = (cardId: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [cardId]: false }))
+  }
+
+  // 이미지 로딩 실패
+  const handleImageError = (cardId: number) => {
+    setImageLoadingStates(prev => ({ ...prev, [cardId]: false }))
+  }
+
+  // 디버깅 로그 제거 (성능 최적화)
 
   if (loading) {
     return (
@@ -461,15 +469,29 @@ const FortuneCard: React.FC = () => {
                       <div key={cardId} className={`tarot-card ${isDrawing ? 'drawing' : 'drawn'}`}>
                         <div className="tarot-card-inner">
                           <div className="tarot-card-image">
+                            {imageLoadingStates[cardId] && (
+                              <div className="tarot-card-loading">
+                                <div className="loading-spinner"></div>
+                                <div className="loading-text">카드 로딩중...</div>
+                              </div>
+                            )}
                             <img 
                               src={card.image} 
                               alt={card.name}
                               className="tarot-card-img"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement
-                                target.style.display = 'none'
-                              }}
+                              style={{ display: imageLoadingStates[cardId] ? 'none' : 'block' }}
+                              onLoadStart={() => handleImageLoadStart(cardId)}
+                              onLoad={() => handleImageLoad(cardId)}
+                              onError={() => handleImageError(cardId)}
                             />
+                            {!imageLoadingStates[cardId] && (
+                              <div className="tarot-card-fallback" style={{ display: 'none' }}>
+                                <div className="fallback-card">
+                                  <div className="fallback-symbol">🃏</div>
+                                  <div className="fallback-text">{card.name}</div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                           <div className="tarot-card-position">{position}</div>
                           <div className="tarot-card-name">{card.name}</div>

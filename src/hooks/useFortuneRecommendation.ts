@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { UserProfile } from '../types/user';
 
 interface FortuneRecommendation {
@@ -47,51 +47,39 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [, setLastGeneratedDate] = useState<string | null>(null);
+  const generateFortuneRef = useRef<() => Promise<void>>();
 
-  // 디버깅을 위한 콘솔 로그
-  console.log('🔍 useFortuneRecommendation Debug:', {
-    userProfile,
-    hasProfile: !!userProfile,
-    profileOccupation: userProfile?.occupation,
-    fortune,
-    loading,
-    error
-  });
+  // 디버깅 로그 제거 (성능 최적화)
 
-  const generateFortune = async () => {
+  const generateFortune = useCallback(async () => {
     if (!userProfile) {
-      console.log('🔍 generateFortune: No userProfile, returning');
       return;
     }
 
-    console.log('🔍 generateFortune: Starting fortune generation for profile:', userProfile);
     setLoading(true);
     setError(null);
 
     try {
       // 실제로는 OpenAI API를 사용하지만, 여기서는 직업 기반 모의 AI 운세 생성
-      console.log('🔍 generateFortune: Waiting for simulation...');
       await new Promise(resolve => setTimeout(resolve, 1500)); // 로딩 시뮬레이션 단축
 
-      console.log('🔍 generateFortune: Generating occupation-based fortune...');
       const occupationBasedFortune = generateOccupationBasedFortune(userProfile);
-      console.log('🔍 generateFortune: Generated fortune:', occupationBasedFortune);
-      
       setFortune(occupationBasedFortune);
       
       // 오늘 날짜 저장
       const today = new Date().toDateString();
       setLastGeneratedDate(today);
       localStorage.setItem('lastFortuneDate', today);
-      console.log('🔍 generateFortune: Fortune saved, date:', today);
     } catch (err) {
-      console.error('🔍 generateFortune: Error occurred:', err);
+      console.error('운세 생성 중 오류 발생:', err);
       setError('운세를 가져오는 중 오류가 발생했습니다.');
     } finally {
       setLoading(false);
-      console.log('🔍 generateFortune: Loading finished');
     }
-  };
+  }, [userProfile?.occupation, userProfile?.birthDate, userProfile?.gender]);
+
+  // generateFortune 함수를 ref에 저장
+  generateFortuneRef.current = generateFortune;
 
   const generateOccupationBasedFortune = (profile: UserProfile): FortuneRecommendation => {
     const { occupation, birthDate } = profile;
@@ -426,8 +414,8 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     return guidances[dateSeed % guidances.length];
   };
 
-  // 오늘 운세가 이미 생성되었는지 확인
-  const isNewDay = () => {
+  // 오늘 운세가 이미 생성되었는지 확인 (메모이제이션)
+  const isNewDay = useMemo(() => {
     const now = new Date();
     const today = now.toDateString();
     const lastDate = localStorage.getItem('lastFortuneDate');
@@ -436,7 +424,7 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     const isAfterMidnight = now.getHours() >= 0 && now.getMinutes() >= 0;
     
     return lastDate !== today || isAfterMidnight;
-  };
+  }, []); // 빈 의존성 배열로 한 번만 계산
 
   // 자정까지 남은 시간 계산
   const getTimeUntilMidnight = () => {
@@ -448,35 +436,16 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
 
   // 사용자 프로필이 변경되거나 새로운 날이 되면 자동으로 운세 생성
   useEffect(() => {
-    console.log('🔍 useFortuneRecommendation useEffect triggered:', {
-      userProfile,
-      hasOccupation: userProfile?.occupation,
-      isNewDay: isNewDay(),
-      currentFortune: fortune
-    });
-    
     if (userProfile && userProfile.occupation && userProfile.birthDate && userProfile.gender) {
-      console.log('🔍 Profile is complete, checking if fortune needs generation');
-      
       // 오늘 운세가 이미 있는지 확인
       const today = new Date().toDateString();
       const lastFortuneDate = localStorage.getItem('lastFortuneDate');
       
       if (lastFortuneDate !== today || !fortune) {
-        console.log('🔍 Generating fortune... (new day or no fortune)');
-        generateFortune();
-      } else {
-        console.log('🔍 Fortune already exists for today');
+        generateFortuneRef.current?.();
       }
-    } else {
-      console.log('🔍 Profile incomplete or missing:', {
-        hasProfile: !!userProfile,
-        hasOccupation: !!userProfile?.occupation,
-        hasBirthDate: !!userProfile?.birthDate,
-        hasGender: !!userProfile?.gender
-      });
     }
-  }, [userProfile]); // fortune 의존성 제거하여 무한 루프 방지
+  }, [userProfile?.occupation, userProfile?.birthDate, userProfile?.gender, fortune]); // fortune도 의존성에 추가
 
   // 자정에 운세 자동 업데이트를 위한 타이머 설정
   useEffect(() => {
@@ -485,24 +454,17 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     }
 
     const timeUntilMidnight = getTimeUntilMidnight();
-    console.log('🔍 Setting midnight timer:', {
-      timeUntilMidnight,
-      hoursUntilMidnight: Math.floor(timeUntilMidnight / (1000 * 60 * 60)),
-      minutesUntilMidnight: Math.floor((timeUntilMidnight % (1000 * 60 * 60)) / (1000 * 60))
-    });
 
     // 자정까지 남은 시간 후에 운세 업데이트
     const midnightTimer = setTimeout(() => {
-      console.log('🕛 Midnight reached! Updating fortune...');
       // 운세 생성 날짜를 클리어하여 새 운세 생성 유도
       localStorage.removeItem('lastFortuneDate');
-      generateFortune();
+      generateFortuneRef.current?.();
       
       // 다음 자정을 위한 타이머 재설정
       const nextMidnightTimer = setInterval(() => {
-        console.log('🕛 Daily midnight update!');
         localStorage.removeItem('lastFortuneDate');
-        generateFortune();
+        generateFortuneRef.current?.();
       }, 24 * 60 * 60 * 1000); // 24시간마다
 
       // 컴포넌트 언마운트 시 타이머 정리
@@ -520,6 +482,6 @@ export const useFortuneRecommendation = (userProfile: UserProfile | null): Fortu
     loading,
     error,
     generateFortune,
-    isNewDay: isNewDay()
+    isNewDay: isNewDay
   };
 };
