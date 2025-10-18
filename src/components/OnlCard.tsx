@@ -408,23 +408,70 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
                 </div>
               </div>
             </div>
-            <button 
-              className="calendar-connect-btn"
-              onClick={connectToGoogleCalendar}
-              disabled={calendarLoading}
-            >
-              {calendarLoading ? (
-                <>
-                  <span className="loading-spinner">⟳</span>
-                  연동 중...
-                </>
-              ) : (
-                <>
-                  <span className="connect-icon-btn">🔗</span>
-                  캘린더 연동
-                </>
-              )}
-            </button>
+            <div className="calendar-options">
+              <button 
+                className="calendar-connect-btn"
+                onClick={connectToGoogleCalendar}
+                disabled={calendarLoading}
+              >
+                {calendarLoading ? (
+                  <>
+                    <span className="loading-spinner">⟳</span>
+                    연동 중...
+                  </>
+                ) : (
+                  <>
+                    <span className="connect-icon-btn">🔗</span>
+                    Google Calendar 연동
+                  </>
+                )}
+              </button>
+              <div className="calendar-alternatives">
+                <div className="alternative-title">다른 방법으로 일정 추가하기</div>
+                <div className="alternative-buttons">
+                  <button 
+                    className="alternative-btn"
+                    onClick={() => window.open('https://calendar.google.com', '_blank')}
+                  >
+                    <span className="alt-icon">📅</span>
+                    Google Calendar 열기
+                  </button>
+                  <button 
+                    className="alternative-btn"
+                    onClick={() => {
+                      const event = {
+                        title: '새로운 일정',
+                        start: new Date().toISOString().slice(0, 16),
+                        end: new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 16),
+                        description: 'Onl 앱에서 추가한 일정'
+                      }
+                      const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Onl App//EN
+BEGIN:VEVENT
+UID:${Date.now()}@onl.app
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
+DTSTART:${event.start.replace(/[-:]/g, '').split('.')[0]}Z
+DTEND:${event.end.replace(/[-:]/g, '').split('.')[0]}Z
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}
+END:VEVENT
+END:VCALENDAR`
+                      const blob = new Blob([icsContent], { type: 'text/calendar' })
+                      const url = URL.createObjectURL(blob)
+                      const a = document.createElement('a')
+                      a.href = url
+                      a.download = 'onl-event.ics'
+                      a.click()
+                      URL.revokeObjectURL(url)
+                    }}
+                  >
+                    <span className="alt-icon">📥</span>
+                    일정 파일 다운로드
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
         

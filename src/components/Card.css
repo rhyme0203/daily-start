@@ -1605,6 +1605,56 @@
   cursor: not-allowed;
 }
 
+.calendar-options {
+  margin-top: 16px;
+}
+
+.calendar-alternatives {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.alternative-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.alternative-buttons {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.alternative-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #1e293b;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.alternative-btn:hover {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.5);
+  transform: translateY(-1px);
+}
+
+.alt-icon {
+  font-size: 14px;
+}
+
 .loading-spinner {
   animation: spin 1s linear infinite;
 }
@@ -2203,6 +2253,24 @@
   .add-schedule-btn {
     padding: 6px 12px;
     font-size: 11px;
+  }
+  
+  .calendar-alternatives {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+  
+  .alternative-title {
+    font-size: 11px;
+  }
+  
+  .alternative-btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  
+  .alt-icon {
+    font-size: 12px;
   }
   
   /* 타로카드 모바일 스타일 */
