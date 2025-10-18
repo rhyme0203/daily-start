@@ -86,3 +86,63 @@
     transition: none;
   }
 }
+
+/* 랜드스케이프 모드 방지 및 스크롤 최적화 */
+html {
+  /* iOS Safari 주소 입력창 축소를 위한 설정 */
+  -webkit-overflow-scrolling: touch;
+  /* 스크롤 시 주소 입력창 축소를 위한 최소 높이 */
+  min-height: calc(100vh + 200px);
+}
+
+body {
+  /* iOS Safari 주소 입력창 축소를 위한 설정 */
+  min-height: calc(100vh + 200px);
+  /* 스크롤 시 주소 입력창 축소를 위한 패딩 */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  /* 스크롤 성능 최적화 */
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+}
+
+/* 랜드스케이프 모드 방지 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  body {
+    transform: rotate(90deg);
+    transform-origin: center;
+    width: 100vh;
+    height: 100vw;
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  body::before {
+    content: "세로 모드로 사용해주세요";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    z-index: 9999;
+    text-align: center;
+  }
+}
+
+/* 스크롤 시 주소 입력창 축소를 위한 추가 스타일 */
+.scroll-optimized {
+  min-height: 120vh;
+}
+
+/* iOS Safari 주소 입력창 축소를 위한 추가 설정 */
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: calc(100vh + 300px);
+  }
+}

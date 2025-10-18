@@ -18,7 +18,22 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchStart, setTouchStart] = useState<number | null>(null)
   const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false)
+
+  // 스크롤 이벤트 핸들러 - 주소 입력창 축소를 위한 스크롤 감지
+  const handleScroll = useCallback(() => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+    setIsScrolled(scrollTop > 50)
+    
+    // iOS Safari에서 주소 입력창 축소를 위한 추가 스크롤
+    if (scrollTop > 0) {
+      // 스크롤 시 주소 입력창이 축소되도록 추가 스크롤
+      setTimeout(() => {
+        window.scrollTo({ top: scrollTop + 1, behavior: 'auto' })
+      }, 10)
+    }
+  }, [])
 
   // 1초 후 최상단으로 스크롤하는 함수
   const scrollToTop = useCallback(() => {
@@ -66,10 +81,12 @@ function App() {
       setViewportHeight()
       window.addEventListener('resize', setViewportHeight)
       window.addEventListener('orientationchange', setViewportHeight)
+      window.addEventListener('scroll', handleScroll, { passive: true })
       
       return () => {
         window.removeEventListener('resize', setViewportHeight)
         window.removeEventListener('orientationchange', setViewportHeight)
+        window.removeEventListener('scroll', handleScroll)
       }
     }
   }, [])
