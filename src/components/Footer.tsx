@@ -13,6 +13,8 @@ const Footer: React.FC<FooterProps> = ({
   currentIndex, 
   onDotClick 
 }) => {
+  // 배포 코드 관리 (0001부터 순차적으로 증가)
+  const DEPLOY_CODE = "0001"
   const tabs = [
     { 
       id: 0,
@@ -94,7 +96,7 @@ const Footer: React.FC<FooterProps> = ({
       
       {/* 버전 정보 */}
       <div className="version-info">
-        <span className="version-text">ver1.06</span>
+        <span className="version-text">Ver 0.1({DEPLOY_CODE})</span>
       </div>
     </footer>
   )

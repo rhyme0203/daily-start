@@ -46,17 +46,15 @@ function App() {
     }, 500)
   }, [])
 
-  // 1초 후 최상단으로 스크롤하는 함수
+  // 탭 이동과 동시에 최상단으로 스크롤하는 함수
   const scrollToTop = useCallback(() => {
-    setTimeout(() => {
-      const viewport = document.querySelector('.viewport')
-      if (viewport) {
-        viewport.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        })
-      }
-    }, 1000)
+    const viewport = document.querySelector('.viewport')
+    if (viewport) {
+      viewport.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
   }, [])
 
   const updateSlide = useCallback((index: number) => {

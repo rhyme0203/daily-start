@@ -1,53 +1,123 @@
-import React, { useState } from 'react';
-import { useCommunityData, CommunityPost, Community } from '../hooks/useCommunityData';
-import DetailModal from './DetailModal';
-import './Card.css';
+import React from 'react'
+import { useCommunityData } from '../hooks/useCommunityData'
+import DetailModal from './DetailModal'
+import './Card.css'
 
 const CommunityCard: React.FC = () => {
-  const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clickPosition, setClickPosition] = useState<{ x: number; y: number } | undefined>();
-  const { posts, loading, error, lastUpdated, communities, selectedCommunity, setSelectedCommunity, fetchCommunityPosts } = useCommunityData();
+  const { data, loading, error, refresh, fetchPostContent } = useCommunityData()
+  const [selectedSite, setSelectedSite] = React.useState('전체')
+  const [selectedPost, setSelectedPost] = React.useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [clickPosition, setClickPosition] = React.useState<{ x: number; y: number } | undefined>()
+  const [postContent, setPostContent] = React.useState<string>('')
+  const [isLoadingContent, setIsLoadingContent] = React.useState(false)
 
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMins / 60);
+  const formatTime = (time: string) => {
+    // 시간 포맷팅 (예: "14:58" -> "14:58")
+    return time
+  }
 
-    if (diffMins < 60) {
-      return `${diffMins}분 전`;
-    } else if (diffHours < 24) {
-      return `${diffHours}시간 전`;
-    } else {
-      return date.toLocaleDateString('ko-KR');
-    }
-  };
-
-  const formatNumber = (num: number) => {
-    if (num >= 10000) {
-      return `${Math.floor(num / 1000)}만`;
-    } else if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
-    }
-    return num.toString();
-  };
-
-  const handlePostClick = (post: CommunityPost, event: React.MouseEvent) => {
-    const rect = event.currentTarget.getBoundingClientRect();
+  const handlePostClick = async (post: any, event: React.MouseEvent) => {
+    const rect = event.currentTarget.getBoundingClientRect()
     setClickPosition({
       x: event.clientX - rect.left,
       y: event.clientY - rect.top
-    });
-    setSelectedPost(post);
-    setIsModalOpen(true);
-  };
+    })
+    setSelectedPost(post)
+    setIsLoadingContent(true)
+    setIsModalOpen(true)
+    
+    // 실제 게시글 본문 가져오기
+    try {
+      const content = await fetchPostContent(post.url, post.id)
+      setPostContent(content)
+    } catch (error) {
+      console.error('Error fetching post content:', error)
+      setPostContent('본문 내용을 가져오는 중 오류가 발생했습니다.')
+    } finally {
+      setIsLoadingContent(false)
+    }
+  }
 
   const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedPost(null);
-  };
+    setIsModalOpen(false)
+    setSelectedPost(null)
+  }
+
+  const getSiteIcon = (site: string) => {
+    const icons: { [key: string]: string } = {
+      '전체': '🌐',
+      '개드립': '🐕',
+      '엠팍': '⚾',
+      '뽐뿌': '💰',
+      'etoland': '🎭',
+      '웃대': '😂',
+      '82cook': '🍳',
+      '루리웹': '🎮',
+      '클리앙': '💻',
+      '오유': '💬',
+      '보배': '🚗',
+      '딴지': '🎪',
+      '가생이': '🌱'
+    }
+    return icons[site] || '📝'
+  }
+
+  const getSiteColor = (site: string) => {
+    const colors: { [key: string]: string } = {
+      '전체': '#10b981',
+      '개드립': '#f59e0b',
+      '엠팍': '#3b82f6',
+      '뽐뿌': '#ef4444',
+      'etoland': '#8b5cf6',
+      '웃대': '#06b6d4',
+      '82cook': '#84cc16',
+      '루리웹': '#f97316',
+      '클리앙': '#6366f1',
+      '오유': '#ec4899',
+      '보배': '#14b8a6',
+      '딴지': '#a855f7',
+      '가생이': '#22c55e'
+    }
+    return colors[site] || '#6b7280'
+  }
+
+  // 필터링된 게시글
+  const filteredPosts = React.useMemo(() => {
+    if (!data?.posts) return []
+    if (selectedSite === '전체') return data.posts
+    return data.posts.filter(post => post.site === selectedSite)
+  }, [data?.posts, selectedSite])
+
+  // 사용 가능한 사이트 목록
+  const availableSites = React.useMemo(() => {
+    if (!data?.siteStats) return ['전체']
+    return ['전체', ...Object.keys(data.siteStats).sort()]
+  }, [data?.siteStats])
+
+  if (loading) {
+    return (
+      <div className="card">
+        <div className="card-head">
+          <div className="title">
+            <span className="ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </span>
+            커뮤니티 글
+          </div>
+        </div>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <div className="loading-text">커뮤니티 글을 불러오는 중...</div>
+        </div>
+      </div>
+    )
+  }
 
   if (error) {
     return (
@@ -56,20 +126,24 @@ const CommunityCard: React.FC = () => {
           <div className="title">
             <span className="ico" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
             </span>
-            커뮤니티 클리핑
+            커뮤니티 글
           </div>
-          <span className="pill">오류</span>
         </div>
-        <div className="ai-placeholder">
-          <div className="ai-icon">⚠️</div>
-          <div className="ai-text">{error}</div>
-          <button onClick={fetchCommunityPosts} className="retry-btn">다시 시도</button>
+        <div className="error-container">
+          <div className="error-icon">⚠️</div>
+          <div className="error-text">커뮤니티 글을 불러올 수 없습니다</div>
+          <button className="retry-btn" onClick={refresh}>
+            다시 시도
+          </button>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -78,111 +152,82 @@ const CommunityCard: React.FC = () => {
         <div className="title">
           <span className="ico" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
           </span>
-          커뮤니티 클리핑
+          커뮤니티 글
         </div>
-        <span className="pill">
-          {lastUpdated.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
-        </span>
-      </div>
-
-      {/* 커뮤니티 선택 */}
-      <div className="news-categories">
-        <div className="category-tabs">
-          {communities.map((community: Community) => (
-            <button
-              key={community.id}
-              className={`category-tab ${selectedCommunity === community.id ? 'active' : ''}`}
-              onClick={() => setSelectedCommunity(community.id)}
-              style={{ 
-                borderColor: selectedCommunity === community.id ? community.color : '#e2e8f0',
-                backgroundColor: selectedCommunity === community.id ? community.color : '#f8fafc'
-              }}
-            >
-              <span className="category-emoji">{community.emoji}</span>
-              <span className="category-name">{community.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 게시글 목록 */}
-      <div className="news-list">
-        {loading ? (
-          <div className="news-loading">
-            <div className="loading-spinner"></div>
-            <span>게시글을 불러오는 중...</span>
-          </div>
-        ) : (
-          posts.map((post: CommunityPost, index: number) => (
-            <div key={post.id} className="news-item" onClick={(e) => handlePostClick(post, e)}>
-              <div className="news-header">
-                <div className="news-category-badge" style={{ 
-                  backgroundColor: communities.find(c => c.id === post.community)?.color + '20',
-                  color: communities.find(c => c.id === post.community)?.color
-                }}>
-                  {communities.find(c => c.id === post.community)?.emoji} 
-                  {communities.find(c => c.id === post.community)?.name}
-                </div>
-                <div className="news-time">{formatTime(post.publishedAt)}</div>
-              </div>
-              
-              <div className="news-content">
-                <h3 className="news-title">
-                  {post.id.startsWith('real_') && <span className="live-indicator">🔴 LIVE</span>}
-                  {post.title}
-                </h3>
-                <p className="news-summary">{post.content}</p>
-                <div className="community-stats">
-                  <span className="stat-item">👀 {formatNumber(post.views)}</span>
-                  <span className="stat-item">👍 {formatNumber(post.likes)}</span>
-                  <span className="stat-item">💬 {formatNumber(post.comments)}</span>
-                  <span className="stat-item">by {post.author}</span>
-                  {post.id.startsWith('real_') && <span className="real-community-badge">실시간</span>}
-                </div>
-              </div>
-              
-              {index < posts.length - 1 && <div className="news-divider"></div>}
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* 업데이트 정보 */}
-      <div className="news-footer">
-        <div className="update-info">
-          <span className="update-icon">🔄</span>
-          <span className="update-text">1시간마다 자동 업데이트</span>
-        </div>
-        <button onClick={fetchCommunityPosts} className="refresh-btn" disabled={loading}>
-          {loading ? '업데이트 중...' : '새로고침'}
+        <button className="refresh-btn" onClick={refresh}>
+          <span className="refresh-icon">🔄</span>
         </button>
       </div>
 
-      {/* 커뮤니티 게시글 상세 모달 */}
-      {selectedPost && (
+      {/* 사이트 필터 칩 */}
+      <div className="filter-chips">
+        {availableSites.map((site) => (
+          <button
+            key={site}
+            className={`chip ${selectedSite === site ? 'active' : ''}`}
+            onClick={() => setSelectedSite(site)}
+            style={{
+              backgroundColor: selectedSite === site ? getSiteColor(site) : '#f3f4f6',
+              color: selectedSite === site ? 'white' : '#374151'
+            }}
+          >
+            <span className="chip-icon">{getSiteIcon(site)}</span>
+            {site}
+            {site !== '전체' && data?.siteStats?.[site] && (
+              <span className="chip-count">({data.siteStats[site]})</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      <div className="news-list">
+        {filteredPosts.slice(0, 10).map((post, index) => (
+          <div 
+            key={index} 
+            className="news-item"
+            onClick={(e) => handlePostClick(post, e)}
+            style={{ cursor: 'pointer' }}
+          >
+            <div className="news-header">
+              <div className="news-site" style={{ color: getSiteColor(post.site) }}>
+                <span className="site-icon">{getSiteIcon(post.site)}</span>
+                {post.site}
+              </div>
+              <div className="news-time">{formatTime(post.time)}</div>
+            </div>
+            <div className="news-title">{post.title}</div>
+            <div className="news-meta">
+              <span className="news-views">👁️ {post.views}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* 모달 */}
+      {isModalOpen && selectedPost && (
         <DetailModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          title={selectedPost.title}
-          content={selectedPost.content}
-          author={selectedPost.author}
-          publishedAt={selectedPost.publishedAt}
-          category={communities.find(comm => comm.id === selectedPost.community)?.name}
-          categoryEmoji={communities.find(comm => comm.id === selectedPost.community)?.emoji}
-          stats={{
-            views: selectedPost.views,
-            likes: selectedPost.likes,
-            comments: selectedPost.comments
-          }}
-          type="community"
           clickPosition={clickPosition}
+          title={selectedPost.title}
+          content={isLoadingContent ? '본문을 불러오는 중...' : postContent}
+          source={selectedPost.site}
+          author={selectedPost.site}
+          publishedAt={selectedPost.time}
+          type="community"
+          stats={{
+            views: parseInt(selectedPost.views.replace(/,/g, '')) || 0
+          }}
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default CommunityCard;
+export default CommunityCard

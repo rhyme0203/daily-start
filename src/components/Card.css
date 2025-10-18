@@ -29,12 +29,50 @@
   justify-content: space-between;
 }
 
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-text {
+  font-size: 12px;
+  color: var(--muted);
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.profile-empty {
+  font-size: 12px;
+  color: #6c757d;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.7;
+}
+
+.profile-icon {
+  font-size: 14px;
+}
+
 .title {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text);
   text-align: left;
 }
@@ -619,6 +657,117 @@
   flex-wrap: wrap;
 }
 
+/* 필터 칩 스타일 */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chip.active {
+  color: white;
+  border-color: transparent;
+}
+
+.chip-icon {
+  font-size: 14px;
+}
+
+.chip-count {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+/* 운세 바 스타일 - HTML과 동일하게 */
+.fortune-bar {
+  background: linear-gradient(90deg, #2a2f52, #1f2446);
+  border-radius: 12px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #e7ecff;
+  font-size: 14px;
+}
+
+.fortune-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countdown-icon {
+  font-size: 16px;
+  animation: clock-tick 2s ease-in-out infinite;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timer-icon {
+  font-size: 14px;
+  animation: hourglass-flip 3s ease-in-out infinite;
+}
+
+@keyframes clock-tick {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+@keyframes hourglass-flip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+.zodiac {
+  background-color: #e7ebff;
+  color: #3f51b5;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+
+.divider {
+  color: #b9c0d9;
+  font-weight: 400;
+}
+
+.timer {
+  background-color: #2e3562;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 700;
+  color: #b7c3ff;
+}
+
 .stat-item {
   font-size: 10px;
   color: var(--muted);
@@ -1193,6 +1342,8 @@
   align-items: center;
   text-align: left;
   gap: 10px;
+  min-height: 60px;
+  height: 60px;
 }
 
 .onl-summary-card:hover {
@@ -1717,23 +1868,25 @@
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 }
 
-/* 타로카드 섹션 스타일 */
+/* 타로카드 섹션 스타일 - 기본 (데스크톱) */
 .tarot-section {
   background: linear-gradient(135deg, #2d1b69 0%, #11052c 100%);
   border-radius: 16px;
-  padding: 20px;
+  padding: 16px;
   margin-top: 16px;
   color: white;
   position: relative;
   overflow: hidden;
-  /* 모바일에서 가시성 향상 */
-  min-height: 200px;
   display: block;
   visibility: visible;
   opacity: 1;
-  /* 모바일에서 강제 표시 */
-  z-index: 5;
-  transform: none;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  min-height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
 }
 
 .tarot-section::before {
@@ -1834,8 +1987,8 @@
 }
 
 .tarot-deck-card {
-  width: 120px;
-  height: 180px;
+  width: 70px;
+  height: 108px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 12px;
   display: flex;
@@ -2004,7 +2157,7 @@
   animation: card-appear 0.6s ease-out, card-glow 3s ease-in-out infinite;
   position: relative;
   overflow: hidden;
-  max-width: 400px;
+  max-width: 100%;
   width: 100%;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(251, 191, 36, 0.1);
 }
@@ -2519,10 +2672,11 @@
     font-size: 12px;
   }
   
-  /* 타로카드 모바일 스타일 */
+  /* 타로카드 모바일 스타일 - 기본 반응형 */
   .tarot-section {
     padding: 16px;
     margin-top: 14px;
+    max-width: 350px;
   }
   
   .tarot-title {
@@ -2534,8 +2688,8 @@
   }
   
   .tarot-deck-card {
-    width: 100px;
-    height: 150px;
+    width: 63px;
+    height: 96px;
   }
   
   .tarot-deck-back {
@@ -2549,7 +2703,7 @@
   
   .tarot-card {
     padding: 24px;
-    max-width: 400px;
+    max-width: 100%;
   }
   
   .tarot-card-name {
@@ -2654,165 +2808,34 @@
   opacity: 0.8;
 }
 
-/* 랜드스케이프 모드 - 전체화면 활용 최적화 */
-@media screen and (orientation: landscape) and (max-height: 500px) {
-  .viewport {
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 480px;
-  }
-  
-  .track {
-    min-height: calc(100vh - 80px);
-    gap: 15px;
-    padding: 10px 0;
-  }
-  
-  .slide {
-    min-height: calc(100vh - 80px);
-    padding: 20px;
-  }
-  
-  .card {
-    margin-bottom: 15px;
-  }
-  
-  .header, .footer {
-    padding: 10px 20px;
-  }
-  
-  /* 타로 카드 랜드스케이프 최적화 */
-  .tarot-section {
-    padding: 20px;
-    margin-top: 20px;
-  }
-  
-  .tarot-title {
-    font-size: 24px;
-    margin-bottom: 8px;
-  }
-  
-  .tarot-subtitle {
-    font-size: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .tarot-cards {
-    flex-direction: row;
-    gap: 30px;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .tarot-deck-card {
-    width: 120px;
-    height: 180px;
-    margin-bottom: 20px;
-  }
-  
-  .tarot-deck-back {
-    font-size: 40px;
-  }
-  
-  .tarot-draw-btn {
-    padding: 15px 30px;
-    font-size: 16px;
-    margin: 0 auto 20px;
-  }
-  
-  .tarot-card {
-    padding: 20px;
-    margin-bottom: 15px;
-    max-width: 300px;
-    width: 100%;
-  }
-  
-  .tarot-card-img {
-    width: 220px;
-    height: 330px;
-  }
-  
-  .tarot-card-name {
-    font-size: 18px;
-    margin-bottom: 8px;
-  }
-  
-  .tarot-card-meaning {
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  
-  .tarot-card-description {
-    font-size: 13px;
-    line-height: 1.4;
-  }
-  
-  .tarot-reset-btn {
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-  
-  /* 5각 그래프 랜드스케이프 최적화 */
-  .chart-svg {
-    width: 250px;
-    height: 250px;
-  }
-  
-  .fortune-area {
-    margin: 20px 0;
-  }
-  
-  .fortune-title {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-  
-  .fortune-subtitle {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  
-  /* 로딩 및 폴백 랜드스케이프 최적화 */
-  .tarot-card-loading,
-  .tarot-card-fallback {
-    width: 180px;
-    height: 270px;
-  }
-  
-  .fallback-symbol {
-    font-size: 42px;
-    margin-bottom: 10px;
-  }
-  
-  .fallback-text {
-    font-size: 15px;
-  }
-  
-  .loading-text {
-    font-size: 14px;
-  }
-}
 
-/* 모바일에서 타로카드 강제 표시 */
+/* 모바일에서 타로카드 강제 표시 및 최적화 */
 @media (max-width: 768px) {
   .tarot-section {
+    /* 강제 표시 */
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    min-height: 300px !important;
-    margin-top: 16px !important;
-    padding: 20px !important;
+    
+    /* 크기 및 위치 */
+    width: 324px !important;
+    height: auto !important;
+    min-height: 279px !important;
+    max-width: 324px !important;
+    margin: 16px auto 200px auto !important;
+    padding: 16px !important;
+    
+    /* 레이아웃 */
     position: relative !important;
     z-index: 5 !important;
     transform: none !important;
-    width: 100% !important;
     box-sizing: border-box !important;
-    /* 원래 스타일 유지 */
+    overflow: visible !important;
+    
+    /* 스타일 유지 */
     background: linear-gradient(135deg, #2d1b69 0%, #11052c 100%) !important;
     border-radius: 16px !important;
     color: white !important;
-    overflow: hidden !important;
   }
   
   .tarot-header {
@@ -2896,7 +2919,7 @@
     visibility: visible !important;
     opacity: 1 !important;
     width: 100% !important;
-    max-width: 400px !important;
+    max-width: 100% !important;
     padding: 32px !important;
     background: linear-gradient(135deg, rgba(45, 27, 105, 0.9) 0%, rgba(17, 5, 44, 0.9) 100%) !important;
     border: 2px solid rgba(251, 191, 36, 0.3) !important;

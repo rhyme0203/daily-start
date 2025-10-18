@@ -114,7 +114,46 @@ const DetailModal: React.FC<DetailModalProps> = ({
           </div>
 
           <div className="detail-modal-text">
-            {content}
+            {content.split('\n').map((line, index) => {
+              // 이미지 URL 패턴 감지 (http로 시작하는 URL)
+              if (line.startsWith('http') && (line.includes('.jpg') || line.includes('.jpeg') || line.includes('.png') || line.includes('.gif') || line.includes('.webp'))) {
+                return (
+                  <div key={index} className="modal-image-container">
+                    <img 
+                      src={line.trim()} 
+                      alt="게시글 이미지"
+                      className="modal-image"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none'
+                      }}
+                    />
+                  </div>
+                )
+              }
+              // [이미지] 태그가 있는 경우 처리
+              if (line.startsWith('[이미지') && content.split('\n')[index + 1]?.startsWith('http')) {
+                const imageUrl = content.split('\n')[index + 1]
+                const imageAlt = content.split('\n')[index + 2] || ''
+                return (
+                  <div key={index} className="modal-image-container">
+                    <img 
+                      src={imageUrl} 
+                      alt={imageAlt}
+                      className="modal-image"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none'
+                      }}
+                    />
+                    {imageAlt && <div className="modal-image-caption">{imageAlt}</div>}
+                  </div>
+                )
+              }
+              // 일반 텍스트 (빈 줄이 아닌 경우)
+              if (line.trim() && !line.startsWith('http')) {
+                return <div key={index} className="modal-text-line">{line}</div>
+              }
+              return null
+            })}
           </div>
 
           {stats && (

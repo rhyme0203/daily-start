@@ -6,11 +6,64 @@ import './Card.css'
 
 const FortuneCard: React.FC = () => {
   const { userProfile } = useUserProfile()
-  const { fortune, loading, error, generateFortune, isNewDay } = useFortuneRecommendation(userProfile)
+  const { fortune, loading, error, generateFortune } = useFortuneRecommendation(userProfile)
   const [timeUntilMidnight, setTimeUntilMidnight] = React.useState<string>('')
   const [drawnCards, setDrawnCards] = React.useState<number[]>([])
   const [isDrawing, setIsDrawing] = React.useState(false)
   const [imageLoadingStates, setImageLoadingStates] = React.useState<{[key: number]: boolean}>({})
+
+  // 생년월일로 별자리 계산하는 함수
+  const getZodiacSign = (birthDate: string): string => {
+    const date = new Date(birthDate)
+    const month = date.getMonth() + 1 // 0-based month
+    const day = date.getDate()
+    
+    // 양력 기준 별자리 계산
+    if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return "♈ 양자리"
+    if ((month === 4 && day >= 20) || (month === 5 && day <= 20)) return "♉ 황소자리"
+    if ((month === 5 && day >= 21) || (month === 6 && day <= 20)) return "♊ 쌍둥이자리"
+    if ((month === 6 && day >= 21) || (month === 7 && day <= 22)) return "♋ 게자리"
+    if ((month === 7 && day >= 23) || (month === 8 && day <= 22)) return "♌ 사자자리"
+    if ((month === 8 && day >= 23) || (month === 9 && day <= 22)) return "♍ 처녀자리"
+    if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return "♎ 천칭자리"
+    if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return "♏ 전갈자리"
+    if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return "♐ 사수자리"
+    if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return "♑ 염소자리"
+    if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return "♒ 물병자리"
+    if ((month === 2 && day >= 19) || (month === 3 && day <= 20)) return "♓ 물고기자리"
+    
+    return "♊ 쌍둥이자리" // 기본값
+  }
+
+  // 나이 계산 함수
+  const getAge = (birthDate: string): number => {
+    const today = new Date()
+    const birth = new Date(birthDate)
+    let age = today.getFullYear() - birth.getFullYear()
+    const monthDiff = today.getMonth() - birth.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--
+    }
+    
+    return age
+  }
+
+  // 프로필 요약 생성 함수
+  const getProfileSummary = (): string => {
+    if (!userProfile) return ""
+    
+    const age = userProfile.birthDate ? getAge(userProfile.birthDate) : 0
+    const zodiac = userProfile.birthDate ? getZodiacSign(userProfile.birthDate) : ""
+    
+    let summary = ""
+    if (age > 0) summary += `${age}세`
+    if (zodiac) summary += ` · ${zodiac}`
+    if (userProfile.gender) summary += ` · ${userProfile.gender === 'male' ? '남성' : '여성'}`
+    if (userProfile.occupation) summary += ` · ${userProfile.occupation}`
+    
+    return summary
+  }
 
   // 타로카드 데이터 (유니버셜 덱 이미지 포함)
   const tarotCards = [
@@ -187,43 +240,34 @@ const FortuneCard: React.FC = () => {
     <div className="card fortune-card">
       <div className="card-head">
         <div className="title">
-          <span className="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="8" r="3"></circle>
-              <path d="M5 20c2-5 12-5 14 0"></path>
-            </svg>
-          </span>
+          <span className="ico" aria-hidden="true">🍀</span>
           오늘의 운세
-          {isNewDay && <span className="new-day-badge">NEW</span>}
         </div>
-        {fortune && (
-          <div className="fortune-header-info">
-            <span className="pill">{fortune.zodiacSign}</span>
-            <div className="midnight-countdown">
-              <span className="countdown-label">다음 운세까지</span>
-              <span className="countdown-time">{timeUntilMidnight}</span>
-            </div>
-          </div>
-        )}
-        {!fortune && !loading && (
-          <button 
-            onClick={generateFortune} 
-            className="generate-fortune-btn"
-            style={{
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              padding: '6px 12px',
-              fontSize: '11px',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            🔮 운세 생성
-          </button>
-        )}
+        <div className="profile-summary">
+          {userProfile ? (
+            <span className="profile-text">{getProfileSummary()}</span>
+          ) : (
+            <span className="profile-empty">
+              <span className="profile-icon">👤</span>
+              프로필 미등록
+            </span>
+          )}
+        </div>
       </div>
+      
+      {/* 카운트다운 바 - 한 줄 아래로 이동 */}
+      {fortune && (
+        <div className="fortune-bar">
+          <div className="fortune-left">
+            <span className="countdown-icon">⏰</span>
+            <span>다음 운세까지</span>
+          </div>
+          <span className="timer">
+            <span className="timer-icon">⏳</span>
+            {timeUntilMidnight}
+          </span>
+        </div>
+      )}
       
       {/* 5각 그래프 차트 - 항상 표시 */}
       <FortuneChart
@@ -234,15 +278,14 @@ const FortuneCard: React.FC = () => {
         overallScore={fortune?.overallScore || 78}
       />
 
-      {/* 총운 점수 - 온도 UI 스타일 (항상 표시) */}
-      <div className="row kpi">
-        <div className="num">{fortune?.overallScore || 78}</div>
-        <div className="unit">점 · 총운</div>
-        <div className="weather-icon">🍀</div>
-      </div>
-
       {fortune ? (
         <>
+          {/* 총운 점수 - 온도 UI 스타일 */}
+          <div className="row kpi">
+            <div className="num">{fortune.overallScore}</div>
+            <div className="unit">점 · 총운</div>
+            <div className="weather-icon">🍀</div>
+          </div>
           
           {/* 오늘의 운세 요약 */}
           <div className="fortune-summary">

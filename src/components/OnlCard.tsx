@@ -36,7 +36,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
   const { weatherData, loading: weatherLoading } = useWeatherData()
   const { fortune, loading: fortuneLoading } = useFortuneRecommendation(userProfile)
   const { news, loading: newsLoading } = useNewsData()
-  const { communities, loading: communityLoading } = useCommunityData()
+  const { loading: communityLoading } = useCommunityData()
 
   // 오늘의 명언 데이터
   const dailyQuotes = [
@@ -205,8 +205,8 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
   }
 
   const getCommunitySummary = () => {
-    if (communityLoading || !communities || communities.length === 0) return "커뮤니티 로딩 중..."
-    return `${communities.length}개 인기 게시글`
+    if (communityLoading) return "커뮤니티 로딩 중..."
+    return "50개 인기 글"
   }
 
   return (
@@ -258,7 +258,7 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
             <div className="onl-card-indicator news-indicator"></div>
           </div>
           
-          <div className="onl-summary-card community-card">
+          <div className="onl-summary-card">
             <div className="onl-card-icon community-icon">💬</div>
             <div className="onl-card-content">
               <div className="onl-card-label">커뮤니티</div>

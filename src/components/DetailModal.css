@@ -135,6 +135,30 @@
   word-wrap: break-word;
 }
 
+.modal-image-container {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+}
+
+.modal-image-caption {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.modal-text-line {
+  margin-bottom: 8px;
+}
+
 .detail-modal-stats {
   display: flex;
   gap: 16px;

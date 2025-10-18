@@ -56,7 +56,7 @@
   overscroll-behavior: contain;
   /* 헤더/푸터 고정에 따른 패딩 조정 */
   padding-top: 80px;
-  padding-bottom: 480px;
+  padding-bottom: 360px;
 }
 
 .track {
@@ -106,82 +106,6 @@ body {
   overflow-x: hidden;
 }
 
-/* 랜드스케이프 모드 UI 최적화 */
-@media screen and (orientation: landscape) and (max-height: 500px) {
-  .viewport {
-    /* 랜드스케이프 모드에서 더 작은 높이 사용 */
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-  }
-  
-  .track {
-    /* 랜드스케이프 모드에서 슬라이드 간격 조정 */
-    gap: 10px;
-  }
-  
-  .slide {
-    /* 랜드스케이프 모드에서 슬라이드 패딩 조정 */
-    padding: 15px;
-  }
-  
-  /* 랜드스케이프 모드에서 카드 크기 조정 */
-  .card {
-    margin-bottom: 10px;
-  }
-  
-  /* 랜드스케이프 모드에서 헤더 높이 조정 */
-  .header {
-    padding: 8px 16px;
-  }
-  
-  /* 랜드스케이프 모드에서 푸터 높이 조정 */
-  .footer {
-    padding: 8px 16px;
-  }
-  
-  /* 랜드스케이프 모드에서 타로 카드 크기 조정 */
-  .tarot-card-img {
-    width: 120px;
-    height: 180px;
-  }
-  
-  .tarot-card {
-    padding: 12px;
-    margin-bottom: 8px;
-  }
-  
-  /* 랜드스케이프 모드에서 5각 그래프 크기 조정 */
-  .chart-svg {
-    width: 250px;
-    height: 250px;
-  }
-  
-  /* 랜드스케이프 모드에서 전체화면 활용 최적화 */
-  .viewport {
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 480px;
-  }
-  
-  .track {
-    min-height: calc(100vh - 80px);
-    gap: 15px;
-    padding: 10px 0;
-  }
-  
-  .slide {
-    min-height: calc(100vh - 80px);
-    padding: 20px;
-  }
-  
-  .card {
-    margin-bottom: 15px;
-  }
-  
-  .header, .footer {
-    padding: 10px 20px;
-  }
-}
 
 /* 스크롤 시 주소 입력창 축소를 위한 추가 스타일 */
 .scroll-optimized {
