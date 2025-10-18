@@ -2610,6 +2610,144 @@
   opacity: 0.8;
 }
 
+/* 랜드스케이프 모드 - 전체화면 활용 최적화 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .viewport {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+  
+  .track {
+    gap: 15px;
+    padding: 10px 0;
+  }
+  
+  .slide {
+    padding: 20px;
+    min-height: calc(100vh - 100px);
+  }
+  
+  .card {
+    margin-bottom: 15px;
+  }
+  
+  .header, .footer {
+    padding: 10px 20px;
+  }
+  
+  /* 타로 카드 랜드스케이프 최적화 */
+  .tarot-section {
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .tarot-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .tarot-subtitle {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .tarot-cards {
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .tarot-deck-card {
+    width: 100px;
+    height: 150px;
+    margin-bottom: 20px;
+  }
+  
+  .tarot-deck-back {
+    font-size: 40px;
+  }
+  
+  .tarot-draw-btn {
+    padding: 15px 30px;
+    font-size: 16px;
+    margin: 0 auto 20px;
+  }
+  
+  .tarot-card {
+    padding: 20px;
+    margin-bottom: 15px;
+    max-width: 300px;
+    width: 100%;
+  }
+  
+  .tarot-card-img {
+    width: 180px;
+    height: 270px;
+  }
+  
+  .tarot-card-name {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  
+  .tarot-card-meaning {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  
+  .tarot-card-description {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  
+  .tarot-reset-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  /* 5각 그래프 랜드스케이프 최적화 */
+  .chart-svg {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .fortune-area {
+    margin: 20px 0;
+  }
+  
+  .fortune-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .fortune-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  /* 로딩 및 폴백 랜드스케이프 최적화 */
+  .tarot-card-loading,
+  .tarot-card-fallback {
+    width: 180px;
+    height: 270px;
+  }
+  
+  .fallback-symbol {
+    font-size: 42px;
+    margin-bottom: 10px;
+  }
+  
+  .fallback-text {
+    font-size: 15px;
+  }
+  
+  .loading-text {
+    font-size: 14px;
+  }
+}
+
 /* 모바일 반응형 - 로딩 및 폴백 */
 @media (max-width: 768px) {
   .tarot-card-loading,

@@ -152,8 +152,32 @@ body {
   
   /* 랜드스케이프 모드에서 5각 그래프 크기 조정 */
   .chart-svg {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+  }
+  
+  /* 랜드스케이프 모드에서 전체화면 활용 최적화 */
+  .viewport {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+  }
+  
+  .track {
+    gap: 15px;
+    padding: 10px 0;
+  }
+  
+  .slide {
+    padding: 20px;
+    min-height: calc(100vh - 100px);
+  }
+  
+  .card {
+    margin-bottom: 15px;
+  }
+  
+  .header, .footer {
+    padding: 10px 20px;
   }
 }
 
