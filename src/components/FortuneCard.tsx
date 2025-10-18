@@ -418,7 +418,7 @@ const FortuneCard: React.FC = () => {
       )}
 
       {/* 타로카드 섹션 - 항상 표시 */}
-      <div className="tarot-section" style={{border: '2px solid red', minHeight: '200px'}}>
+      <div className="tarot-section">
         <div className="tarot-header">
           <div className="tarot-title">🔮 타로카드 뽑기</div>
           <div className="tarot-subtitle">마음의 질문을 담고 카드를 뽑아보세요</div>
