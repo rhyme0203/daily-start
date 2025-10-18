@@ -2617,7 +2617,7 @@
   .viewport {
     height: 100vh;
     height: calc(var(--vh, 1vh) * 100);
-    padding-bottom: 20px;
+    padding-bottom: 100px;
   }
   
   .track {
