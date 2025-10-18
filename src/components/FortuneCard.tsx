@@ -388,130 +388,6 @@ const FortuneCard: React.FC = () => {
             </div>
           </div>
           
-          {/* 타로카드 섹션 */}
-          <div className="tarot-section">
-            <div className="tarot-header">
-              <div className="tarot-title">🔮 타로카드 뽑기</div>
-              <div className="tarot-subtitle">마음의 질문을 담고 카드를 뽑아보세요</div>
-            </div>
-            
-            {drawnCards.length === 0 ? (
-              <div className="tarot-draw-area">
-                <div className="tarot-deck">
-                  <div className="tarot-deck-card">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
-                      alt="타로카드 뒷면"
-                      className="tarot-deck-back-img"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                        const fallback = target.nextElementSibling as HTMLElement
-                        if (fallback) fallback.style.display = 'flex'
-                      }}
-                    />
-                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
-                  </div>
-                  <div className="tarot-deck-card">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
-                      alt="타로카드 뒷면"
-                      className="tarot-deck-back-img"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                        const fallback = target.nextElementSibling as HTMLElement
-                        if (fallback) fallback.style.display = 'flex'
-                      }}
-                    />
-                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
-                  </div>
-                  <div className="tarot-deck-card">
-                    <img 
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
-                      alt="타로카드 뒷면"
-                      className="tarot-deck-back-img"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement
-                        target.style.display = 'none'
-                        const fallback = target.nextElementSibling as HTMLElement
-                        if (fallback) fallback.style.display = 'flex'
-                      }}
-                    />
-                    <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
-                  </div>
-                </div>
-                <button 
-                  className={`tarot-draw-btn ${isDrawing ? 'drawing' : ''}`}
-                  onClick={drawTarotCards}
-                  disabled={isDrawing}
-                >
-                  {isDrawing ? (
-                    <>
-                      <span className="drawing-spinner">⟳</span>
-                      카드를 뽑는 중...
-                    </>
-                  ) : (
-                    <>
-                      <span className="draw-icon">✨</span>
-                      카드 뽑기
-                    </>
-                  )}
-                </button>
-              </div>
-            ) : (
-              <div className="tarot-result">
-                <div className="tarot-cards">
-                  {drawnCards.map((cardId, index) => {
-                    const card = tarotCards[cardId]
-                    const position = ['과거', '현재', '미래'][index]
-                    return (
-                      <div key={cardId} className={`tarot-card ${isDrawing ? 'drawing' : 'drawn'}`}>
-                        <div className="tarot-card-inner">
-                          <div className="tarot-card-image">
-                            {imageLoadingStates[cardId] && (
-                              <div className="tarot-card-loading">
-                                <div className="loading-spinner"></div>
-                                <div className="loading-text">카드 로딩중...</div>
-                              </div>
-                            )}
-                            <img 
-                              src={card.image} 
-                              alt={card.name}
-                              className="tarot-card-img"
-                              style={{ display: imageLoadingStates[cardId] ? 'none' : 'block' }}
-                              onLoadStart={() => handleImageLoadStart(cardId)}
-                              onLoad={() => handleImageLoad(cardId)}
-                              onError={() => handleImageError(cardId)}
-                            />
-                            {!imageLoadingStates[cardId] && (
-                              <div className="tarot-card-fallback" style={{ display: 'none' }}>
-                                <div className="fallback-card">
-                                  <div className="fallback-symbol">🃏</div>
-                                  <div className="fallback-text">{card.name}</div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <div className="tarot-card-position">{position}</div>
-                          <div className="tarot-card-name">{card.name}</div>
-                          <div className="tarot-card-meaning">{card.meaning}</div>
-                          <div className="tarot-card-description">{card.description}</div>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-                <button 
-                  className="tarot-reset-btn"
-                  onClick={resetTarotCards}
-                >
-                  <span className="reset-icon">🔄</span>
-                  다시 뽑기
-                </button>
-              </div>
-            )}
-          </div>
         </>
       ) : (
         <div className="fortune-empty-state">
@@ -540,6 +416,131 @@ const FortuneCard: React.FC = () => {
           </button>
         </div>
       )}
+
+      {/* 타로카드 섹션 - 항상 표시 */}
+      <div className="tarot-section">
+        <div className="tarot-header">
+          <div className="tarot-title">🔮 타로카드 뽑기</div>
+          <div className="tarot-subtitle">마음의 질문을 담고 카드를 뽑아보세요</div>
+        </div>
+        
+        {drawnCards.length === 0 ? (
+          <div className="tarot-draw-area">
+            <div className="tarot-deck">
+              <div className="tarot-deck-card">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  alt="타로카드 뒷면"
+                  className="tarot-deck-back-img"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.style.display = 'none'
+                    const fallback = target.nextElementSibling as HTMLElement
+                    if (fallback) fallback.style.display = 'flex'
+                  }}
+                />
+                <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
+              </div>
+              <div className="tarot-deck-card">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  alt="타로카드 뒷면"
+                  className="tarot-deck-back-img"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.style.display = 'none'
+                    const fallback = target.nextElementSibling as HTMLElement
+                    if (fallback) fallback.style.display = 'flex'
+                  }}
+                />
+                <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
+              </div>
+              <div className="tarot-deck-card">
+                <img 
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/RWS_Tarot_Back.jpg/200px-RWS_Tarot_Back.jpg" 
+                  alt="타로카드 뒷면"
+                  className="tarot-deck-back-img"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement
+                    target.style.display = 'none'
+                    const fallback = target.nextElementSibling as HTMLElement
+                    if (fallback) fallback.style.display = 'flex'
+                  }}
+                />
+                <div className="tarot-deck-back" style={{display: 'none'}}>🃏</div>
+              </div>
+            </div>
+            <button 
+              className={`tarot-draw-btn ${isDrawing ? 'drawing' : ''}`}
+              onClick={drawTarotCards}
+              disabled={isDrawing}
+            >
+              {isDrawing ? (
+                <>
+                  <span className="drawing-spinner">⟳</span>
+                  카드를 뽑는 중...
+                </>
+              ) : (
+                <>
+                  <span className="draw-icon">✨</span>
+                  카드 뽑기
+                </>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div className="tarot-result">
+            <div className="tarot-cards">
+              {drawnCards.map((cardId, index) => {
+                const card = tarotCards[cardId]
+                const position = ['과거', '현재', '미래'][index]
+                return (
+                  <div key={cardId} className={`tarot-card ${isDrawing ? 'drawing' : 'drawn'}`}>
+                    <div className="tarot-card-inner">
+                      <div className="tarot-card-image">
+                        {imageLoadingStates[cardId] && (
+                          <div className="tarot-card-loading">
+                            <div className="loading-spinner"></div>
+                            <div className="loading-text">카드 로딩중...</div>
+                          </div>
+                        )}
+                        <img 
+                          src={card.image} 
+                          alt={card.name}
+                          className="tarot-card-img"
+                          style={{ display: imageLoadingStates[cardId] ? 'none' : 'block' }}
+                          onLoadStart={() => handleImageLoadStart(cardId)}
+                          onLoad={() => handleImageLoad(cardId)}
+                          onError={() => handleImageError(cardId)}
+                        />
+                        {!imageLoadingStates[cardId] && (
+                          <div className="tarot-card-fallback" style={{ display: 'none' }}>
+                            <div className="fallback-card">
+                              <div className="fallback-symbol">🃏</div>
+                              <div className="fallback-text">{card.name}</div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="tarot-card-position">{position}</div>
+                      <div className="tarot-card-name">{card.name}</div>
+                      <div className="tarot-card-meaning">{card.meaning}</div>
+                      <div className="tarot-card-description">{card.description}</div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+            <button 
+              className="tarot-reset-btn"
+              onClick={resetTarotCards}
+            >
+              <span className="reset-icon">🔄</span>
+              다시 뽑기
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
