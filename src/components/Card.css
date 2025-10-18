@@ -2789,44 +2789,60 @@
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    min-height: 200px !important;
+    min-height: 300px !important;
     margin-top: 16px !important;
     padding: 20px !important;
+    background: var(--card) !important;
+    border-radius: var(--radius) !important;
+    box-shadow: var(--shadow) !important;
+    position: relative !important;
+    z-index: 5 !important;
+    transform: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   
   .tarot-header {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    margin-bottom: 20px !important;
   }
   
   .tarot-title {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    font-size: 18px !important;
+    font-size: 20px !important;
     color: #fbbf24 !important;
+    font-weight: bold !important;
+    margin-bottom: 8px !important;
   }
   
   .tarot-subtitle {
     display: block !important;
     visibility: visible !important;
     opacity: 0.8 !important;
-    font-size: 13px !important;
+    font-size: 14px !important;
     color: #e5e7eb !important;
+    margin-bottom: 0 !important;
   }
   
   .tarot-draw-area {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    min-height: 150px !important;
+    min-height: 200px !important;
+    width: 100% !important;
   }
   
   .tarot-deck {
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
   }
   
   .tarot-draw-btn {
@@ -2834,6 +2850,101 @@
     visibility: visible !important;
     opacity: 1 !important;
     z-index: 10 !important;
+    margin: 0 auto !important;
+    width: fit-content !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+  }
+  
+  .tarot-result {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+  }
+  
+  .tarot-cards {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  .tarot-card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    padding: 20px !important;
+    background: var(--card) !important;
+    border-radius: 12px !important;
+    box-shadow: var(--shadow) !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .tarot-card-img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 200px !important;
+    height: 300px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    margin: 0 auto 16px !important;
+  }
+  
+  .tarot-card-name {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    color: #fbbf24 !important;
+    margin-bottom: 8px !important;
+    text-align: center !important;
+  }
+  
+  .tarot-card-meaning {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+    color: #10b981 !important;
+    margin-bottom: 8px !important;
+    text-align: center !important;
+  }
+  
+  .tarot-card-description {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: #e5e7eb !important;
+    text-align: center !important;
+  }
+  
+  .tarot-reset-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 20px auto 0 !important;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    background: #6b7280 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
   }
 }
 
