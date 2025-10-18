@@ -26,11 +26,11 @@ function App() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop
     setIsScrolled(scrollTop > 50)
     
-    // iPhone Chrome에서 주소 입력창 축소를 위한 추가 스크롤
-    if (scrollTop > 0) {
-      // 스크롤 시 주소 입력창이 축소되도록 추가 스크롤
+    // iPhone Chrome에서 주소 입력창 축소를 위한 추가 스크롤 (무한 루프 방지)
+    if (scrollTop > 0 && scrollTop < 1) {
+      // 스크롤이 0과 1 사이일 때만 주소 입력창 축소를 위한 추가 스크롤
       requestAnimationFrame(() => {
-        window.scrollTo({ top: scrollTop + 1, behavior: 'auto' })
+        window.scrollTo({ top: 1, behavior: 'auto' })
       })
     }
   }, [])
