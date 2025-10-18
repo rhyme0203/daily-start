@@ -58,7 +58,7 @@ const Footer: React.FC<FooterProps> = ({
           <path d="M10 6h8v4h-8V6z"/>
         </svg>
       ),
-      badge: 'LIVE'
+      badge: null
     },
     { 
       id: 4,
@@ -68,7 +68,7 @@ const Footer: React.FC<FooterProps> = ({
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
       ),
-      badge: 'HOT'
+      badge: null
     }
   ]
   
@@ -94,7 +94,7 @@ const Footer: React.FC<FooterProps> = ({
       
       {/* 버전 정보 */}
       <div className="version-info">
-        <span className="version-text">ver0.74</span>
+        <span className="version-text">ver0.75</span>
       </div>
     </footer>
   )
