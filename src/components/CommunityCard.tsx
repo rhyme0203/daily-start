@@ -169,9 +169,9 @@ const CommunityCard: React.FC = () => {
           </span>
           커뮤니티 글
         </div>
-        <button className="refresh-btn" onClick={refresh}>
-          <span className="refresh-icon">🔄</span>
-        </button>
+        <span className="pill">
+          {data?.lastUpdated ? new Date(data.lastUpdated).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
+        </span>
       </div>
 
       {/* 사이트 필터 칩 */}
@@ -204,26 +204,44 @@ const CommunityCard: React.FC = () => {
             style={{ cursor: 'pointer' }}
           >
             <div className="news-header">
-              <div className="news-site" style={{ color: getSiteColor(post.site) }}>
+              <div className="news-category-badge" style={{ backgroundColor: getSiteColor(post.site) + '20', color: getSiteColor(post.site) }}>
                 <span className="site-icon">{getSiteIcon(post.site)}</span>
                 {post.site}
               </div>
               <div className="news-time">{formatTime(post.time)}</div>
             </div>
-            <div className="news-title">{post.title}</div>
-            <div className="news-meta">
-              <span className="news-views">👁️ {post.views}</span>
-              <button 
-                className="like-button"
-                onClick={handleLikeClick}
-                disabled={!canPerformAction('community_like')}
-                title={canPerformAction('community_like') ? '좋아요 (+1P)' : '오늘 좋아요 한도 초과'}
-              >
-                ❤️
-              </button>
+            
+            <div className="news-content">
+              <h3 className="news-title">{post.title}</h3>
+              <div className="news-meta">
+                <div className="news-stats">
+                  <span className="news-views">👁️ {post.views}</span>
+                  <button 
+                    className="like-button"
+                    onClick={handleLikeClick}
+                    disabled={!canPerformAction('community_like')}
+                    title={canPerformAction('community_like') ? '좋아요 (+1P)' : '오늘 좋아요 한도 초과'}
+                  >
+                    ❤️
+                  </button>
+                </div>
+              </div>
             </div>
+            
+            {index < filteredPosts.slice(0, 10).length - 1 && <div className="news-divider"></div>}
           </div>
         ))}
+      </div>
+
+      {/* 업데이트 정보 */}
+      <div className="news-footer">
+        <div className="update-info">
+          <span className="update-icon">🔄</span>
+          <span className="update-text">1시간마다 자동 업데이트</span>
+        </div>
+        <button onClick={refresh} className="refresh-btn" disabled={loading}>
+          {loading ? '업데이트 중...' : '새로고침'}
+        </button>
       </div>
 
       {/* 모달 */}

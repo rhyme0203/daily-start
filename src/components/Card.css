@@ -1400,6 +1400,45 @@
 .news-indicator { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
 .community-indicator { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
 
+/* 커뮤니티 통계 스타일 */
+.news-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.news-views {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-button:hover:not(:disabled) {
+  background: #fef2f2;
+  transform: scale(1.1);
+}
+
+.like-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* 핫딜 섹션 스타일 */
 .onl-hotdeal-section {
   margin: 16px 0;
