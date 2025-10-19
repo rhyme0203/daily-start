@@ -1,0 +1,267 @@
+.detail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+  padding-top: 30vh;
+  overflow-y: auto;
+}
+
+.detail-modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  height: calc(70vh - 40px);
+  max-height: calc(70vh - 40px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.detail-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-modal-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: #f8fafc;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.detail-modal-category .category-emoji {
+  font-size: 14px;
+}
+
+.detail-modal-category .category-name {
+  font-size: 11px;
+}
+
+.detail-modal-close {
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.detail-modal-close:hover {
+  background: #e2e8f0;
+  transform: scale(1.05);
+}
+
+.detail-modal-close svg {
+  width: 16px;
+  height: 16px;
+  stroke: #64748b;
+}
+
+.detail-modal-body {
+  flex: 1;
+  padding: 20px 24px;
+  overflow-y: auto;
+}
+
+.detail-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin: 0 0 16px 0;
+  word-wrap: break-word;
+}
+
+.detail-modal-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-modal-time {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.detail-modal-source,
+.detail-modal-author {
+  font-size: 12px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.detail-modal-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+}
+
+.modal-image-container {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+}
+
+.modal-image-caption {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  margin-top: 4px;
+}
+
+.modal-text-line {
+  margin-bottom: 8px;
+}
+
+.detail-modal-stats {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.stat-icon {
+  font-size: 14px;
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.detail-modal-footer {
+  padding: 16px 24px 20px 24px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: center;
+}
+
+.detail-modal-action-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.detail-modal-action-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* 모바일 최적화 */
+@media (max-width: 480px) {
+  .detail-modal-overlay {
+    padding: 10px;
+    padding-top: 25vh;
+  }
+  
+  .detail-modal-content {
+    height: calc(75vh - 20px);
+    max-height: calc(75vh - 20px);
+  }
+  
+  .detail-modal-header {
+    padding: 16px 20px 12px 20px;
+  }
+  
+  .detail-modal-body {
+    padding: 16px 20px;
+  }
+  
+  .detail-modal-footer {
+    padding: 12px 20px 16px 20px;
+  }
+  
+  .detail-modal-title {
+    font-size: 16px;
+  }
+  
+  .detail-modal-text {
+    font-size: 13px;
+  }
+}
+
+/* 동영상 컨테이너 */
+.modal-video-container {
+  margin: 16px 0;
+  text-align: center;
+}
+
+.modal-video {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-video-caption {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 8px;
+  font-style: italic;
+}

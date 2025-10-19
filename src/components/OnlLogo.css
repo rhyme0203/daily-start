@@ -1,0 +1,173 @@
+.onl-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+}
+
+.logo-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 로고 크기별 설정 */
+.logo-small .logo-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-medium .logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-large .logo-icon {
+  width: 48px;
+  height: 48px;
+}
+
+/* 로고 애니메이션 */
+.logo-o {
+  stroke-dasharray: 125.6;
+  stroke-dashoffset: 125.6;
+  animation: drawO 1.5s ease-in-out forwards;
+}
+
+.logo-n {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: drawN 1.5s ease-in-out 0.3s forwards;
+}
+
+.logo-l {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 60;
+  animation: drawL 1.5s ease-in-out 0.6s forwards;
+}
+
+/* 점들의 애니메이션 */
+.dot-1, .dot-2, .dot-3, .dot-4 {
+  opacity: 0;
+  animation: fadeInDots 0.5s ease-in-out 1.2s forwards;
+}
+
+.dot-1 {
+  animation-delay: 1.2s;
+}
+
+.dot-2 {
+  animation-delay: 1.4s;
+}
+
+.dot-3 {
+  animation-delay: 1.6s;
+}
+
+.dot-4 {
+  animation-delay: 1.8s;
+}
+
+/* 텍스트 스타일 */
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 1.2em;
+  letter-spacing: 0.5px;
+  color: var(--primary);
+}
+
+.tagline {
+  font-size: 0.7em;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* 애니메이션 키프레임 */
+@keyframes drawO {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawN {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawL {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeInDots {
+  to {
+    opacity: 1;
+  }
+}
+
+/* 작은 크기에서는 텍스트 숨기기 */
+.logo-small .logo-text {
+  display: none;
+}
+
+/* 호버 효과 */
+.onl-logo:hover .logo-svg {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.onl-logo:hover .brand-name {
+  color: #2C5BD6;
+  transition: color 0.2s ease;
+}
+
+/* 다크모드 대응 */
+@media (prefers-color-scheme: dark) {
+  .onl-logo {
+    color: #8AB8FF;
+  }
+  
+  .brand-name {
+    color: #8AB8FF;
+  }
+  
+  .onl-logo:hover .brand-name {
+    color: #A8C8FF;
+  }
+}
+
+/* 모션 감소 설정 */
+@media (prefers-reduced-motion: reduce) {
+  .logo-o,
+  .logo-n,
+  .logo-l,
+  .dot-1,
+  .dot-2,
+  .dot-3,
+  .dot-4 {
+    animation: none;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  
+  .onl-logo:hover .logo-svg {
+    transform: none;
+  }
+}
+
+

@@ -1,0 +1,169 @@
+.reward-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 8px;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.reward-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+}
+
+.reward-badge.earned {
+  animation: rewardEarned 0.6s ease-out;
+}
+
+.reward-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reward-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: #8B4513;
+  fill: #FFD700;
+}
+
+.reward-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.reward-points {
+  font-size: 11px;
+  font-weight: 800;
+  color: #8B4513;
+  line-height: 1;
+}
+
+.reward-label {
+  font-size: 8px;
+  color: #8B4513;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.earned-animation {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #FF6B6B;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  animation: floatUp 2s ease-out forwards;
+  z-index: 10;
+}
+
+@keyframes rewardEarned {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
+/* 작은 크기 버전 */
+.reward-badge.small {
+  padding: 6px 10px;
+  gap: 6px;
+}
+
+.reward-badge.small .reward-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.reward-badge.small .reward-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.reward-badge.small .reward-points {
+  font-size: 12px;
+}
+
+.reward-badge.small .reward-label {
+  font-size: 9px;
+}
+
+/* 출석체크 관련 스타일 */
+.reward-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.reward-badge.checked-in {
+  background: linear-gradient(135deg, #90EE90, #32CD32);
+  box-shadow: 0 2px 8px rgba(50, 205, 50, 0.3);
+}
+
+.reward-badge.checked-in:hover {
+  box-shadow: 0 6px 16px rgba(50, 205, 50, 0.4);
+}
+
+.check-in-message {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-top: 5px;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  20%, 80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
