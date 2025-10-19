@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import { PointSystemProvider } from './contexts/PointSystemContext'
+import OnlPage from './pages/OnlPage'
+import WeatherPage from './pages/WeatherPage'
+import FortunePage from './pages/FortunePage'
+import NewsPage from './pages/NewsPage'
+import CommunityPage from './pages/CommunityPage'
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <PointSystemProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<OnlPage />} />
+          <Route path="/weather" element={<WeatherPage />} />
+          <Route path="/fortune" element={<FortunePage />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+        </Routes>
+      </Router>
+    </PointSystemProvider>
+  )
 }
 
-export default App;
+export default App

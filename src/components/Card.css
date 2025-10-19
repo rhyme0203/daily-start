@@ -1,0 +1,3073 @@
+.card {
+  width: 100%;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: rise .45s ease both;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(8px);
+    opacity: .0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-text {
+  font-size: 12px;
+  color: var(--muted);
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.profile-empty {
+  font-size: 12px;
+  color: #6c757d;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.7;
+}
+
+.profile-icon {
+  font-size: 14px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+}
+
+.pill {
+  font-size: 11px;
+  color: var(--primary);
+  background: #ecf3ff;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.row {
+  background: #F4F6FA;
+  border: 1px solid #E6ECF5;
+  padding: 12px 12px;
+  border-radius: 12px;
+}
+
+.row + .row {
+  margin-top: 8px;
+}
+
+.kpi {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  position: relative;
+}
+
+.kpi .num {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.kpi .unit {
+  font-size: 14px;
+  color: var(--muted);
+  flex: 1;
+}
+
+.weather-icon {
+  font-size: 28px;
+  line-height: 1;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  background: #eef1ff;
+}
+
+.ico svg {
+  width: 18px;
+  height: 18px;
+  stroke: #2C5BD6;
+}
+
+/* 날씨 영향 섹션 */
+.weather-impact {
+  background: #f8fafc;
+  border: 1px dashed #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.impact-header {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.impact-recommendations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.recommendation-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: white;
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.recommendation-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  flex-shrink: 0;
+}
+
+.chip-emoji {
+  font-size: 14px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.impact-disclaimer {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* AI 추천 섹션 */
+.ai-recommendation {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 12px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.ai-recommendation:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+/* 프로필 미등록 시 안내 카드 */
+.ai-placeholder-card {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ai-placeholder-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.tap-hint {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.ai-recommendation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  pointer-events: none;
+}
+
+.ai-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+.ai-icon {
+  font-size: 20px;
+  animation: pulse 2s infinite;
+}
+
+.ai-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+}
+
+.ai-content {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 16px;
+}
+
+.ai-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.loading-dots {
+  font-size: 14px;
+  opacity: 0.9;
+  animation: loading-dots 1.5s infinite;
+}
+
+.ai-text {
+  line-height: 1.6;
+}
+
+.ai-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #ffd700;
+}
+
+.ai-description {
+  font-size: 13px;
+  margin-bottom: 5px;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+.ai-placeholder {
+  text-align: center;
+  font-size: 13px;
+  opacity: 0.8;
+  padding: 20px;
+}
+
+.ai-footer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.ai-tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+@keyframes loading-dots {
+  0%, 20% { opacity: 0.4; }
+  50% { opacity: 1; }
+  80%, 100% { opacity: 0.4; }
+}
+
+/* 운세 관련 스타일 */
+.fortune-details {
+  margin-top: 12px;
+}
+
+.fortune-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.fortune-item:last-child {
+  border-bottom: none;
+}
+
+.fortune-label {
+  font-size: 0.85rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.fortune-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.retry-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+  
+  .recommendation-chip:hover {
+    transform: none;
+  }
+  
+  .ai-icon {
+    animation: none;
+  }
+  
+  .loading-dots {
+    animation: none;
+  }
+  
+  .retry-btn:hover {
+    transform: none;
+  }
+}
+
+/* 뉴스 카드 스타일 */
+.news-categories {
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.category-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.category-tab:hover {
+  background: #e2e8f0;
+  transform: translateY(-1px);
+}
+
+.category-tab.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.category-emoji {
+  font-size: 14px;
+}
+
+.category-name {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.news-item {
+  padding: 10px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.news-item:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.news-category-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: white;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.news-time {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.news-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.news-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.4;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.news-summary {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.news-source {
+  font-size: var(--font-xs);
+  color: var(--primary);
+  font-weight: 600;
+  margin-top: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.live-indicator {
+  font-size: 10px;
+  color: #ef4444;
+  font-weight: 700;
+  margin-right: var(--space-1);
+  animation: pulse 2s infinite;
+}
+
+.real-news-badge {
+  font-size: 9px;
+  color: #059669;
+  background: #d1fae5;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.news-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 0 16px;
+}
+
+.news-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e2e8f0;
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.news-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.update-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.update-icon {
+  font-size: 12px;
+}
+
+.refresh-btn {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.refresh-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* 커뮤니티 게시글 통계 */
+.community-stats {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/* 필터 칩 스타일 */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chip.active {
+  color: white;
+  border-color: transparent;
+}
+
+.chip-icon {
+  font-size: 14px;
+}
+
+.chip-count {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+/* 운세 바 스타일 - HTML과 동일하게 */
+.fortune-bar {
+  background: linear-gradient(90deg, #2a2f52, #1f2446);
+  border-radius: 12px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #e7ecff;
+  font-size: 14px;
+}
+
+.fortune-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.countdown-icon {
+  font-size: 16px;
+  animation: clock-tick 2s ease-in-out infinite;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timer-icon {
+  font-size: 14px;
+  animation: hourglass-flip 3s ease-in-out infinite;
+}
+
+@keyframes clock-tick {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+}
+
+@keyframes hourglass-flip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(180deg); }
+}
+
+.zodiac {
+  background-color: #e7ebff;
+  color: #3f51b5;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+
+.divider {
+  color: #b9c0d9;
+  font-weight: 400;
+}
+
+.timer {
+  background-color: #2e3562;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 700;
+  color: #b7c3ff;
+}
+
+.stat-item {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* 상세 날씨 정보 섹션 */
+.weather-details {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 16px;
+  padding: 12px;
+  margin-top: 16px;
+  color: white;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.details-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.details-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.detail-item {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 8px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.detail-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+
+/* 시간대별 날씨 예보 */
+.weather-forecast {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  border-radius: 16px;
+  padding: 12px;
+  margin-top: 16px;
+  color: white;
+}
+
+.forecast-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.forecast-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.forecast-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.forecast-timeline {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  gap: 6px;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.forecast-item {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 8px 6px;
+  text-align: center;
+  min-width: 50px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  flex: 1;
+}
+
+.forecast-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.forecast-temp {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+.forecast-note {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  font-style: italic;
+}
+
+/* 커뮤니티 실시간 배지 */
+.real-community-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 6px;
+  box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+  animation: pulse 2s infinite;
+}
+
+/* 새로운 운세 관련 스타일 */
+.new-day-badge {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 8px;
+  animation: pulse 2s infinite;
+}
+
+.fortune-header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.midnight-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  padding: 4px 8px;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.countdown-label {
+  font-size: 9px;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.countdown-time {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 1px;
+  animation: pulse-countdown 2s ease-in-out infinite;
+}
+
+@keyframes pulse-countdown {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.fortune-summary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+  color: white;
+}
+
+.summary-header {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  opacity: 0.9;
+}
+
+.summary-content {
+  font-size: 13px;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.fortune-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.detail-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.detail-emoji {
+  font-size: 16px;
+}
+
+.detail-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  flex: 1;
+}
+
+.detail-score {
+  font-size: 11px;
+  font-weight: 700;
+  color: #3b82f6;
+  background: #dbeafe;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.detail-content {
+  font-size: 10px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.fortune-lucky-info {
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.lucky-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #a16207;
+  margin-bottom: 10px;
+}
+
+.lucky-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lucky-item {
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #fde047;
+}
+
+.lucky-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #a16207;
+  margin-bottom: 4px;
+}
+
+.lucky-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #365314;
+}
+
+.additional-fortune {
+  margin: 16px 0;
+}
+
+.additional-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.additional-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.additional-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.additional-emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.additional-content {
+  flex: 1;
+}
+
+.additional-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.additional-desc {
+  font-size: 10px;
+  line-height: 1.3;
+  color: #64748b;
+}
+
+.fortune-advice {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.advice-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #166534;
+  margin-bottom: 12px;
+}
+
+.advice-content {
+  margin-bottom: 12px;
+}
+
+.advice-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.advice-item.positive {
+  background: #dcfce7;
+  border: 1px solid #86efac;
+}
+
+.advice-item.negative {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+}
+
+.advice-emoji {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.advice-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.spiritual-guidance {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.guidance-emoji {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.guidance-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a16207;
+  font-style: italic;
+}
+
+/* 프로필 없을 때 운세 스타일 */
+.fortune-no-profile {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  margin: 16px 0;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.no-profile-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+.no-profile-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: white;
+}
+
+.no-profile-description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.no-profile-instruction {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  animation: pulse-instruction 3s ease-in-out infinite;
+}
+
+@keyframes pulse-instruction {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+/* 운세 빈 상태 스타일 */
+.fortune-empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  margin: 16px 0;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.empty-description {
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.generate-fortune-btn-main:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s ease;
+}
+
+/* Onl 대시보드 스타일 */
+.onl-summary-section {
+  margin: 16px 0;
+}
+
+.onl-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.onl-section-icon {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  color: white;
+}
+
+.onl-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  flex: 1;
+  text-align: left;
+}
+
+.onl-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.onl-summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  gap: 10px;
+  min-height: 60px;
+  height: 60px;
+}
+
+.onl-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #cbd5e1;
+}
+
+.onl-card-icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+
+.onl-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.onl-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.onl-card-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.onl-card-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: 0 12px 12px 0;
+}
+
+.weather-indicator { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+.fortune-indicator { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+.news-indicator { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+.community-indicator { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+
+/* 핫딜 섹션 스타일 */
+.onl-hotdeal-section {
+  margin: 16px 0;
+}
+
+.onl-hotdeal-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  overflow: hidden;
+}
+
+.onl-hotdeal-card iframe {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.summary-header {
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.summary-item {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.summary-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.summary-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.summary-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.summary-value {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+.onl-quote-section {
+  margin: 16px 0;
+}
+
+.onl-quote-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+
+.onl-quote-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="quote-grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23quote-grain)"/></svg>');
+  pointer-events: none;
+}
+
+.onl-quote-content {
+  position: relative;
+  z-index: 1;
+}
+
+.onl-quote-text {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 8px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.onl-quote-author {
+  font-size: 11px;
+  opacity: 0.8;
+  text-align: right;
+  font-weight: 500;
+}
+
+.onl-quote-decoration {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.onl-quote-decoration::before {
+  content: '"';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0.3;
+}
+
+.onl-english-section {
+  margin: 16px 0;
+}
+
+.onl-english-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: 16px;
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.onl-english-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.onl-english-korean {
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+}
+
+.onl-english-english {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.onl-english-pronunciation {
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.onl-english-flag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 24px;
+  opacity: 0.7;
+  z-index: 1;
+}
+
+.onl-schedule-section {
+  margin: 16px 0;
+}
+
+.onl-sync-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  margin-left: auto;
+  animation: pulse 2s infinite;
+}
+
+.sync-icon {
+  font-size: 10px;
+}
+
+.sync-text {
+  font-size: 9px;
+}
+
+.schedule-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.schedule-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.schedule-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+.schedule-item.completed {
+  background: #f0fdf4;
+  border-color: #10b981;
+}
+
+.schedule-item.completed .schedule-task {
+  color: #059669;
+}
+
+.schedule-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  min-width: 40px;
+}
+
+.schedule-task {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.completed-icon {
+  color: #10b981;
+  font-weight: 700;
+}
+
+/* 캘린더 연동 스타일 */
+.calendar-sync-badge {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 8px;
+  margin-left: 8px;
+  animation: pulse 2s infinite;
+}
+
+.calendar-connect-section {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 1px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.calendar-connect-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.connect-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.connect-text {
+  flex: 1;
+  text-align: left;
+}
+
+.connect-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0369a1;
+  margin-bottom: 4px;
+}
+
+.connect-description {
+  font-size: 11px;
+  color: #0284c7;
+  line-height: 1.4;
+}
+
+.calendar-connect-btn {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+.calendar-connect-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+}
+
+.calendar-connect-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.calendar-options {
+  margin-top: 16px;
+}
+
+.calendar-alternatives {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(14, 165, 233, 0.2);
+}
+
+.alternative-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.alternative-buttons {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
+}
+
+.alternative-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #1e293b;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.alternative-btn:hover {
+  background: rgba(14, 165, 233, 0.1);
+  border-color: rgba(14, 165, 233, 0.5);
+  transform: translateY(-1px);
+}
+
+.alt-icon {
+  font-size: 14px;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.connect-icon-btn {
+  font-size: 14px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.calendar-event {
+  border-left: 3px solid #0ea5e9;
+  background: #f8fafc;
+}
+
+.calendar-icon {
+  font-size: 12px;
+  margin-right: 4px;
+  color: #0ea5e9;
+}
+
+.no-events-message {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
+}
+
+.no-events-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  opacity: 0.6;
+}
+
+.no-events-text {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.add-schedule-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.add-schedule-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* 타로카드 섹션 스타일 - 기본 (데스크톱) */
+.tarot-section {
+  background: linear-gradient(135deg, #2d1b69 0%, #11052c 100%);
+  border-radius: 16px;
+  padding: 16px;
+  margin-top: 16px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  min-height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.tarot-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="tarot-stars" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="white" opacity="0.1"/><circle cx="80" cy="30" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="70" r="1" fill="white" opacity="0.1"/><circle cx="70" cy="80" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23tarot-stars)"/></svg>');
+  pointer-events: none;
+  animation: background-shimmer 4s ease-in-out infinite;
+}
+
+.tarot-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  animation: magic-aura 6s ease-in-out infinite;
+}
+
+@keyframes background-shimmer {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes magic-aura {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.1);
+  }
+}
+
+.tarot-header {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.tarot-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fbbf24;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+.tarot-subtitle {
+  font-size: 13px;
+  opacity: 0.8;
+  color: #e5e7eb;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+}
+
+.tarot-draw-area {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  /* 모바일에서 가시성 향상 */
+  display: block;
+  visibility: visible;
+  opacity: 1;
+  min-height: 150px;
+}
+
+.tarot-deck {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  /* 모바일에서 가시성 향상 */
+  visibility: visible;
+  opacity: 1;
+}
+
+.tarot-deck-card {
+  width: 70px;
+  height: 108px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  animation: deck-glow 2s ease-in-out infinite alternate, card-float 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.tarot-deck-card:nth-child(1) { animation-delay: 0s; }
+.tarot-deck-card:nth-child(2) { animation-delay: 0.2s; }
+.tarot-deck-card:nth-child(3) { animation-delay: 0.4s; }
+
+.tarot-deck-card:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+  animation-play-state: paused;
+}
+
+.tarot-deck-back-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.tarot-deck-back {
+  font-size: 32px;
+  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  color: white;
+  font-weight: bold;
+}
+
+.tarot-deck-back::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: deck-shine 2s ease-in-out infinite;
+}
+
+@keyframes deck-shine {
+  0%, 100% {
+    opacity: 0.3;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+@keyframes deck-glow {
+  from { box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); }
+  to { box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5); }
+}
+
+.tarot-draw-btn {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1f2937;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  position: relative;
+  overflow: hidden;
+  animation: button-pulse 2s ease-in-out infinite;
+  margin: 0 auto;
+  width: fit-content;
+  /* 모바일에서 가시성 향상 */
+  visibility: visible;
+  opacity: 1;
+  z-index: 10;
+}
+
+.tarot-draw-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.tarot-draw-btn:hover::before {
+  left: 100%;
+}
+
+.tarot-draw-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(251, 191, 36, 0.4);
+}
+
+.tarot-draw-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.tarot-draw-btn.drawing {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  animation: drawing-pulse 0.5s ease-in-out infinite;
+  transform: scale(0.95);
+}
+
+@keyframes drawing-pulse {
+  0%, 100% {
+    transform: scale(0.95);
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(107, 114, 128, 0.5);
+  }
+}
+
+.drawing-spinner {
+  animation: spin 1s linear infinite;
+}
+
+.tarot-result {
+  position: relative;
+  z-index: 1;
+}
+
+.tarot-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.tarot-card {
+  background: linear-gradient(135deg, rgba(45, 27, 105, 0.9) 0%, rgba(17, 5, 44, 0.9) 100%);
+  border: 2px solid rgba(251, 191, 36, 0.3);
+  border-radius: 20px;
+  padding: 32px;
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+  animation: card-appear 0.6s ease-out, card-glow 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(251, 191, 36, 0.1);
+}
+
+.tarot-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 2s ease;
+}
+
+.tarot-card:hover::before {
+  left: 100%;
+}
+
+.tarot-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes deck-glow {
+  0% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+}
+
+@keyframes button-pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(251, 191, 36, 0.5);
+  }
+}
+
+@keyframes card-glow {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
+  }
+}
+
+.tarot-card-inner {
+  text-align: center;
+}
+
+.tarot-card-image {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.tarot-card-img {
+  width: 240px;
+  height: 360px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  position: relative;
+  animation: card-magic-glow 3s ease-in-out infinite;
+}
+
+.tarot-card-img::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706, #fbbf24);
+  border-radius: 10px;
+  z-index: -1;
+  animation: card-border-glow 2s linear infinite;
+}
+
+@keyframes card-magic-glow {
+  0%, 100% {
+    filter: brightness(1) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    filter: brightness(1.1) drop-shadow(0 6px 20px rgba(251, 191, 36, 0.4));
+  }
+}
+
+@keyframes card-border-glow {
+  0% {
+    background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706, #fbbf24);
+  }
+  25% {
+    background: linear-gradient(45deg, #f59e0b, #d97706, #fbbf24, #f59e0b);
+  }
+  50% {
+    background: linear-gradient(45deg, #d97706, #fbbf24, #f59e0b, #d97706);
+  }
+  75% {
+    background: linear-gradient(45deg, #fbbf24, #d97706, #f59e0b, #fbbf24);
+  }
+  100% {
+    background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706, #fbbf24);
+  }
+}
+
+.tarot-card-img:hover {
+  transform: scale(1.05);
+}
+
+.tarot-card-position {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fbbf24;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tarot-card-name {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  letter-spacing: 1px;
+}
+
+.tarot-card-meaning {
+  font-size: 18px;
+  color: #10b981;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tarot-card-description {
+  font-size: 16px;
+  color: #e5e7eb;
+  line-height: 1.8;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.tarot-reset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0 auto;
+}
+
+.tarot-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .fortune-details-grid,
+  .lucky-grid,
+  .additional-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .detail-card,
+  .lucky-item,
+  .additional-item {
+    padding: 10px;
+  }
+  
+  .fortune-summary,
+  .fortune-lucky-info,
+  .fortune-advice {
+    padding: 12px;
+    margin: 12px 0;
+  }
+  
+  .fortune-empty-state {
+    padding: 24px 12px;
+  }
+  
+  .empty-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+  
+  .card {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .title {
+    font-size: 15px;
+  }
+  
+  .ai-recommendation {
+    padding: 14px;
+    margin-top: 10px;
+  }
+  
+  .ai-header {
+    margin-bottom: 12px;
+  }
+  
+  .ai-title {
+    font-size: 14px;
+  }
+  
+  .ai-section-title {
+    font-size: 12px;
+  }
+  
+  .ai-description {
+    font-size: 11px;
+  }
+  
+  .news-item {
+    padding: 8px;
+  }
+  
+  .news-title {
+    font-size: 12px;
+  }
+  
+  .news-summary {
+    font-size: 10px;
+  }
+  
+  .forecast-title {
+    font-size: 14px;
+  }
+  
+  .forecast-temp {
+    font-size: 12px;
+  }
+  
+  .detail-title {
+    font-size: 10px;
+  }
+  
+  .detail-content {
+    font-size: 9px;
+  }
+  
+  .lucky-header,
+  .additional-header {
+    font-size: 12px;
+  }
+  
+  .fortune-no-profile {
+    padding: 28px 14px;
+  }
+  
+  .no-profile-icon {
+    font-size: 44px;
+    margin-bottom: 14px;
+  }
+  
+  .no-profile-title {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .no-profile-description {
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+  
+  .no-profile-instruction {
+    font-size: 11px;
+    padding: 8px 14px;
+  }
+  
+  /* Onl 대시보드 모바일 스타일 */
+  .onl-section-header {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  
+  .onl-section-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+  }
+  
+  .onl-section-title {
+    font-size: 15px;
+  }
+  
+  .onl-summary-grid {
+    gap: 8px;
+  }
+  
+  .onl-summary-card {
+    padding: 10px;
+  }
+  
+  .onl-card-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  
+  .onl-card-label {
+    font-size: 9px;
+  }
+  
+  .onl-card-value {
+    font-size: 10px;
+  }
+  
+  .onl-quote-card {
+    padding: 16px;
+  }
+  
+  .onl-quote-text {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  
+  .onl-quote-author {
+    font-size: 10px;
+  }
+  
+  .onl-quote-decoration {
+    width: 32px;
+    height: 32px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .onl-quote-decoration::before {
+    font-size: 16px;
+  }
+  
+  .onl-english-card {
+    padding: 16px;
+  }
+  
+  .onl-english-korean {
+    font-size: 11px;
+  }
+  
+  .onl-english-english {
+    font-size: 14px;
+  }
+  
+  .onl-english-pronunciation {
+    font-size: 10px;
+  }
+  
+  .onl-english-flag {
+    font-size: 20px;
+    top: 10px;
+    right: 10px;
+  }
+  
+  .onl-hotdeal-card {
+    padding: 14px;
+  }
+  
+  .onl-hotdeal-card iframe {
+    width: 280px;
+    height: 200px;
+  }
+  
+  .schedule-section {
+    padding: 14px;
+    margin: 14px 0;
+  }
+  
+  .schedule-header {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .schedule-item {
+    padding: 8px;
+    gap: 10px;
+  }
+  
+  .schedule-time {
+    font-size: 10px;
+    min-width: 35px;
+  }
+  
+  .schedule-task {
+    font-size: 11px;
+  }
+  
+  /* 캘린더 연동 모바일 스타일 */
+  .calendar-connect-section {
+    padding: 14px;
+    margin-bottom: 14px;
+  }
+  
+  .calendar-connect-info {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  
+  .connect-icon {
+    font-size: 28px;
+  }
+  
+  .connect-title {
+    font-size: 12px;
+  }
+  
+  .connect-description {
+    font-size: 10px;
+  }
+  
+  .calendar-connect-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+  
+  .onl-sync-badge {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  
+  .sync-icon {
+    font-size: 9px;
+  }
+  
+  .sync-text {
+    font-size: 8px;
+  }
+  
+  .calendar-event {
+    border-left-width: 2px;
+  }
+  
+  .calendar-icon {
+    font-size: 11px;
+  }
+  
+  .no-events-message {
+    padding: 16px;
+  }
+  
+  .no-events-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+  
+  .no-events-text {
+    font-size: 11px;
+  }
+  
+  .add-schedule-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .calendar-alternatives {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+  
+  .alternative-title {
+    font-size: 11px;
+  }
+  
+  .alternative-btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  
+  .alt-icon {
+    font-size: 12px;
+  }
+  
+  /* 타로카드 모바일 스타일 - 기본 반응형 */
+  .tarot-section {
+    padding: 16px;
+    margin-top: 14px;
+    max-width: 350px;
+  }
+  
+  .tarot-title {
+    font-size: 16px;
+  }
+  
+  .tarot-subtitle {
+    font-size: 12px;
+  }
+  
+  .tarot-deck-card {
+    width: 63px;
+    height: 96px;
+  }
+  
+  .tarot-deck-back {
+    font-size: 28px;
+  }
+  
+  .tarot-draw-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+  
+  .tarot-card {
+    padding: 24px;
+    max-width: 100%;
+  }
+  
+  .tarot-card-name {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  
+  .tarot-card-meaning {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .tarot-card-description {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .tarot-reset-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .tarot-card-img {
+    width: 200px;
+    height: 300px;
+  }
+  
+  .tarot-card-image {
+    margin-bottom: 10px;
+  }
+}
+
+/* 타로 카드 로딩 스피너 */
+.tarot-card-loading {
+  width: 200px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.loading-text {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 타로 카드 폴백 */
+.tarot-card-fallback {
+  width: 200px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.fallback-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.fallback-symbol {
+  font-size: 48px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+.fallback-text {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+
+/* 모바일에서 타로카드 강제 표시 및 최적화 */
+@media (max-width: 768px) {
+  .tarot-section {
+    /* 강제 표시 */
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    
+    /* 크기 및 위치 */
+    width: 324px !important;
+    height: auto !important;
+    min-height: 279px !important;
+    max-width: 324px !important;
+    margin: 16px auto 200px auto !important;
+    padding: 16px !important;
+    
+    /* 레이아웃 */
+    position: relative !important;
+    z-index: 5 !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    
+    /* 스타일 유지 */
+    background: linear-gradient(135deg, #2d1b69 0%, #11052c 100%) !important;
+    border-radius: 16px !important;
+    color: white !important;
+  }
+  
+  .tarot-header {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .tarot-title {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 20px !important;
+    color: #fbbf24 !important;
+    font-weight: bold !important;
+    margin-bottom: 8px !important;
+  }
+  
+  .tarot-subtitle {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 0.8 !important;
+    font-size: 14px !important;
+    color: #e5e7eb !important;
+    margin-bottom: 0 !important;
+  }
+  
+  .tarot-draw-area {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 200px !important;
+    width: 100% !important;
+  }
+  
+  .tarot-deck {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .tarot-draw-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+    margin: 0 auto !important;
+    width: fit-content !important;
+    padding: 12px 24px !important;
+    font-size: 16px !important;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+  }
+  
+  .tarot-result {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+  }
+  
+  .tarot-cards {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  .tarot-card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 32px !important;
+    background: linear-gradient(135deg, rgba(45, 27, 105, 0.9) 0%, rgba(17, 5, 44, 0.9) 100%) !important;
+    border: 2px solid rgba(251, 191, 36, 0.3) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(251, 191, 36, 0.1) !important;
+    margin-bottom: 16px !important;
+  }
+  
+  .tarot-card-img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 240px !important;
+    height: 360px !important;
+    object-fit: cover !important;
+    border-radius: 8px !important;
+    margin: 0 auto 16px !important;
+  }
+  
+  .tarot-card-name {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin-bottom: 16px !important;
+    text-align: center !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7) !important;
+    letter-spacing: 1px !important;
+  }
+  
+  .tarot-card-meaning {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+    color: #10b981 !important;
+    margin-bottom: 20px !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  .tarot-card-description {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+    color: #e5e7eb !important;
+    text-align: center !important;
+    font-weight: 500 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  .tarot-reset-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 20px auto 0 !important;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    background: #6b7280 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+  }
+}
+
+/* 모바일 반응형 - 로딩 및 폴백 */
+@media (max-width: 768px) {
+  .tarot-card-loading,
+  .tarot-card-fallback {
+    width: 160px;
+    height: 240px;
+  }
+  
+  .fallback-symbol {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  
+  .fallback-text {
+    font-size: 14px;
+  }
+  
+  .loading-text {
+    font-size: 12px;
+  }
+}
+
+/* 좋아요 버튼 스타일 */
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-button:hover:not(:disabled) {
+  background-color: #fef2f2;
+  transform: scale(1.1);
+}
+
+.like-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 포인트 메시지 스타일 */
+.point-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+  z-index: 1000;
+  animation: pointMessageSlide 3s ease-in-out;
+  text-align: center;
+  min-width: 200px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes pointMessageSlide {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  15%, 85% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}

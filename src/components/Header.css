@@ -1,0 +1,142 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 16px 12px 16px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: saturate(150%) blur(10px);
+  border-bottom: 1px solid #eef1f5;
+  z-index: 1001;
+  min-height: 70px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 420px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  flex: 1;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.brand-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+  line-height: 1.1;
+}
+
+.date {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.ico {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  background: #eef1ff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-btn {
+  position: relative;
+  background: #f0f9ff;
+  border: 1px solid #e0f2fe;
+  border-radius: 8px;
+  padding: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.profile-btn:hover {
+  background: #e0f2fe;
+  transform: scale(1.05);
+}
+
+.profile-indicator {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  background: #eef1ff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ico:hover {
+  background: #dde7ff;
+  transform: scale(1.05);
+}
+
+.ico svg {
+  width: 18px;
+  height: 18px;
+  stroke: #2C5BD6;
+}
