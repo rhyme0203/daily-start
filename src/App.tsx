@@ -6,6 +6,7 @@ import WeatherPage from './pages/WeatherPage'
 import FortunePage from './pages/FortunePage'
 import NewsPage from './pages/NewsPage'
 import CommunityPage from './pages/CommunityPage'
+import RoulettePage from './pages/RoulettePage'
 import './App.css'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/fortune" element={<FortunePage />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/community" element={<CommunityPage />} />
+          <Route path="/roulette" element={<RoulettePage />} />
         </Routes>
       </Router>
     </PointSystemProvider>
