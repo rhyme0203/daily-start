@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useWeatherData } from '../hooks/useWeatherData'
 import { useFortuneRecommendation } from '../hooks/useFortuneRecommendation'
 import { useNewsData } from '../hooks/useNewsData'
@@ -32,6 +33,7 @@ interface OnlCardProps {
 }
 
 const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) => {
+  const navigate = useNavigate()
   const { userProfile } = useUserProfile()
   const { weatherData, loading: weatherLoading } = useWeatherData()
   const { fortune, loading: fortuneLoading } = useFortuneRecommendation(userProfile)
@@ -297,6 +299,53 @@ const OnlCard: React.FC<OnlCardProps> = ({ onProfileClick: _onProfileClick }) =>
             <div className="onl-english-pronunciation">[{selectedEnglish.pronunciation}]</div>
           </div>
           <div className="onl-english-flag">🇺🇸</div>
+        </div>
+      </div>
+
+      {/* 룰렛 게임 */}
+      <div className="onl-roulette-section">
+        <div className="onl-section-header">
+          <div className="onl-section-icon">🎡</div>
+          <div className="onl-section-title">행운의 룰렛</div>
+        </div>
+        <div className="onl-roulette-card">
+          <div className="onl-roulette-content">
+            <div className="onl-roulette-preview">
+              <div className="roulette-preview-wheel">
+                <div className="roulette-preview-pin"></div>
+                <div className="roulette-preview-sections">
+                  <div className="preview-section" style={{backgroundColor: '#ff6b6b'}}></div>
+                  <div className="preview-section" style={{backgroundColor: '#4ecdc4'}}></div>
+                  <div className="preview-section" style={{backgroundColor: '#f39c12'}}></div>
+                  <div className="preview-section" style={{backgroundColor: '#9b59b6'}}></div>
+                  <div className="preview-section" style={{backgroundColor: '#95a5a6'}}></div>
+                  <div className="preview-section" style={{backgroundColor: '#e74c3c'}}></div>
+                </div>
+                <div className="roulette-preview-center">🎁</div>
+              </div>
+            </div>
+            <div className="onl-roulette-info">
+              <div className="roulette-title">경품을 받아가세요!</div>
+              <div className="roulette-description">
+                룰렛을 돌려서 다양한 경품을 받아보세요.<br/>
+                하루 3회까지 참여 가능합니다.
+              </div>
+              <div className="roulette-prizes">
+                <div className="prize-item">1등: 스타벅스 기프티콘</div>
+                <div className="prize-item">2등: 500 포인트</div>
+                <div className="prize-item">3등: 100 포인트</div>
+                <div className="prize-item">4등: 쿠폰 5%</div>
+              </div>
+            </div>
+          </div>
+          <button 
+            className="onl-roulette-button"
+            onClick={() => navigate('/roulette')}
+          >
+            <span className="roulette-button-icon">🎡</span>
+            룰렛 돌리기
+            <span className="roulette-button-arrow">→</span>
+          </button>
         </div>
       </div>
 
